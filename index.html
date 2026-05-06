@@ -300,11 +300,18 @@
                 const sA = inputA.value;
                 const sB = inputB.value;
 
-                // CONDIZIONE: Conta il match solo se i campi non sono vuoti 
-                // E se almeno uno dei due ha un punteggio maggiore di 0 (evita lo 0-0 di default)
-                if (sA !== "" && sB !== "" && (parseInt(sA) > 0 || parseInt(sB) > 0)) {
-                    card.style.opacity = "1"; // Match disputato
+                // Check: il match è considerato giocato solo se almeno uno dei due ha segnato > 0
+                const isPlayed = (sA !== "" && sB !== "" && (parseInt(sA) > 0 || parseInt(sB) > 0));
+
+                if (isPlayed) {
+                    // STATO ATTIVO: Colori Neon
+                    card.style.opacity = "1";
                     card.style.borderColor = "var(--neon-blue)";
+                    card.style.boxShadow = "0 0 15px rgba(0, 242, 255, 0.1)";
+                    inputA.style.color = "var(--neon-blue)";
+                    inputA.style.borderColor = "var(--neon-blue)";
+                    inputB.style.color = "var(--neon-blue)";
+                    inputB.style.borderColor = "var(--neon-blue)";
                     
                     const tA = JSON.parse(card.dataset.teamA);
                     const tB = JSON.parse(card.dataset.teamB);
@@ -316,23 +323,30 @@
                     } else if (valB > valA) {
                         tB.forEach(p => stats[p].pts += 3);
                     } else {
-                        // Pareggio (es. 1-1 o 2-2)
                         tA.forEach(p => stats[p].pts += 1);
                         tB.forEach(p => stats[p].pts += 1);
                     }
                 } else {
-                    // Match non ancora disputato o 0-0 ignorato
-                    card.style.opacity = "0.6";
-                    card.style.borderColor = "rgba(0, 242, 255, 0.15)";
+                    // STATO STANDBY: Colori Grigi
+                    card.style.opacity = "0.5";
+                    card.style.borderColor = "rgba(255, 255, 255, 0.1)";
+                    card.style.boxShadow = "none";
+                    inputA.style.color = "#444";
+                    inputA.style.borderColor = "#333";
+                    inputB.style.color = "#444";
+                    inputB.style.borderColor = "#333";
                 }
             });
 
+            // Ordinamento Classifica
             const sorted = Object.keys(stats).sort((a,b) => stats[b].pts - stats[a].pts);
             document.getElementById('gnRankingBody').innerHTML = sorted.map((p, i) => `
                 <tr>
-                    <td style="color:var(--neon-gold); font-family:'Orbitron';">#0${i+1}</td>
-                    <td style="text-transform:uppercase;">${p}</td>
-                    <td style="text-align:right; color:var(--neon-blue); font-weight:bold;">${stats[p].pts} LP</td>
+                    <td style="color:var(--neon-gold); font-family:'Orbitron'; width:50px;">#0${i+1}</td>
+                    <td style="text-transform:uppercase; letter-spacing:1px;">${p}</td>
+                    <td style="text-align:right; color:var(--neon-blue); font-weight:bold; font-family:'Orbitron';">
+                        ${stats[p].pts} <span style="font-size:0.7rem; color:#555;">LP</span>
+                    </td>
                 </tr>
             `).join('');
         }
