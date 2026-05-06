@@ -1,299 +1,353 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GALACTIC NEMESIS - Terminal</title>
+</head>
+<body>
+
 <div id="gn-root-wrapper">
-    <!-- STILI (Invariati per mantenere il look Galactic) -->
     <style>
-    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600;700&display=swap');
 
-    /* RESET TOTALE PER ELIMINARE IL BORDO BIANCO */
-    html, body {
-        margin: 0;
-        padding: 0;
-        background-color: #02060a;
-        overflow-x: hidden;
-    }
+        /* RESET TOTALE */
+        html, body {
+            margin: 0;
+            padding: 0;
+            background-color: #02060a;
+            overflow-x: hidden;
+        }
 
-    #gn-root-wrapper {
-        --neon-blue: #00f2ff;
-        --neon-gold: #c89b3c;
-        --neon-red: #ff4655;
-        --bg-dark: #02060a;
-        --panel-bg: rgba(2, 6, 10, 0.98);
-        
-        background-color: var(--bg-dark);
-        color: #e0e0e0;
-        font-family: 'Rajdhani', sans-serif;
-        min-height: 100vh;
-        padding: 0; /* Rimosso padding esterno */
-        background-image: 
-            radial-gradient(circle at 50% 50%, rgba(0, 242, 255, 0.05) 0%, transparent 80%),
-            linear-gradient(rgba(0, 242, 255, 0.03) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(0, 242, 255, 0.03) 1px, transparent 1px);
-        background-size: 100% 100%, 40px 40px, 40px 40px;
-    }
+        #gn-root-wrapper {
+            --neon-blue: #00f2ff;
+            --neon-gold: #c89b3c;
+            --neon-red: #ff4655;
+            --bg-dark: #02060a;
+            --panel-bg: rgba(2, 6, 10, 0.98);
+            
+            background-color: var(--bg-dark);
+            color: #e0e0e0;
+            font-family: 'Rajdhani', sans-serif;
+            min-height: 100vh;
+            background-image: 
+                radial-gradient(circle at 50% 50%, rgba(0, 242, 255, 0.05) 0%, transparent 80%),
+                linear-gradient(rgba(0, 242, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 242, 255, 0.03) 1px, transparent 1px);
+            background-size: 100% 100%, 40px 40px, 40px 40px;
+        }
 
-    header {
-        background: #000;
-        border-bottom: 3px solid var(--neon-gold);
-        padding: 25px 50px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        box-shadow: 0 0 30px rgba(200, 155, 60, 0.2);
-        position: sticky;
-        top: 0;
-        z-index: 100;
-    }
+        header {
+            background: #000;
+            border-bottom: 3px solid var(--neon-gold);
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 0 30px rgba(200, 155, 60, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
 
-    header h1 {
-        font-family: 'Orbitron', sans-serif;
-        font-weight: 900;
-        font-size: 2.2rem; /* Più grande */
-        letter-spacing: 5px;
-        margin: 0;
-        color: #fff;
-        text-shadow: 0 0 15px var(--neon-blue), 0 0 30px var(--neon-blue);
-    }
+        header h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            font-size: 2rem;
+            letter-spacing: 4px;
+            margin: 0;
+            color: #fff;
+            text-shadow: 0 0 15px var(--neon-blue);
+        }
 
-    #sync-status {
-        font-family: 'Orbitron';
-        text-transform: uppercase;
-        font-size: 0.8rem;
-        letter-spacing: 2px;
-        font-weight: bold;
-    }
+        #sync-status {
+            font-family: 'Orbitron';
+            text-transform: uppercase;
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            display: block;
+            color: var(--neon-blue);
+        }
 
-    .btn-prime {
-        background: var(--neon-gold);
-        border: none;
-        color: #000;
-        padding: 15px 40px;
-        font-family: 'Orbitron';
-        font-weight: 900;
-        font-size: 1rem;
-        cursor: pointer;
-        clip-path: polygon(10% 0, 100% 0, 90% 100%, 0 100%);
-        transition: 0.3s;
-    }
+        .btn-prime {
+            background: var(--neon-gold);
+            border: none;
+            color: #000;
+            padding: 12px 30px;
+            font-family: 'Orbitron';
+            font-weight: 900;
+            cursor: pointer;
+            clip-path: polygon(10% 0, 100% 0, 90% 100%, 0 100%);
+            transition: 0.3s;
+        }
 
-    .btn-prime:hover {
-        background: #fff;
-        box-shadow: 0 0 25px #fff;
-        transform: scale(1.05);
-    }
+        .btn-prime:hover {
+            background: #fff;
+            box-shadow: 0 0 20px #fff;
+            transform: scale(1.05);
+        }
 
-    .main-hud {
-        display: grid;
-        grid-template-columns: 400px 1fr;
-        gap: 30px;
-        padding: 30px;
-    }
+        .main-hud {
+            display: grid;
+            grid-template-columns: 380px 1fr;
+            gap: 25px;
+            padding: 25px;
+        }
 
-    .glass-panel {
-        background: var(--panel-bg);
-        border: 2px solid rgba(200, 155, 60, 0.3);
-        padding: 25px;
-        box-shadow: inset 0 0 20px rgba(0, 242, 255, 0.05);
-    }
+        .glass-panel {
+            background: var(--panel-bg);
+            border: 2px solid rgba(200, 155, 60, 0.3);
+            padding: 20px;
+            height: fit-content;
+        }
 
-    .glass-panel h2 {
-        font-family: 'Orbitron';
-        font-size: 1.3rem;
-        border-bottom: 1px solid var(--neon-blue);
-        padding-bottom: 10px;
-        margin-top: 0;
-    }
+        .glass-panel h2 {
+            font-family: 'Orbitron';
+            font-size: 1.1rem;
+            border-bottom: 1px solid var(--neon-blue);
+            padding-bottom: 10px;
+            margin: 0 0 15px 0;
+        }
 
-    .ranking-table td {
-        padding: 15px 10px;
-        font-size: 1.2rem; /* Font nomi ingrandito */
-        font-weight: 600;
-        border-bottom: 1px solid rgba(255,255,255,0.05);
-    }
+        .ranking-table { width: 100%; border-collapse: collapse; }
+        .ranking-table td {
+            padding: 12px 5px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
 
-    .match-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-        gap: 20px;
-    }
+        .match-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 20px;
+        }
 
-    .match-card {
-        background: rgba(10, 20, 30, 0.9);
-        border: 1px solid rgba(0, 242, 255, 0.2);
-        padding: 20px;
-        position: relative;
-        transition: 0.3s;
-    }
+        .match-card {
+            background: rgba(7, 15, 25, 0.95);
+            border: 1px solid rgba(0, 242, 255, 0.15);
+            padding: 20px 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            position: relative;
+        }
 
-    .match-card:hover {
-        border-color: var(--neon-blue);
-        box-shadow: 0 0 20px rgba(0, 242, 255, 0.2);
-    }
+        .match-card::before {
+            content: "SECURE MATCH";
+            position: absolute;
+            top: -10px;
+            left: 10px;
+            background: var(--neon-red);
+            color: #fff;
+            font-size: 0.6rem;
+            padding: 2px 8px;
+            font-family: 'Orbitron';
+        }
 
-    .match-card::before {
-        content: "MATCH READY";
-        position: absolute;
-        top: -10px;
-        left: 10px;
-        background: var(--neon-red);
-        color: #fff;
-        font-size: 0.6rem;
-        padding: 2px 8px;
-        font-family: 'Orbitron';
-    }
+        .versus-container {
+            display: grid;
+            grid-template-columns: 1fr 40px 1fr;
+            align-items: center;
+            gap: 5px;
+        }
 
-    .team-name {
-        font-size: 1.1rem;
-        font-weight: 700;
-        color: #fff;
-    }
+        .team-box { display: flex; flex-direction: column; gap: 3px; }
+        .team-left { text-align: right; border-right: 2px solid var(--neon-blue); padding-right: 12px; }
+        .team-right { text-align: left; border-left: 2px solid var(--neon-red); padding-left: 12px; }
 
-    .vs-label {
-        color: var(--neon-gold);
-        font-family: 'Orbitron';
-        font-weight: 900;
-        font-size: 1.2rem;
-    }
+        .p-name {
+            font-family: 'Rajdhani';
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #fff;
+            text-transform: uppercase;
+        }
 
-    .sc-input {
-        background: #000;
-        border: 1px solid var(--neon-blue);
-        color: var(--neon-blue);
-        width: 60px;
-        height: 50px;
-        font-size: 1.8rem; /* Numeri punteggio enormi */
-        font-family: 'Orbitron';
-        text-align: center;
-        margin: 10px 5px;
-    }
+        .vs-badge {
+            font-family: 'Orbitron';
+            color: var(--neon-gold);
+            font-weight: 900;
+            font-size: 0.8rem;
+            text-align: center;
+        }
 
-    .sc-input:focus {
-        outline: none;
-        box-shadow: 0 0 15px var(--neon-blue);
-    }
+        .score-row {
+            display: grid;
+            grid-template-columns: 1fr 40px 1fr;
+            align-items: center;
+            background: rgba(0,0,0,0.5);
+            padding: 8px 0;
+            border-radius: 4px;
+        }
 
-    /* Scrollbar cattiva */
-    ::-webkit-scrollbar { width: 8px; }
-    ::-webkit-scrollbar-track { background: #02060a; }
-    ::-webkit-scrollbar-thumb { background: var(--neon-gold); }
+        .sc-input {
+            background: #000;
+            border: 1px solid #333;
+            color: var(--neon-blue);
+            width: 50px;
+            height: 40px;
+            font-size: 1.4rem;
+            font-family: 'Orbitron';
+            text-align: center;
+            justify-self: center;
+        }
 
-    @media (max-width: 1000px) {
-        .main-hud { grid-template-columns: 1fr; }
-    }
-</style>
+        @media (max-width: 1000px) { .main-hud { grid-template-columns: 1fr; } }
+    </style>
+
     <header>
-        <div class="title-container">
-            <div style="font-size: 0.7rem; color: var(--neon-blue); letter-spacing: 2px;">System Live: Cloud Sync Active</div>
+        <div>
             <h1>GALACTIC NEMESIS</h1>
+            <span id="sync-status">Status: Connecting...</span>
         </div>
-        <button class="btn-prime" onclick="saveToCloud()">Salva</button>
+        <button class="btn-prime" onclick="saveToCloud()">SINCRONIZZA</button>
     </header>
 
     <div class="main-hud">
         <div class="glass-panel">
-            <h2 style="font-family: 'Orbitron'; font-size: 0.9rem; color: var(--neon-gold);">Punteggio</h2>
-            <table style="width: 100%;" class="ranking-table"><tbody id="gnRankingBody"></tbody></table>
+            <h2>RANKING</h2>
+            <table class="ranking-table"><tbody id="gnRankingBody"></tbody></table>
         </div>
-        <div class="glass-panel">
-            <h2 style="font-family: 'Orbitron'; font-size: 0.9rem; color: var(--neon-gold);">MATCH LIST</h2>
-            <div class="match-grid" id="gnMatchGrid"></div>
-        </div>
+        <div class="match-grid" id="gnMatchGrid"></div>
     </div>
 
-    <!-- SDK Firebase (Versione Compat per WordPress) -->
+    <!-- FIREBASE SDK -->
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
 
     <script>
-        // CONFIGURAZIONE FIREBASE - INCOLLA QUI I TUOI DATI
+        // CONFIGURAZIONE DATI FORNITI
         const firebaseConfig = {
             apiKey: "AIzaSyDNRL0Rbo58WPjII0BzSRQZ1M7ZJ9MdsY4",
             authDomain: "galactic-nemesis-7bee5.firebaseapp.com",
-            databaseURL: "https://galactic-nemesis-7bee5-default-rtdb.europe-west1.firebasedatabase.app",
             projectId: "galactic-nemesis-7bee5",
-            storageBucket: "galactic-nemesis-7bee5.appspot.com",
+            storageBucket: "galactic-nemesis-7bee5.firebasestorage.app",
             messagingSenderId: "265814903052",
-            appId: "1:265814903052:web:6c59477e9852e91387a129"
+            appId: "1:265814903052:web:6c59477e9852e91387a129",
+            databaseURL: "https://galactic-nemesis-7bee5-default-rtdb.europe-west1.firebasedatabase.app"
         };
-        
+
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
-        const gnPlayers = ["Ascio", "Mad", "Skehm", "Loris", "Crazy", "Tarantola", "Momo", "Martina", "SimoSick"];
-        const gnSchedule = [];
-        for (let r = 0; r < 9; r++) {
-            gnSchedule.push({ t: r + 1, m: [(0 + r) % 9, (1 + r) % 9, (2 + r) % 9, (6 + r) % 9] });
-            gnSchedule.push({ t: r + 1, m: [(3 + r) % 9, (5 + r) % 9, (4 + r) % 9, (7 + r) % 9] });
-        }
+        // Lista giocatori aggiornata (Martina rimossa)
+        const players = ["Ascio", "Mad", "Skehm", "Loris", "Crazy", "Tarantola", "Momo", "SimoSick"];
 
-        function updateGNRanking() {
-            let stats = gnPlayers.reduce((acc, p) => { acc[p] = { wins: 0, pts: 0 }; return acc; }, {});
-            document.querySelectorAll('.match-card').forEach(card => {
-                const teamA = JSON.parse(card.dataset.teamA);
-                const teamB = JSON.parse(card.dataset.teamB);
-                const valA = card.querySelector('.sA').value;
-                const valB = card.querySelector('.sB').value;
-                if (valA !== "" && valB !== "") {
-                    card.classList.add('played');
-                    const sA = parseInt(valA), sB = parseInt(valB);
-                    if (sA > sB) { teamA.forEach(p => { stats[p].wins++; stats[p].pts += 3; }); }
-                    else if (sB > sA) { teamB.forEach(p => { stats[p].wins++; stats[p].pts += 3; }); }
-                } else { card.classList.remove('played'); }
-            });
-            const sorted = Object.keys(stats).sort((a, b) => stats[b].pts - stats[a].pts || stats[b].wins - stats[a].wins);
-            document.getElementById('gnRankingBody').innerHTML = sorted.map((p, i) => `
-                <tr><td style="color:var(--neon-gold);">#0${i+1}</td><td style="color:#fff;">${p.toUpperCase()}</td><td style="text-align:right; color:var(--neon-blue); font-weight:bold;">${stats[p].pts} LP</td></tr>
-            `).join('');
+        function generateBalancedSchedule() {
+            const matches = [];
+            const n = players.length;
+            // Algoritmo Round Robin bilanciato per 8 giocatori
+            // Ogni giocatore gioca 7 turni, ruotando partner e avversari
+            for (let r = 0; r < 7; r++) {
+                const roundMatches = [
+                    [0, (r+1)%7+1, (r+2)%7+1, (r+4)%7+1],
+                    [(r+3)%7+1, (r+5)%7+1, (r+6)%7+1, (r+0)%7+1] // Errore di logica corretto sotto
+                ];
+                
+                // Distribuzione manuale ottimizzata per 8 persone
+                matches.push({ id: `r${r}m0`, p: [0, (r+1)%7+1, (r+2)%7+1, (r+5)%7+1] });
+                matches.push({ id: `r${r}m1`, p: [(r+3)%7+1, (r+4)%7+1, (r+6)%7+1, (r+0)%7+1 === 0 ? 1 : (r+0)%7+1] });
+            }
+            return matches;
         }
 
         function initGN() {
             const grid = document.getElementById('gnMatchGrid');
+            const schedule = [
+                [0,1,2,3], [4,5,6,7], // Round 1
+                [0,2,4,6], [1,3,5,7], // Round 2
+                [0,4,1,5], [2,6,3,7], // Round 3
+                [0,6,1,7], [2,4,3,5], // Round 4
+                [0,3,4,7], [1,2,5,6], // Round 5
+                [0,5,2,7], [1,4,3,6], // Round 6
+                [0,7,1,6], [2,5,3,4]  // Round 7
+            ];
+
             let html = "";
-            gnSchedule.forEach((match, idx) => {
-                const pA = [gnPlayers[match.m[0]], gnPlayers[match.m[1]]];
-                const pB = [gnPlayers[match.m[2]], gnPlayers[match.m[3]]];
+            schedule.forEach((m, idx) => {
+                const matchId = `match_${idx}`;
                 html += `
-                    <div class="match-card" data-match-id="${idx}" data-team-a='${JSON.stringify(pA)}' data-team-b='${JSON.stringify(pB)}'>
-                        <div class="versus-engine">
-                            <div class="team-block"><div class="player-slot">${pA[0]}</div><div class="player-slot">${pA[1]}</div></div>
-                            <div class="vs-orb">VS</div>
-                            <div class="team-block red-side"><div class="player-slot">${pB[0]}</div><div class="player-slot">${pB[1]}</div></div>
+                <div class="match-card" data-match-id="${matchId}" data-team-a='["${players[m[0]]}","${players[m[1]]}"]' data-team-b='["${players[m[2]]}","${players[m[3]]}"]'>
+                    <div class="versus-container">
+                        <div class="team-box team-left">
+                            <div class="p-name">${players[m[0]]}</div>
+                            <div class="p-name">${players[m[1]]}</div>
                         </div>
-                        <div class="score-container">
-                            <input type="number" class="sc-input sA" oninput="updateGNRanking()" placeholder="0">
-                            <input type="number" class="sc-input sB" oninput="updateGNRanking()" placeholder="0">
+                        <div class="vs-badge">VS</div>
+                        <div class="team-box team-right">
+                            <div class="p-name">${players[m[2]]}</div>
+                            <div class="p-name">${players[m[3]]}</div>
                         </div>
-                    </div>`;
+                    </div>
+                    <div class="score-row">
+                        <input type="number" class="sc-input sA" placeholder="0" onchange="updateUI()">
+                        <div style="text-align:center; color:#444;">-</div>
+                        <input type="number" class="sc-input sB" placeholder="0" onchange="updateUI()">
+                    </div>
+                </div>`;
             });
             grid.innerHTML = html;
-            
-            // ASCOLTO CLOUD: Quando qualcuno salva, tutti vedono l'aggiornamento
-            db.ref('tournament_data').on('value', (snapshot) => {
-                const scores = snapshot.val();
-                if (scores) {
-                    Object.keys(scores).forEach(id => {
-                        const card = document.querySelector(`[data-match-id="${id}"]`);
-                        if (card) {
-                            card.querySelector('.sA').value = scores[id].sA;
-                            card.querySelector('.sB').value = scores[id].sB;
-                        }
-                    });
-                    updateGNRanking();
+            loadFromCloud();
+        }
+
+        function updateUI() {
+            let stats = players.reduce((acc, p) => { acc[p] = { pts: 0 }; return acc; }, {});
+            document.querySelectorAll('.match-card').forEach(card => {
+                const sA = card.querySelector('.sA').value;
+                const sB = card.querySelector('.sB').value;
+                if (sA !== "" && sB !== "") {
+                    const tA = JSON.parse(card.dataset.teamA);
+                    const tB = JSON.parse(card.dataset.teamB);
+                    const valA = parseInt(sA), valB = parseInt(sB);
+                    if (valA > valB) tA.forEach(p => stats[p].pts += 3);
+                    else if (valB > valA) tB.forEach(p => stats[p].pts += 3);
+                    else if (valA === valB) { tA.forEach(p => stats[p].pts += 1); tB.forEach(p => stats[p].pts += 1); }
                 }
             });
+            const sorted = Object.keys(stats).sort((a,b) => stats[b].pts - stats[a].pts);
+            document.getElementById('gnRankingBody').innerHTML = sorted.map((p, i) => `
+                <tr><td style="color:var(--neon-gold)">#0${i+1}</td><td>${p}</td><td style="text-align:right; color:var(--neon-blue)">${stats[p].pts} LP</td></tr>
+            `).join('');
         }
 
         function saveToCloud() {
-            const scores = {};
+            const data = {};
             document.querySelectorAll('.match-card').forEach(card => {
-                scores[card.dataset.matchId] = {
+                data[card.dataset.matchId] = {
                     sA: card.querySelector('.sA').value,
                     sB: card.querySelector('.sB').value
                 };
             });
-            db.ref('tournament_data').set(scores)
-                .then(() => alert("DATABASE AGGIORNATO: Tutti i dispositivi sono ora sincronizzati."))
-                .catch(err => alert("ERRORE: " + err.message));
+            document.getElementById('sync-status').innerText = "Status: Uploading...";
+            db.ref('gn_tournament_final').set(data)
+                .then(() => {
+                    document.getElementById('sync-status').innerText = "Status: Online";
+                    alert("DATI SALVATI NEL CLOUD");
+                });
         }
 
-        initGN();
+        function loadFromCloud() {
+            db.ref('gn_tournament_final').on('value', (snapshot) => {
+                const data = snapshot.val();
+                if (data) {
+                    Object.keys(data).forEach(id => {
+                        const card = document.querySelector(`[data-match-id="${id}"]`);
+                        if (card) {
+                            card.querySelector('.sA').value = data[id].sA;
+                            card.querySelector('.sB').value = data[id].sB;
+                        }
+                    });
+                    updateUI();
+                    document.getElementById('sync-status').innerText = "Status: Online";
+                } else {
+                    document.getElementById('sync-status').innerText = "Status: Ready";
+                }
+            });
+        }
+
+        window.onload = initGN;
     </script>
 </div>
+</body>
+</html>
