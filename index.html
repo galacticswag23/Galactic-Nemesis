@@ -1,29 +1,184 @@
 <div id="gn-root-wrapper">
     <!-- STILI (Invariati per mantenere il look Galactic) -->
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&display=swap');
-        #gn-root-wrapper {
-            --neon-blue: #00f2ff; --neon-gold: #c89b3c; --neon-red: #ff4655; --bg-dark: #02060a;
-            --panel-bg: rgba(6, 11, 17, 0.95); --glass-border: rgba(200, 155, 60, 0.2);
-            background-color: var(--bg-dark); color: #e0e0e0; font-family: 'Rajdhani', sans-serif;
-            padding: 20px; min-height: 800px; background-image: linear-gradient(rgba(0, 242, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 242, 255, 0.03) 1px, transparent 1px); background-size: 30px 30px;
-        }
-        #gn-root-wrapper header { background: var(--panel-bg); border-top: 4px solid var(--neon-gold); padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; clip-path: polygon(0 0, 100% 0, 98% 100%, 2% 100%); margin-bottom: 30px; border: 1px solid var(--glass-border); }
-        #gn-root-wrapper .title-container h1 { font-family: 'Orbitron', sans-serif; font-size: 1.6rem; color: #fff; text-shadow: 0 0 15px var(--neon-blue); margin: 0; }
-        #gn-root-wrapper .btn-prime { background: transparent; border: 1px solid var(--neon-gold); color: var(--neon-gold); padding: 10px 25px; font-family: 'Orbitron', sans-serif; cursor: pointer; text-transform: uppercase; transition: 0.3s; }
-        #gn-root-wrapper .btn-prime:hover { background: var(--neon-gold); color: #000; box-shadow: 0 0 15px var(--neon-gold); }
-        #gn-root-wrapper .main-hud { display: grid; grid-template-columns: 350px 1fr; gap: 20px; }
-        #gn-root-wrapper .glass-panel { background: var(--panel-bg); border: 1px solid var(--glass-border); padding: 20px; backdrop-filter: blur(15px); }
-        #gn-root-wrapper .match-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 15px; max-height: 700px; overflow-y: auto; }
-        #gn-root-wrapper .match-card { background: rgba(10, 20, 30, 0.8); border: 1px solid var(--glass-border); padding: 15px; }
-        #gn-root-wrapper .match-card.played { border-color: #1a3a3a; opacity: 0.7; }
-        #gn-root-wrapper .player-slot { background: rgba(0,0,0,0.4); padding: 5px 10px; border-left: 2px solid var(--neon-blue); font-size: 1rem; margin: 2px 0; }
-        #gn-root-wrapper .red-side .player-slot { border-left: none; border-right: 2px solid var(--neon-red); text-align: right; }
-        #gn-root-wrapper .score-container { display: flex; justify-content: center; gap: 20px; background: rgba(0,0,0,0.3); padding: 10px; }
-        #gn-root-wrapper .sc-input { background: transparent; border: none; border-bottom: 2px solid #333; color: #fff; width: 40px; text-align: center; font-family: 'Orbitron'; font-size: 1.2rem; }
-        @media (max-width: 900px) { #gn-root-wrapper .main-hud { grid-template-columns: 1fr; } }
-    </style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600;700&display=swap');
 
+    /* RESET TOTALE PER ELIMINARE IL BORDO BIANCO */
+    html, body {
+        margin: 0;
+        padding: 0;
+        background-color: #02060a;
+        overflow-x: hidden;
+    }
+
+    #gn-root-wrapper {
+        --neon-blue: #00f2ff;
+        --neon-gold: #c89b3c;
+        --neon-red: #ff4655;
+        --bg-dark: #02060a;
+        --panel-bg: rgba(2, 6, 10, 0.98);
+        
+        background-color: var(--bg-dark);
+        color: #e0e0e0;
+        font-family: 'Rajdhani', sans-serif;
+        min-height: 100vh;
+        padding: 0; /* Rimosso padding esterno */
+        background-image: 
+            radial-gradient(circle at 50% 50%, rgba(0, 242, 255, 0.05) 0%, transparent 80%),
+            linear-gradient(rgba(0, 242, 255, 0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(0, 242, 255, 0.03) 1px, transparent 1px);
+        background-size: 100% 100%, 40px 40px, 40px 40px;
+    }
+
+    header {
+        background: #000;
+        border-bottom: 3px solid var(--neon-gold);
+        padding: 25px 50px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 0 30px rgba(200, 155, 60, 0.2);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+    }
+
+    header h1 {
+        font-family: 'Orbitron', sans-serif;
+        font-weight: 900;
+        font-size: 2.2rem; /* Più grande */
+        letter-spacing: 5px;
+        margin: 0;
+        color: #fff;
+        text-shadow: 0 0 15px var(--neon-blue), 0 0 30px var(--neon-blue);
+    }
+
+    #sync-status {
+        font-family: 'Orbitron';
+        text-transform: uppercase;
+        font-size: 0.8rem;
+        letter-spacing: 2px;
+        font-weight: bold;
+    }
+
+    .btn-prime {
+        background: var(--neon-gold);
+        border: none;
+        color: #000;
+        padding: 15px 40px;
+        font-family: 'Orbitron';
+        font-weight: 900;
+        font-size: 1rem;
+        cursor: pointer;
+        clip-path: polygon(10% 0, 100% 0, 90% 100%, 0 100%);
+        transition: 0.3s;
+    }
+
+    .btn-prime:hover {
+        background: #fff;
+        box-shadow: 0 0 25px #fff;
+        transform: scale(1.05);
+    }
+
+    .main-hud {
+        display: grid;
+        grid-template-columns: 400px 1fr;
+        gap: 30px;
+        padding: 30px;
+    }
+
+    .glass-panel {
+        background: var(--panel-bg);
+        border: 2px solid rgba(200, 155, 60, 0.3);
+        padding: 25px;
+        box-shadow: inset 0 0 20px rgba(0, 242, 255, 0.05);
+    }
+
+    .glass-panel h2 {
+        font-family: 'Orbitron';
+        font-size: 1.3rem;
+        border-bottom: 1px solid var(--neon-blue);
+        padding-bottom: 10px;
+        margin-top: 0;
+    }
+
+    .ranking-table td {
+        padding: 15px 10px;
+        font-size: 1.2rem; /* Font nomi ingrandito */
+        font-weight: 600;
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .match-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+        gap: 20px;
+    }
+
+    .match-card {
+        background: rgba(10, 20, 30, 0.9);
+        border: 1px solid rgba(0, 242, 255, 0.2);
+        padding: 20px;
+        position: relative;
+        transition: 0.3s;
+    }
+
+    .match-card:hover {
+        border-color: var(--neon-blue);
+        box-shadow: 0 0 20px rgba(0, 242, 255, 0.2);
+    }
+
+    .match-card::before {
+        content: "MATCH READY";
+        position: absolute;
+        top: -10px;
+        left: 10px;
+        background: var(--neon-red);
+        color: #fff;
+        font-size: 0.6rem;
+        padding: 2px 8px;
+        font-family: 'Orbitron';
+    }
+
+    .team-name {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: #fff;
+    }
+
+    .vs-label {
+        color: var(--neon-gold);
+        font-family: 'Orbitron';
+        font-weight: 900;
+        font-size: 1.2rem;
+    }
+
+    .sc-input {
+        background: #000;
+        border: 1px solid var(--neon-blue);
+        color: var(--neon-blue);
+        width: 60px;
+        height: 50px;
+        font-size: 1.8rem; /* Numeri punteggio enormi */
+        font-family: 'Orbitron';
+        text-align: center;
+        margin: 10px 5px;
+    }
+
+    .sc-input:focus {
+        outline: none;
+        box-shadow: 0 0 15px var(--neon-blue);
+    }
+
+    /* Scrollbar cattiva */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #02060a; }
+    ::-webkit-scrollbar-thumb { background: var(--neon-gold); }
+
+    @media (max-width: 1000px) {
+        .main-hud { grid-template-columns: 1fr; }
+    }
+</style>
     <header>
         <div class="title-container">
             <div style="font-size: 0.7rem; color: var(--neon-blue); letter-spacing: 2px;">System Live: Cloud Sync Active</div>
