@@ -1,0 +1,144 @@
+<div id="gn-root-wrapper">
+    <!-- STILI (Invariati per mantenere il look Galactic) -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&display=swap');
+        #gn-root-wrapper {
+            --neon-blue: #00f2ff; --neon-gold: #c89b3c; --neon-red: #ff4655; --bg-dark: #02060a;
+            --panel-bg: rgba(6, 11, 17, 0.95); --glass-border: rgba(200, 155, 60, 0.2);
+            background-color: var(--bg-dark); color: #e0e0e0; font-family: 'Rajdhani', sans-serif;
+            padding: 20px; min-height: 800px; background-image: linear-gradient(rgba(0, 242, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 242, 255, 0.03) 1px, transparent 1px); background-size: 30px 30px;
+        }
+        #gn-root-wrapper header { background: var(--panel-bg); border-top: 4px solid var(--neon-gold); padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; clip-path: polygon(0 0, 100% 0, 98% 100%, 2% 100%); margin-bottom: 30px; border: 1px solid var(--glass-border); }
+        #gn-root-wrapper .title-container h1 { font-family: 'Orbitron', sans-serif; font-size: 1.6rem; color: #fff; text-shadow: 0 0 15px var(--neon-blue); margin: 0; }
+        #gn-root-wrapper .btn-prime { background: transparent; border: 1px solid var(--neon-gold); color: var(--neon-gold); padding: 10px 25px; font-family: 'Orbitron', sans-serif; cursor: pointer; text-transform: uppercase; transition: 0.3s; }
+        #gn-root-wrapper .btn-prime:hover { background: var(--neon-gold); color: #000; box-shadow: 0 0 15px var(--neon-gold); }
+        #gn-root-wrapper .main-hud { display: grid; grid-template-columns: 350px 1fr; gap: 20px; }
+        #gn-root-wrapper .glass-panel { background: var(--panel-bg); border: 1px solid var(--glass-border); padding: 20px; backdrop-filter: blur(15px); }
+        #gn-root-wrapper .match-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 15px; max-height: 700px; overflow-y: auto; }
+        #gn-root-wrapper .match-card { background: rgba(10, 20, 30, 0.8); border: 1px solid var(--glass-border); padding: 15px; }
+        #gn-root-wrapper .match-card.played { border-color: #1a3a3a; opacity: 0.7; }
+        #gn-root-wrapper .player-slot { background: rgba(0,0,0,0.4); padding: 5px 10px; border-left: 2px solid var(--neon-blue); font-size: 1rem; margin: 2px 0; }
+        #gn-root-wrapper .red-side .player-slot { border-left: none; border-right: 2px solid var(--neon-red); text-align: right; }
+        #gn-root-wrapper .score-container { display: flex; justify-content: center; gap: 20px; background: rgba(0,0,0,0.3); padding: 10px; }
+        #gn-root-wrapper .sc-input { background: transparent; border: none; border-bottom: 2px solid #333; color: #fff; width: 40px; text-align: center; font-family: 'Orbitron'; font-size: 1.2rem; }
+        @media (max-width: 900px) { #gn-root-wrapper .main-hud { grid-template-columns: 1fr; } }
+    </style>
+
+    <header>
+        <div class="title-container">
+            <div style="font-size: 0.7rem; color: var(--neon-blue); letter-spacing: 2px;">System Live: Cloud Sync Active</div>
+            <h1>GALACTIC NEMESIS</h1>
+        </div>
+        <button class="btn-prime" onclick="saveToCloud()">Salva</button>
+    </header>
+
+    <div class="main-hud">
+        <div class="glass-panel">
+            <h2 style="font-family: 'Orbitron'; font-size: 0.9rem; color: var(--neon-gold);">Punteggio</h2>
+            <table style="width: 100%;" class="ranking-table"><tbody id="gnRankingBody"></tbody></table>
+        </div>
+        <div class="glass-panel">
+            <h2 style="font-family: 'Orbitron'; font-size: 0.9rem; color: var(--neon-gold);">MATCH LIST</h2>
+            <div class="match-grid" id="gnMatchGrid"></div>
+        </div>
+    </div>
+
+    <!-- SDK Firebase (Versione Compat per WordPress) -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+    <script>
+        // CONFIGURAZIONE FIREBASE - INCOLLA QUI I TUOI DATI
+        const firebaseConfig = {
+            apiKey: "IL_TUO_API_KEY",
+            authDomain: "IL_TUO_PROJECT_ID.firebaseapp.com",
+            databaseURL: "https://IL_TUO_PROJECT_ID-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "IL_TUO_PROJECT_ID",
+            storageBucket: "IL_TUO_PROJECT_ID.appspot.com",
+            messagingSenderId: "IL_TUO_SENDER_ID",
+            appId: "IL_TUO_APP_ID"
+        };
+        
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
+        const gnPlayers = ["Ascio", "Mad", "Skehm", "Loris", "Crazy", "Tarantola", "Momo", "Martina", "SimoSick"];
+        const gnSchedule = [];
+        for (let r = 0; r < 9; r++) {
+            gnSchedule.push({ t: r + 1, m: [(0 + r) % 9, (1 + r) % 9, (2 + r) % 9, (6 + r) % 9] });
+            gnSchedule.push({ t: r + 1, m: [(3 + r) % 9, (5 + r) % 9, (4 + r) % 9, (7 + r) % 9] });
+        }
+
+        function updateGNRanking() {
+            let stats = gnPlayers.reduce((acc, p) => { acc[p] = { wins: 0, pts: 0 }; return acc; }, {});
+            document.querySelectorAll('.match-card').forEach(card => {
+                const teamA = JSON.parse(card.dataset.teamA);
+                const teamB = JSON.parse(card.dataset.teamB);
+                const valA = card.querySelector('.sA').value;
+                const valB = card.querySelector('.sB').value;
+                if (valA !== "" && valB !== "") {
+                    card.classList.add('played');
+                    const sA = parseInt(valA), sB = parseInt(valB);
+                    if (sA > sB) { teamA.forEach(p => { stats[p].wins++; stats[p].pts += 3; }); }
+                    else if (sB > sA) { teamB.forEach(p => { stats[p].wins++; stats[p].pts += 3; }); }
+                } else { card.classList.remove('played'); }
+            });
+            const sorted = Object.keys(stats).sort((a, b) => stats[b].pts - stats[a].pts || stats[b].wins - stats[a].wins);
+            document.getElementById('gnRankingBody').innerHTML = sorted.map((p, i) => `
+                <tr><td style="color:var(--neon-gold);">#0${i+1}</td><td style="color:#fff;">${p.toUpperCase()}</td><td style="text-align:right; color:var(--neon-blue); font-weight:bold;">${stats[p].pts} LP</td></tr>
+            `).join('');
+        }
+
+        function initGN() {
+            const grid = document.getElementById('gnMatchGrid');
+            let html = "";
+            gnSchedule.forEach((match, idx) => {
+                const pA = [gnPlayers[match.m[0]], gnPlayers[match.m[1]]];
+                const pB = [gnPlayers[match.m[2]], gnPlayers[match.m[3]]];
+                html += `
+                    <div class="match-card" data-match-id="${idx}" data-team-a='${JSON.stringify(pA)}' data-team-b='${JSON.stringify(pB)}'>
+                        <div class="versus-engine">
+                            <div class="team-block"><div class="player-slot">${pA[0]}</div><div class="player-slot">${pA[1]}</div></div>
+                            <div class="vs-orb">VS</div>
+                            <div class="team-block red-side"><div class="player-slot">${pB[0]}</div><div class="player-slot">${pB[1]}</div></div>
+                        </div>
+                        <div class="score-container">
+                            <input type="number" class="sc-input sA" oninput="updateGNRanking()" placeholder="0">
+                            <input type="number" class="sc-input sB" oninput="updateGNRanking()" placeholder="0">
+                        </div>
+                    </div>`;
+            });
+            grid.innerHTML = html;
+            
+            // ASCOLTO CLOUD: Quando qualcuno salva, tutti vedono l'aggiornamento
+            db.ref('tournament_data').on('value', (snapshot) => {
+                const scores = snapshot.val();
+                if (scores) {
+                    Object.keys(scores).forEach(id => {
+                        const card = document.querySelector(`[data-match-id="${id}"]`);
+                        if (card) {
+                            card.querySelector('.sA').value = scores[id].sA;
+                            card.querySelector('.sB').value = scores[id].sB;
+                        }
+                    });
+                    updateGNRanking();
+                }
+            });
+        }
+
+        function saveToCloud() {
+            const scores = {};
+            document.querySelectorAll('.match-card').forEach(card => {
+                scores[card.dataset.matchId] = {
+                    sA: card.querySelector('.sA').value,
+                    sB: card.querySelector('.sB').value
+                };
+            });
+            db.ref('tournament_data').set(scores)
+                .then(() => alert("DATABASE AGGIORNATO: Tutti i dispositivi sono ora sincronizzati."))
+                .catch(err => alert("ERRORE: " + err.message));
+        }
+
+        initGN();
+    </script>
+</div>
