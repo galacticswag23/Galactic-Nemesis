@@ -293,21 +293,47 @@
 
         function updateUI() {
             let stats = players.reduce((acc, p) => { acc[p] = { pts: 0 }; return acc; }, {});
+            
             document.querySelectorAll('.match-card').forEach(card => {
-                const sA = card.querySelector('.sA').value;
-                const sB = card.querySelector('.sB').value;
-                if (sA !== "" && sB !== "") {
+                const inputA = card.querySelector('.sA');
+                const inputB = card.querySelector('.sB');
+                const sA = inputA.value;
+                const sB = inputB.value;
+
+                // CONDIZIONE: Conta il match solo se i campi non sono vuoti 
+                // E se almeno uno dei due ha un punteggio maggiore di 0 (evita lo 0-0 di default)
+                if (sA !== "" && sB !== "" && (parseInt(sA) > 0 || parseInt(sB) > 0)) {
+                    card.style.opacity = "1"; // Match disputato
+                    card.style.borderColor = "var(--neon-blue)";
+                    
                     const tA = JSON.parse(card.dataset.teamA);
                     const tB = JSON.parse(card.dataset.teamB);
-                    const valA = parseInt(sA), valB = parseInt(sB);
-                    if (valA > valB) tA.forEach(p => stats[p].pts += 3);
-                    else if (valB > valA) tB.forEach(p => stats[p].pts += 3);
-                    else if (valA === valB) { tA.forEach(p => stats[p].pts += 1); tB.forEach(p => stats[p].pts += 1); }
+                    const valA = parseInt(sA);
+                    const valB = parseInt(sB);
+
+                    if (valA > valB) {
+                        tA.forEach(p => stats[p].pts += 3);
+                    } else if (valB > valA) {
+                        tB.forEach(p => stats[p].pts += 3);
+                    } else {
+                        // Pareggio (es. 1-1 o 2-2)
+                        tA.forEach(p => stats[p].pts += 1);
+                        tB.forEach(p => stats[p].pts += 1);
+                    }
+                } else {
+                    // Match non ancora disputato o 0-0 ignorato
+                    card.style.opacity = "0.6";
+                    card.style.borderColor = "rgba(0, 242, 255, 0.15)";
                 }
             });
+
             const sorted = Object.keys(stats).sort((a,b) => stats[b].pts - stats[a].pts);
             document.getElementById('gnRankingBody').innerHTML = sorted.map((p, i) => `
-                <tr><td style="color:var(--neon-gold)">#0${i+1}</td><td>${p}</td><td style="text-align:right; color:var(--neon-blue)">${stats[p].pts} LP</td></tr>
+                <tr>
+                    <td style="color:var(--neon-gold); font-family:'Orbitron';">#0${i+1}</td>
+                    <td style="text-transform:uppercase;">${p}</td>
+                    <td style="text-align:right; color:var(--neon-blue); font-weight:bold;">${stats[p].pts} LP</td>
+                </tr>
             `).join('');
         }
 
