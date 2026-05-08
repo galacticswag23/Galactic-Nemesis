@@ -68,9 +68,20 @@
 
         /* GRID CAMPIONI */
         .selection-area { display: flex; flex-direction: column; gap: 10px; height: 100%; min-height: 0; }
+        /* SEARCH BOX RIDIMENSIONATA E CENTRATA */
         .search-box {
-            width: 100%; background: #000; border: 2px solid var(--neon-blue);
-            color: white; padding: 10px; font-family: 'Orbitron'; font-size: 0.9rem; text-align: center;
+            width: 60%; /* Ridotta per non toccare i bordi laterali */
+            max-width: 400px; /* Limite massimo per schermi molto grandi */
+            margin: 0 auto 10px auto; /* Centra orizzontalmente e dà spazio sotto */
+            background: #000; 
+            border: 2px solid var(--neon-blue);
+            color: white; 
+            padding: 8px; 
+            font-family: 'Orbitron'; 
+            font-size: 0.85rem; 
+            text-align: center;
+            display: block; /* Necessario per il margin auto */
+            box-shadow: 0 0 10px rgba(0, 242, 255, 0.1);
         }
         .champ-grid {
             display: grid; grid-template-columns: repeat(auto-fill, minmax(85px, 1fr));
