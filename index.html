@@ -180,7 +180,28 @@
             padding: 8px 0;
             border-radius: 4px;
         }
+.ban-link-btn {
+    display: inline-block;
+    padding: 12px 30px;
+    border: 2px solid var(--neon-blue);
+    color: var(--neon-blue);
+    text-decoration: none;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 900;
+    font-size: 0.9rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    background: rgba(0, 242, 255, 0.05);
+    box-shadow: 0 0 10px rgba(0, 242, 255, 0.1);
+}
 
+.ban-link-btn:hover {
+    background: var(--neon-blue);
+    color: #000;
+    box-shadow: 0 0 30px var(--neon-blue);
+    transform: scale(1.05);
+}
         .sc-input {
             background: #000;
             border: 1px solid #333;
@@ -208,6 +229,15 @@
         <div class="glass-panel">
             <h2>RANKING</h2>
             <table class="ranking-table"><tbody id="gnRankingBody"></tbody></table>
+            <!-- NAVIGAZIONE TERMINALE BAN -->
+<div style="text-align: center; margin-top: 40px; margin-bottom: 20px;">
+    <p style="font-family: 'Orbitron'; color: #555; font-size: 0.7rem; margin-bottom: 10px; letter-spacing: 2px;">
+        SISTEMA DI DRAFT ESTERNO:
+    </p>
+    <a href="ban.html" class="ban-link-btn">
+        OPEN BAN TERMINAL
+    </a>
+</div>
         </div>
         <div class="match-grid" id="gnMatchGrid"></div>
     </div>
