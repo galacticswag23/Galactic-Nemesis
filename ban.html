@@ -2,7 +2,7 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <title>GN - ELITE VISUAL DRAFT</title>
+    <title>GN - ULTIMATE SPEED DRAFT</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@600;700&display=swap');
 
@@ -13,7 +13,7 @@
         body {
             background: var(--bg-dark); color: white; font-family: 'Rajdhani', sans-serif;
             margin: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh;
-            overflow-x: hidden;
+            overflow: hidden; /* Evita scroll della pagina intera */
         }
 
         /* OVERLAY DI SISTEMA */
@@ -26,89 +26,93 @@
 
         .header {
             width: 100%; background: #000; border-bottom: 3px solid var(--neon-gold);
-            padding: 15px; text-align: center; font-family: 'Orbitron'; box-shadow: 0 0 20px rgba(200, 155, 60, 0.3);
+            padding: 15px; text-align: center; font-family: 'Orbitron';
         }
 
-        .status-bar { display: flex; gap: 50px; align-items: center; margin: 15px 0; }
-        .timer { font-size: 3.5rem; font-family: 'Orbitron'; color: var(--neon-red); text-shadow: 0 0 15px var(--neon-red); min-width: 180px; text-align: center; }
-        .turn-msg { font-family: 'Orbitron'; font-size: 1.4rem; color: var(--neon-gold); text-transform: uppercase; }
+        .status-bar { display: flex; gap: 50px; align-items: center; margin: 10px 0; }
+        .timer { font-size: 3rem; font-family: 'Orbitron'; color: var(--neon-red); text-shadow: 0 0 15px var(--neon-red); min-width: 150px; text-align: center; }
+        .turn-msg { font-family: 'Orbitron'; font-size: 1.2rem; color: var(--neon-gold); text-transform: uppercase; letter-spacing: 2px; }
 
         .main-container {
             display: grid; grid-template-columns: 240px 1fr 240px; gap: 20px; width: 95%; max-width: 1600px;
+            height: calc(100vh - 180px); /* Altezza fissa per gestire lo scroll interno */
         }
 
         /* BAN SLOTS */
-        .side-panel h3 { font-family: 'Orbitron'; font-size: 1rem; border-bottom: 1px solid #333; padding-bottom: 10px; margin-bottom: 10px; }
+        .side-panel { display: flex; flex-direction: column; }
         .ban-slot {
-            background: rgba(255,255,255,0.03); border: 1px solid #222; height: 50px;
+            background: rgba(255,255,255,0.03); border: 1px solid #222; height: 55px;
             margin-bottom: 8px; display: flex; align-items: center; justify-content: center;
             font-family: 'Orbitron'; font-size: 0.8rem; transition: 0.3s; text-transform: uppercase;
             overflow: hidden; gap: 10px;
         }
-        .ban-slot img { width: 40px; height: 40px; object-fit: cover; border: 1px solid #444; }
-        .ban-slot.active { border-color: var(--neon-blue); box-shadow: 0 0 10px var(--neon-blue); background: rgba(0, 242, 255, 0.1); }
+        .ban-slot img { width: 45px; height: 45px; object-fit: cover; border: 1px solid #444; }
+        .ban-slot.active { border-color: var(--neon-blue); box-shadow: 0 0 15px var(--neon-blue); background: rgba(0, 242, 255, 0.1); }
         .ban-slot.filled { color: var(--neon-red); border: 1px solid var(--neon-red); background: rgba(255, 70, 85, 0.1); }
 
-        /* GRID CAMPIONI */
-        .selection-area { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+        /* GRID CAMPIONI OTTIMIZZATA */
+        .selection-area { display: flex; flex-direction: column; gap: 10px; height: 100%; }
         .search-box {
             width: 100%; background: #000; border: 2px solid var(--neon-blue);
-            color: white; padding: 12px; font-family: 'Orbitron'; font-size: 1rem; text-align: center;
-            box-shadow: 0 0 10px rgba(0, 242, 255, 0.2);
+            color: white; padding: 12px; font-family: 'Orbitron'; font-size: 1rem; text-align: center; box-sizing: border-box;
         }
 
         .champ-grid {
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(85px, 1fr));
-            gap: 10px; width: 100%; max-height: 450px; overflow-y: auto;
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+            gap: 10px; width: 100%; overflow-y: scroll;
             padding: 15px; background: rgba(0,0,0,0.5); border: 1px solid #222;
+            box-sizing: border-box;
+            contain: content; /* Ottimizzazione CSS: istruisce il browser a non ricalcolare l'intero layout */
         }
 
         .champ-btn {
             background: #111; border: 1px solid #333; color: #ccc; 
-            cursor: pointer; transition: 0.2s; padding: 5px;
+            cursor: pointer; transition: transform 0.1s, border-color 0.2s; padding: 5px;
             display: flex; flex-direction: column; align-items: center; gap: 5px;
+            will-change: transform; /* Ottimizzazione GPU */
         }
-        .champ-btn img { width: 60px; height: 60px; border: 1px solid #444; transition: 0.2s; }
-        .champ-btn:hover { border-color: var(--neon-gold); transform: translateY(-3px); }
-        .champ-btn:hover img { border-color: var(--neon-gold); }
-        .champ-btn span { font-size: 0.65rem; font-weight: bold; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; }
+        .champ-btn img { width: 65px; height: 65px; border: 1px solid #444; pointer-events: none; }
+        .champ-btn:hover { border-color: var(--neon-gold); transform: scale(1.05); z-index: 2; }
+        .champ-btn span { font-size: 0.6rem; font-weight: bold; text-align: center; pointer-events: none; }
+        
+        /* CLASSE PER NASCONDERE */
+        .hidden { display: none !important; }
 
         /* FEARLESS BOXES */
         .fearless-container {
-            grid-column: 1 / 4; margin-top: 20px; padding: 20px;
-            border-top: 2px dashed #333; width: 100%; display: grid;
+            grid-column: 1 / 4; margin-top: 10px; padding: 15px;
+            border-top: 2px dashed #333; display: grid;
             grid-template-columns: 1fr 1fr 1fr; gap: 15px;
         }
-        .fearless-box { background: rgba(255,255,255,0.02); padding: 15px; border: 1px solid #222; }
-        .fearless-box h4 { font-family: 'Orbitron'; color: var(--neon-gold); margin: 0 0 10px 0; font-size: 0.8rem; text-align: center; }
+        .fearless-box { background: rgba(255,255,255,0.02); padding: 10px; border: 1px solid #222; }
+        .fearless-box h4 { font-family: 'Orbitron'; color: var(--neon-gold); margin: 0 0 10px 0; font-size: 0.75rem; text-align: center; }
         .fearless-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
         .fearless-select {
             width: 100%; background: #000; color: var(--neon-blue); border: 1px solid #444;
-            padding: 5px; font-family: 'Rajdhani'; font-weight: bold; font-size: 0.8rem;
+            padding: 4px; font-family: 'Rajdhani'; font-weight: bold; font-size: 0.75rem;
         }
 
         .btn-reset {
             grid-column: 1 / 4; justify-self: center; background: none; border: 1px solid #444;
-            color: #444; padding: 10px 30px; cursor: pointer; font-family: 'Orbitron'; font-size: 0.8rem; margin-top: 10px;
+            color: #444; padding: 8px 25px; cursor: pointer; font-family: 'Orbitron'; font-size: 0.7rem;
         }
-        .btn-reset:hover { color: var(--neon-red); border-color: var(--neon-red); }
 
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-thumb { background: var(--neon-blue); border-radius: 4px; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-thumb { background: var(--neon-blue); border-radius: 10px; }
     </style>
 </head>
 <body>
 
     <div id="overlay">
         <h2 style="font-family:'Orbitron'; color:var(--neon-gold); letter-spacing:5px; text-shadow: 0 0 20px var(--neon-gold);">SISTEMA BLOCCATO</h2>
-        <p style="font-family:'Rajdhani'; color:#555;">In attesa dell'inizializzazione del protocollo...</p>
-        <button onclick="activateProtocol()" style="margin-top:30px; padding:15px 40px; background:none; border:2px solid var(--neon-blue); color:var(--neon-blue); font-family:'Orbitron'; cursor:pointer; box-shadow: 0 0 15px var(--neon-blue);">START BAN PHASE</button>
+        <div id="loading-status" style="color: var(--neon-blue); font-size: 0.8rem; margin-bottom: 20px; font-family: 'Orbitron';">CARICAMENTO ICONE...</div>
+        <button id="startBtn" onclick="activateProtocol()" style="padding:15px 40px; background:none; border:2px solid var(--neon-blue); color:var(--neon-blue); font-family:'Orbitron'; cursor:pointer; opacity: 0.5; pointer-events: none;">START BAN PHASE</button>
     </div>
 
     <div class="header"><h1>GALACTIC NEMESIS - ELITE DRAFT</h1></div>
 
     <div class="status-bar">
-        <div id="turn-display" class="turn-msg">CONNECTING...</div>
+        <div id="turn-display" class="turn-msg">SYNC...</div>
         <div id="timer" class="timer">60</div>
     </div>
 
@@ -121,7 +125,7 @@
         </div>
 
         <div class="selection-area">
-            <input type="text" id="filterInput" class="search-box" placeholder="RICERCA CAMPIONE..." oninput="filterChamps()">
+            <input type="text" id="filterInput" class="search-box" placeholder="CERCA CAMPIONE..." oninput="filterChamps()">
             <div class="champ-grid" id="champGrid"></div>
         </div>
 
@@ -133,9 +137,9 @@
         </div>
 
         <div class="fearless-container">
-            <div class="fearless-box"><h4>GAME 1 FEARLESS</h4><div class="fearless-grid"><select class="fearless-select" id="f1_1" onchange="syncFearless()"><option value="">- P1 -</option></select><select class="fearless-select" id="f1_2" onchange="syncFearless()"><option value="">- P2 -</option></select><select class="fearless-select" id="f1_3" onchange="syncFearless()"><option value="">- P3 -</option></select><select class="fearless-select" id="f1_4" onchange="syncFearless()"><option value="">- P4 -</option></select></div></div>
-            <div class="fearless-box"><h4>GAME 2 FEARLESS</h4><div class="fearless-grid"><select class="fearless-select" id="f2_1" onchange="syncFearless()"><option value="">- P1 -</option></select><select class="fearless-select" id="f2_2" onchange="syncFearless()"><option value="">- P2 -</option></select><select class="fearless-select" id="f2_3" onchange="syncFearless()"><option value="">- P3 -</option></select><select class="fearless-select" id="f2_4" onchange="syncFearless()"><option value="">- P4 -</option></select></div></div>
-            <div class="fearless-box"><h4>GAME 3 FEARLESS</h4><div class="fearless-grid"><select class="fearless-select" id="f3_1" onchange="syncFearless()"><option value="">- P1 -</option></select><select class="fearless-select" id="f3_2" onchange="syncFearless()"><option value="">- P2 -</option></select><select class="fearless-select" id="f3_3" onchange="syncFearless()"><option value="">- P3 -</option></select><select class="fearless-select" id="f3_4" onchange="syncFearless()"><option value="">- P4 -</option></select></div></div>
+            <div class="fearless-box"><h4>G1 FEARLESS</h4><div class="fearless-grid"><select class="fearless-select" id="f1_1" onchange="syncFearless()"></select><select class="fearless-select" id="f1_2" onchange="syncFearless()"></select><select class="fearless-select" id="f1_3" onchange="syncFearless()"></select><select class="fearless-select" id="f1_4" onchange="syncFearless()"></select></div></div>
+            <div class="fearless-box"><h4>G2 FEARLESS</h4><div class="fearless-grid"><select class="fearless-select" id="f2_1" onchange="syncFearless()"></select><select class="fearless-select" id="f2_2" onchange="syncFearless()"></select><select class="fearless-select" id="f2_3" onchange="syncFearless()"></select><select class="fearless-select" id="f2_4" onchange="syncFearless()"></select></div></div>
+            <div class="fearless-box"><h4>G3 FEARLESS</h4><div class="fearless-grid"><select class="fearless-select" id="f3_1" onchange="syncFearless()"></select><select class="fearless-select" id="f3_2" onchange="syncFearless()"></select><select class="fearless-select" id="f3_3" onchange="syncFearless()"></select><select class="fearless-select" id="f3_4" onchange="syncFearless()"></select></div></div>
             <button class="btn-reset" onclick="resetBanPhase()">RESET PROTOCOL</button>
         </div>
     </div>
@@ -156,7 +160,7 @@
 
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
-        const banRef = db.ref('ban_phase_2vs2_v3_icons');
+        const banRef = db.ref('ban_phase_2vs2_final_v4');
 
         const allChampions = ["Aatrox", "Ahri", "Akali", "Akshan", "Alistar", "Ambessa", "Amumu", "Anivia", "Annie", "Aphelios", "Ashe", "Aurelion Sol", "Azir", "Bard", "Bel'Veth", "Blitzcrank", "Brand", "Braum", "Briar", "Caitlyn", "Camille", "Cassiopeia", "Cho'Gath", "Corki", "Darius", "Diana", "Dr. Mundo", "Draven", "Ekko", "Elise", "Evelynn", "Ezreal", "Fiddlesticks", "Fiora", "Fizz", "Galio", "Gangplank", "Garen", "Gnar", "Gragas", "Graves", "Gwen", "Hecarim", "Heimerdinger", "Hwei", "Illaoi", "Irelia", "Ivern", "Janna", "Jarvan IV", "Jax", "Jayce", "Jhin", "Jinx", "K'Sante", "Kai'Sa", "Kalista", "Karma", "Karthus", "Kassadin", "Katarina", "Kayle", "Kayn", "Kennen", "Kha'Zix", "Kindred", "Kled", "Kog'Maw", "LeBlanc", "Lee Sin", "Leona", "Lillia", "Lissandra", "Lucian", "Lulu", "Lux", "Malphite", "Malzahar", "Maokai", "Master Yi", "Milio", "Miss Fortune", "Mordekaiser", "Morgana", "Naafiri", "Nami", "Nasus", "Nautilus", "Neeko", "Nidalee", "Nilah", "Nocturne", "Nunu & Willump", "Olaf", "Orianna", "Ornn", "Pantheon", "Poppy", "Pyke", "Qiyana", "Quinn", "Rakan", "Rammus", "Rek'Sai", "Rell", "Renata Glasc", "Renekton", "Rengar", "Riven", "Rumble", "Ryze", "Samira", "Sejuani", "Senna", "Seraphine", "Sett", "Shaco", "Shen", "Shyvana", "Singed", "Sion", "Sivir", "Skarner", "Smolder", "Sona", "Soraka", "Swain", "Sylas", "Syndra", "Tahm Kench", "Taliyah", "Talon", "Taric", "Teemo", "Thresh", "Tristana", "Trundle", "Tryndamere", "Twisted Fate", "Twitch", "Udyr", "Urgot", "Varus", "Vayne", "Veigar", "Vel'Koz", "Vex", "Vi", "Viego", "Viktor", "Vladimir", "Volibear", "Warwick", "Wukong", "Xayah", "Xerath", "Xin Zhao", "Yasuo", "Yone", "Yorick", "Yuumi", "Zac", "Zed", "Zeri", "Ziggs", "Zilean", "Zoe", "Zyra"];
 
@@ -165,18 +169,26 @@
         const phaseOrder = ['slotA1', 'slotB1', 'slotA2', 'slotB2', 'slotA3', 'slotB3', 'slotA4', 'slotB4', 'slotA5', 'slotB5'];
 
         function getIconUrl(name) {
-            let imgName = name.replace(/\s+/g, '').replace("'", "").replace(".", "");
-            if(imgName === "Wukong") imgName = "MonkeyKing";
-            if(imgName === "LeBlanc") imgName = "Leblanc";
-            if(imgName === "KhaZix") imgName = "Khazix";
-            if(imgName === "ChoGath") imgName = "Chogath";
-            if(imgName === "KaiSa") imgName = "Kaisa";
-            if(imgName === "KSante") imgName = "Ksante";
-            if(imgName === "BelVeth") imgName = "Belveth";
-            if(imgName === "Nunu&Willump") imgName = "Nunu";
-            if(imgName === "VelKoz") imgName = "Velkoz";
-            if(imgName === "RenataGlasc") imgName = "Renata";
-            return `https://ddragon.leagueoflegends.com/cdn/14.22.1/img/champion/${imgName}.png`;
+            let img = name.replace(/\s+/g, '').replace("'", "").replace(".", "");
+            const mapping = {"Wukong": "MonkeyKing", "LeBlanc": "Leblanc", "KhaZix": "Khazix", "ChoGath": "Chogath", "KaiSa": "Kaisa", "KSante": "Ksante", "BelVeth": "Belveth", "Nunu&Willump": "Nunu", "VelKoz": "Velkoz", "RenataGlasc": "Renata"};
+            return `https://ddragon.leagueoflegends.com/cdn/14.22.1/img/champion/${mapping[img] || img}.png`;
+        }
+
+        // --- PRECARICAMENTO SILENZIOSO ---
+        function preloadIcons() {
+            let loaded = 0;
+            allChampions.forEach(name => {
+                const img = new Image();
+                img.src = getIconUrl(name);
+                img.onload = () => {
+                    loaded++;
+                    if (loaded >= allChampions.length) {
+                        document.getElementById('loading-status').innerText = "SISTEMA PRONTO";
+                        document.getElementById('startBtn').style.opacity = "1";
+                        document.getElementById('startBtn').style.pointerEvents = "auto";
+                    }
+                };
+            });
         }
 
         function activateProtocol() {
@@ -208,7 +220,7 @@
         }
 
         function resetBanPhase() {
-            if(confirm("Reset Protocollo?")) {
+            if(confirm("Reset Protocol?")) {
                 clearInterval(timerInterval);
                 const resetObj = { status: "IDLE", currentPhase: 0 };
                 phaseOrder.forEach(id => resetObj[id] = "");
@@ -216,6 +228,7 @@
             }
         }
 
+        // --- LISTENER FIREBASE ---
         banRef.on('value', (snap) => {
             const data = snap.val() || {};
             const newPhase = data.currentPhase || 0;
@@ -240,7 +253,6 @@
                 }
             });
 
-            const timerEl = document.getElementById('timer');
             if (newPhase < 10 && data.status === "ACTIVE") {
                 const activeTeam = phaseOrder[newPhase].includes('A') ? "TEAM A" : "TEAM B";
                 document.getElementById('turn-display').innerText = "TURNO: " + activeTeam;
@@ -250,36 +262,44 @@
                 clearInterval(timerInterval);
                 document.getElementById('turn-display').innerText = "DRAFT COMPLETA";
                 document.getElementById('turn-display').style.color = "var(--neon-gold)";
-                timerEl.innerText = "FIGHT";
-                timerEl.style.color = "var(--neon-gold)";
+                document.getElementById('timer').innerText = "FIGHT";
+                document.getElementById('timer').style.color = "var(--neon-gold)";
             }
         });
 
+        // --- INIZIALIZZAZIONE UI ---
         function initUI() {
-            document.querySelectorAll('.fearless-select').forEach(sel => {
-                allChampions.sort().forEach(c => {
+            const grid = document.getElementById('champGrid');
+            allChampions.sort().forEach(name => {
+                // Dropdowns Fearless
+                document.querySelectorAll('.fearless-select').forEach(sel => {
                     let opt = document.createElement('option');
-                    opt.value = c; opt.innerText = c; sel.appendChild(opt);
+                    opt.value = name; opt.innerText = name; sel.appendChild(opt);
                 });
+                // Creazione pulsanti grid (una sola volta!)
+                const btn = document.createElement('button');
+                btn.className = 'champ-btn';
+                btn.id = `btn-${name.replace(/\s+/g, '')}`;
+                btn.innerHTML = `<img src="${getIconUrl(name)}"><span>${name}</span>`;
+                btn.onclick = () => selectChamp(name);
+                grid.appendChild(btn);
             });
-            renderChamps();
+            preloadIcons();
         }
 
-        function renderChamps(filter = "") {
-            const grid = document.getElementById('champGrid');
-            grid.innerHTML = "";
+        // --- FILTRO ISTANTANEO (HIDE/SHOW) ---
+        function filterChamps() {
+            const val = document.getElementById('filterInput').value.toLowerCase();
             allChampions.forEach(name => {
-                if (name.toLowerCase().includes(filter.toLowerCase())) {
-                    const btn = document.createElement('button');
-                    btn.className = 'champ-btn';
-                    btn.innerHTML = `<img src="${getIconUrl(name)}"><span>${name}</span>`;
-                    btn.onclick = () => selectChamp(name);
-                    grid.appendChild(btn);
+                const btn = document.getElementById(`btn-${name.replace(/\s+/g, '')}`);
+                if (name.toLowerCase().includes(val)) {
+                    btn.classList.remove('hidden');
+                } else {
+                    btn.classList.add('hidden');
                 }
             });
         }
 
-        function filterChamps() { renderChamps(document.getElementById('filterInput').value); }
         initUI();
     </script>
 </body>
