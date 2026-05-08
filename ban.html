@@ -85,13 +85,27 @@
 
         /* FEARLESS COMPATTO */
         .fearless-container {
-            width: 98%; max-width: 1800px;
-            margin: 10px 0; padding: 10px;
-            border-top: 1px dashed #333; display: grid;
-            grid-template-columns: 1fr 1fr 1fr; gap: 10px;
-            background: rgba(0,0,0,0.3);
-        }
-        .fearless-box { background: rgba(255,255,255,0.02); padding: 8px; border: 1px solid #222; }
+    width: 98%; 
+    max-width: 1800px;
+    margin: 10px 0; 
+    padding: 10px;
+    border-top: 1px dashed #333; 
+    
+    /* Cambiato da grid a flex per centrare */
+    display: flex; 
+    justify-content: center; /* Centra i box orizzontalmente */
+    gap: 20px; /* Spazio tra i due box */
+    
+    background: rgba(0,0,0,0.3);
+    position: relative; /* Necessario per il posizionamento del tasto reset */
+}
+
+.fearless-box { 
+    background: rgba(255,255,255,0.02); 
+    padding: 8px; 
+    border: 1px solid #222;
+    width: 350px; /* Imposta una larghezza fissa o massima per non farli allargare troppo */
+}
         .fearless-box h4 { font-family: 'Orbitron'; color: var(--neon-gold); margin: 0 0 5px 0; font-size: 0.7rem; text-align: center; }
         .fearless-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; }
         .fearless-select {
