@@ -2,179 +2,84 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <title>GN - ELITE BAN TERMINAL</title>
+    <title>GN - PRO BAN TERMINAL (5 BANS)</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@600;700&display=swap');
 
         :root {
-            --neon-blue: #00f2ff;
-            --neon-red: #ff4655;
-            --neon-gold: #c89b3c;
-            --bg-dark: #02060a;
+            --neon-blue: #00f2ff; --neon-red: #ff4655; --neon-gold: #c89b3c; --bg-dark: #02060a;
         }
 
         body {
-            background: var(--bg-dark);
-            color: white;
-            font-family: 'Rajdhani', sans-serif;
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            overflow-x: hidden;
+            background: var(--bg-dark); color: white; font-family: 'Rajdhani', sans-serif;
+            margin: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh;
         }
 
-        /* HEADER */
         .header {
-            width: 100%;
-            background: #000;
-            border-bottom: 3px solid var(--neon-gold);
-            padding: 15px;
-            text-align: center;
-            font-family: 'Orbitron';
-            box-shadow: 0 0 20px rgba(200, 155, 60, 0.3);
+            width: 100%; background: #000; border-bottom: 3px solid var(--neon-gold);
+            padding: 15px; text-align: center; font-family: 'Orbitron'; box-shadow: 0 0 20px rgba(200, 155, 60, 0.3);
         }
 
-        /* TIMER & TURN */
-        .status-bar {
-            display: flex;
-            gap: 50px;
-            align-items: center;
-            margin: 20px 0;
-        }
+        .status-bar { display: flex; gap: 50px; align-items: center; margin: 15px 0; }
+        .timer { font-size: 3rem; font-family: 'Orbitron'; color: var(--neon-red); text-shadow: 0 0 15px var(--neon-red); }
+        .turn-msg { font-family: 'Orbitron'; font-size: 1.2rem; color: var(--neon-gold); text-transform: uppercase; }
 
-        .timer {
-            font-size: 3.5rem;
-            font-family: 'Orbitron';
-            color: var(--neon-red);
-            text-shadow: 0 0 15px var(--neon-red);
-        }
-
-        .turn-msg {
-            font-family: 'Orbitron';
-            font-size: 1.5rem;
-            color: var(--neon-gold);
-            text-transform: uppercase;
-        }
-
-        /* LAYOUT PRINCIPALE */
         .main-container {
-            display: grid;
-            grid-template-columns: 250px 1fr 250px;
-            gap: 20px;
-            width: 95%;
-            max-width: 1400px;
+            display: grid; grid-template-columns: 220px 1fr 220px; gap: 20px; width: 95%; max-width: 1400px;
         }
 
-        .side-panel h3 { font-family: 'Orbitron'; border-bottom: 1px solid #333; padding-bottom: 10px; }
-
+        .side-panel h3 { font-family: 'Orbitron'; font-size: 1rem; border-bottom: 1px solid #333; padding-bottom: 10px; margin-bottom: 10px; }
         .ban-slot {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid #222;
-            height: 60px;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Orbitron';
-            font-size: 0.9rem;
-            transition: 0.3s;
+            background: rgba(255,255,255,0.03); border: 1px solid #222; height: 45px;
+            margin-bottom: 8px; display: flex; align-items: center; justify-content: center;
+            font-family: 'Orbitron'; font-size: 0.8rem; transition: 0.3s; text-transform: uppercase;
         }
-
         .ban-slot.active { border-color: var(--neon-blue); box-shadow: 0 0 10px var(--neon-blue); background: rgba(0, 242, 255, 0.05); }
         .ban-slot.filled { color: var(--neon-red); border: 1px solid var(--neon-red); background: rgba(255, 70, 85, 0.1); }
 
-        /* SELEZIONE CAMPIONI */
-        .selection-area {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 15px;
-        }
-
+        .selection-area { display: flex; flex-direction: column; align-items: center; gap: 10px; }
         .search-box {
-            width: 100%;
-            background: #000;
-            border: 2px solid var(--neon-blue);
-            color: white;
-            padding: 12px;
-            font-family: 'Orbitron';
-            font-size: 1rem;
-            text-align: center;
+            width: 100%; background: #000; border: 2px solid var(--neon-blue);
+            color: white; padding: 10px; font-family: 'Orbitron'; font-size: 0.9rem; text-align: center;
         }
 
         .champ-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-            gap: 8px;
-            width: 100%;
-            max-height: 400px;
-            overflow-y: auto;
-            padding: 10px;
-            background: rgba(0,0,0,0.3);
-            border: 1px solid #222;
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+            gap: 5px; width: 100%; max-height: 350px; overflow-y: auto;
+            padding: 10px; background: rgba(0,0,0,0.3); border: 1px solid #222;
         }
-
         .champ-btn {
-            background: #111;
-            border: 1px solid #333;
-            color: #ccc;
-            padding: 8px;
-            font-size: 0.75rem;
-            cursor: pointer;
-            text-transform: uppercase;
-            font-weight: bold;
+            background: #111; border: 1px solid #333; color: #ccc; padding: 6px;
+            font-size: 0.65rem; cursor: pointer; text-transform: uppercase;
         }
-
         .champ-btn:hover { border-color: var(--neon-gold); color: white; }
-        .champ-btn:disabled { opacity: 0.2; cursor: not-allowed; text-decoration: line-through; }
 
         /* FEARLESS SECTION */
-        .fearless-area {
-            grid-column: 1 / 4;
-            margin-top: 30px;
-            padding: 20px;
-            border-top: 2px dashed #333;
-            width: 100%;
+        .fearless-container {
+            grid-column: 1 / 4; margin-top: 20px; padding: 20px;
+            border-top: 2px dashed #333; width: 100%; display: grid;
+            grid-template-columns: 1fr 1fr 1fr; gap: 20px;
         }
-
-        .fearless-title { font-family: 'Orbitron'; color: var(--neon-gold); margin-bottom: 10px; display: block; }
-        
-        .fearless-input {
-            width: 100%;
-            background: #050505;
-            border: 1px solid #444;
-            color: #00f2ff;
-            padding: 15px;
-            font-family: 'Rajdhani';
-            font-size: 1.2rem;
-            min-height: 80px;
-            resize: vertical;
+        .fearless-box { background: rgba(255,255,255,0.02); padding: 15px; border: 1px solid #222; }
+        .fearless-box h4 { font-family: 'Orbitron'; color: var(--neon-gold); margin: 0 0 10px 0; font-size: 0.9rem; }
+        .fearless-select {
+            width: 100%; background: #000; color: var(--neon-blue); border: 1px solid #444;
+            padding: 8px; font-family: 'Rajdhani'; font-weight: bold; margin-bottom: 5px;
         }
-
-        /* SCROLLBAR */
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-thumb { background: var(--neon-blue); }
 
         .btn-reset {
-            background: none;
-            border: 1px solid #444;
-            color: #444;
-            padding: 5px 15px;
-            cursor: pointer;
-            font-family: 'Orbitron';
-            font-size: 0.7rem;
-            margin-top: 20px;
+            grid-column: 1 / 4; justify-self: center; background: none; border: 1px solid #444;
+            color: #444; padding: 10px 30px; cursor: pointer; font-family: 'Orbitron'; font-size: 0.8rem; margin-top: 10px;
         }
         .btn-reset:hover { color: var(--neon-red); border-color: var(--neon-red); }
+
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-thumb { background: var(--neon-blue); }
     </style>
 </head>
 <body>
 
-    <div class="header">
-        <h1>GALACTIC NEMESIS - BAN PROTOCOL</h1>
-    </div>
+    <div class="header"><h1>GALACTIC NEMESIS - ELITE DRAFT</h1></div>
 
     <div class="status-bar">
         <div id="turn-display" class="turn-msg">INIT...</div>
@@ -182,33 +87,42 @@
     </div>
 
     <div class="main-container">
-        <!-- TEAM A -->
         <div class="side-panel">
             <h3 style="color: var(--neon-blue)">TEAM A BANS</h3>
-            <div class="ban-slot" id="slotA1">WAITING...</div>
-            <div class="ban-slot" id="slotA2">WAITING...</div>
+            <div class="ban-slot" id="slotA1">-</div><div class="ban-slot" id="slotA2">-</div>
+            <div class="ban-slot" id="slotA3">-</div><div class="ban-slot" id="slotA4">-</div>
+            <div class="ban-slot" id="slotA5">-</div>
         </div>
 
-        <!-- CENTER: SELECTION -->
         <div class="selection-area">
             <input type="text" id="filterInput" class="search-box" placeholder="CERCA CAMPIONE..." oninput="filterChamps()">
-            <div class="champ-grid" id="champGrid">
-                <!-- Generato da JS -->
-            </div>
+            <div class="champ-grid" id="champGrid"></div>
         </div>
 
-        <!-- TEAM B -->
         <div class="side-panel" style="text-align: right;">
             <h3 style="color: var(--neon-red)">TEAM B BANS</h3>
-            <div class="ban-slot" id="slotB1">WAITING...</div>
-            <div class="ban-slot" id="slotB2">WAITING...</div>
+            <div class="ban-slot" id="slotB1">-</div><div class="ban-slot" id="slotB2">-</div>
+            <div class="ban-slot" id="slotB3">-</div><div class="ban-slot" id="slotB4">-</div>
+            <div class="ban-slot" id="slotB5">-</div>
         </div>
 
-        <!-- FEARLESS MONITORING -->
-        <div class="fearless-area">
-            <span class="fearless-title">🧬 FEARLESS MONITORING (Campioni usati nei game precedenti)</span>
-            <textarea id="fearlessNotes" class="fearless-input" placeholder="Annota qui i campioni bannati dal sistema Fearless... (Es: Game 1: Aatrox, Lee Sin)" oninput="syncFearless()"></textarea>
-            <center><button class="btn-reset" onclick="resetBanPhase()">RESET BAN PHASE</button></center>
+        <div class="fearless-container">
+            <div class="fearless-box">
+                <h4>GAME 1 FEARLESS</h4>
+                <select class="fearless-select" id="f1_1" onchange="syncFearless()"><option value="">- Seleziona -</option></select>
+                <select class="fearless-select" id="f1_2" onchange="syncFearless()"><option value="">- Seleziona -</option></select>
+            </div>
+            <div class="fearless-box">
+                <h4>GAME 2 FEARLESS</h4>
+                <select class="fearless-select" id="f2_1" onchange="syncFearless()"><option value="">- Seleziona -</option></select>
+                <select class="fearless-select" id="f2_2" onchange="syncFearless()"><option value="">- Seleziona -</option></select>
+            </div>
+            <div class="fearless-box">
+                <h4>GAME 3 FEARLESS</h4>
+                <select class="fearless-select" id="f3_1" onchange="syncFearless()"><option value="">- Seleziona -</option></select>
+                <select class="fearless-select" id="f3_2" onchange="syncFearless()"><option value="">- Seleziona -</option></select>
+            </div>
+            <button class="btn-reset" onclick="resetBanPhase()">RESET BAN PHASE ATTUALE</button>
         </div>
     </div>
 
@@ -228,93 +142,82 @@
 
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
-        const banRef = db.ref('ban_phase_live');
+        const banRef = db.ref('ban_phase_5_fearless');
 
         const allChampions = ["Aatrox", "Ahri", "Akali", "Akshan", "Alistar", "Ambessa", "Amumu", "Anivia", "Annie", "Aphelios", "Ashe", "Aurelion Sol", "Azir", "Bard", "Bel'Veth", "Blitzcrank", "Brand", "Braum", "Briar", "Caitlyn", "Camille", "Cassiopeia", "Cho'Gath", "Corki", "Darius", "Diana", "Dr. Mundo", "Draven", "Ekko", "Elise", "Evelynn", "Ezreal", "Fiddlesticks", "Fiora", "Fizz", "Galio", "Gangplank", "Garen", "Gnar", "Gragas", "Graves", "Gwen", "Hecarim", "Heimerdinger", "Hwei", "Illaoi", "Irelia", "Ivern", "Janna", "Jarvan IV", "Jax", "Jayce", "Jhin", "Jinx", "K'Sante", "Kai'Sa", "Kalista", "Karma", "Karthus", "Kassadin", "Katarina", "Kayle", "Kayn", "Kennen", "Kha'Zix", "Kindred", "Kled", "Kog'Maw", "LeBlanc", "Lee Sin", "Leona", "Lillia", "Lissandra", "Lucian", "Lulu", "Lux", "Malphite", "Malzahar", "Maokai", "Master Yi", "Milio", "Miss Fortune", "Mordekaiser", "Morgana", "Naafiri", "Nami", "Nasus", "Nautilus", "Neeko", "Nidalee", "Nilah", "Nocturne", "Nunu & Willump", "Olaf", "Orianna", "Ornn", "Pantheon", "Poppy", "Pyke", "Qiyana", "Quinn", "Rakan", "Rammus", "Rek'Sai", "Rell", "Renata Glasc", "Renekton", "Rengar", "Riven", "Rumble", "Ryze", "Samira", "Sejuani", "Senna", "Seraphine", "Sett", "Shaco", "Shen", "Shyvana", "Singed", "Sion", "Sivir", "Skarner", "Smolder", "Sona", "Soraka", "Swain", "Sylas", "Syndra", "Tahm Kench", "Taliyah", "Talon", "Taric", "Teemo", "Thresh", "Tristana", "Trundle", "Tryndamere", "Twisted Fate", "Twitch", "Udyr", "Urgot", "Varus", "Vayne", "Veigar", "Vel'Koz", "Vex", "Vi", "Viego", "Viktor", "Vladimir", "Volibear", "Warwick", "Wukong", "Xayah", "Xerath", "Xin Zhao", "Yasuo", "Yone", "Yorick", "Yuumi", "Zac", "Zed", "Zeri", "Ziggs", "Zilean", "Zoe", "Zyra"];
 
         let currentPhase = 0;
-        const phaseOrder = ['slotA1', 'slotB1', 'slotA2', 'slotB2'];
-        let timerInterval;
+        const phaseOrder = ['slotA1', 'slotB1', 'slotA2', 'slotB2', 'slotA3', 'slotB3', 'slotA4', 'slotB4', 'slotA5', 'slotB5'];
+        
+        // Popola Dropdown e Griglia
+        function initUI() {
+            const selects = document.querySelectorAll('.fearless-select');
+            selects.forEach(sel => {
+                allChampions.forEach(c => {
+                    let opt = document.createElement('option');
+                    opt.value = c; opt.innerText = c; sel.appendChild(opt);
+                });
+            });
+            renderChamps();
+        }
 
-        // Inizializza Griglia
-        const grid = document.getElementById('champGrid');
         function renderChamps(filter = "") {
+            const grid = document.getElementById('champGrid');
             grid.innerHTML = "";
             allChampions.forEach(name => {
                 if (name.toLowerCase().includes(filter.toLowerCase())) {
                     const btn = document.createElement('button');
-                    btn.className = 'champ-btn';
-                    btn.innerText = name;
-                    btn.onclick = () => selectChamp(name);
-                    grid.appendChild(btn);
+                    btn.className = 'champ-btn'; btn.innerText = name;
+                    btn.onclick = () => selectChamp(name); grid.appendChild(btn);
                 }
             });
         }
 
-        function filterChamps() {
-            renderChamps(document.getElementById('filterInput').value);
-        }
+        function filterChamps() { renderChamps(document.getElementById('filterInput').value); }
 
         function selectChamp(name) {
-            if (currentPhase >= 4) return;
-            const slot = phaseOrder[currentPhase];
-            banRef.update({
-                [slot]: name,
-                currentPhase: currentPhase + 1
-            });
+            if (currentPhase >= 10) return;
+            banRef.update({ [phaseOrder[currentPhase]]: name, currentPhase: currentPhase + 1 });
         }
 
         function syncFearless() {
-            banRef.update({ fearless: document.getElementById('fearlessNotes').value });
-        }
-
-        function startTimer() {
-            clearInterval(timerInterval);
-            let time = 30;
-            document.getElementById('timer').innerText = time;
-            timerInterval = setInterval(() => {
-                time--;
-                document.getElementById('timer').innerText = time;
-                if (time <= 0) clearInterval(timerInterval);
-            }, 1000);
+            const fearlessData = {};
+            document.querySelectorAll('.fearless-select').forEach(sel => fearlessData[sel.id] = sel.value);
+            banRef.update({ fearless: fearlessData });
         }
 
         function resetBanPhase() {
-            if(confirm("Vuoi resettare la ban phase del match attuale?")) {
-                banRef.set({ slotA1: "", slotA2: "", slotB1: "", slotB2: "", currentPhase: 0, fearless: document.getElementById('fearlessNotes').value });
+            if(confirm("Resettare i 10 ban del match? (Le note Fearless rimarranno)")) {
+                const resetObj = { currentPhase: 0 };
+                phaseOrder.forEach(id => resetObj[id] = "");
+                banRef.update(resetObj);
             }
         }
 
         banRef.on('value', (snap) => {
             const data = snap.val() || {};
             currentPhase = data.currentPhase || 0;
-            document.getElementById('fearlessNotes').value = data.fearless || "";
+            
+            // Sync Dropdown
+            if (data.fearless) {
+                Object.keys(data.fearless).forEach(id => {
+                    document.getElementById(id).value = data.fearless[id];
+                });
+            }
 
             phaseOrder.forEach((id, idx) => {
                 const el = document.getElementById(id);
                 el.classList.remove('active', 'filled');
-                if (data[id]) {
-                    el.innerText = data[id];
-                    el.classList.add('filled');
-                } else {
-                    el.innerText = "- EMPTY -";
-                    if (idx === currentPhase) el.classList.add('active');
-                }
+                if (data[id]) { el.innerText = data[id]; el.classList.add('filled'); }
+                else { el.innerText = "-"; if (idx === currentPhase) el.classList.add('active'); }
             });
 
-            if (currentPhase < 4) {
-                const activeTeam = phaseOrder[currentPhase].includes('A') ? "TEAM A" : "TEAM B";
-                document.getElementById('turn-display').innerText = "TURNO: " + activeTeam;
-                document.getElementById('turn-display').style.color = activeTeam === "TEAM A" ? "var(--neon-blue)" : "var(--neon-red)";
-                startTimer();
-            } else {
-                document.getElementById('turn-display').innerText = "BAN COMPLETATI";
-                document.getElementById('turn-display').style.color = "var(--neon-gold)";
-                clearInterval(timerInterval);
-            }
+            const activeTeam = currentPhase < 10 ? (phaseOrder[currentPhase].includes('A') ? "TEAM A" : "TEAM B") : "DONE";
+            document.getElementById('turn-display').innerText = "TURNO: " + activeTeam;
+            document.getElementById('turn-display').style.color = activeTeam === "TEAM A" ? "var(--neon-blue)" : "var(--neon-red)";
         });
 
-        renderChamps();
+        initUI();
     </script>
 </body>
 </html>
