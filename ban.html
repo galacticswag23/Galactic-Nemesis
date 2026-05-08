@@ -13,6 +13,15 @@
         body {
             background: var(--bg-dark); color: white; font-family: 'Rajdhani', sans-serif;
             margin: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* OVERLAY SISTEMA BLOCCATO */
+        #overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.98); z-index: 9999;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            border: 4px solid var(--neon-gold); box-sizing: border-box;
         }
 
         .header {
@@ -21,7 +30,7 @@
         }
 
         .status-bar { display: flex; gap: 50px; align-items: center; margin: 15px 0; }
-        .timer { font-size: 3.5rem; font-family: 'Orbitron'; color: var(--neon-red); text-shadow: 0 0 15px var(--neon-red); min-width: 150px; text-align: center; }
+        .timer { font-size: 3.5rem; font-family: 'Orbitron'; color: var(--neon-red); text-shadow: 0 0 15px var(--neon-red); min-width: 180px; text-align: center; }
         .turn-msg { font-family: 'Orbitron'; font-size: 1.4rem; color: var(--neon-gold); text-transform: uppercase; }
 
         .main-container {
@@ -54,7 +63,6 @@
         }
         .champ-btn:hover { border-color: var(--neon-gold); color: white; }
 
-        /* FEARLESS SECTION 2VS2 */
         .fearless-container {
             grid-column: 1 / 4; margin-top: 20px; padding: 20px;
             border-top: 2px dashed #333; width: 100%; display: grid;
@@ -79,6 +87,13 @@
     </style>
 </head>
 <body>
+
+    <!-- OVERLAY DI ATTESA -->
+    <div id="overlay">
+        <h2 style="font-family:'Orbitron'; color:var(--neon-gold); letter-spacing:5px; text-shadow: 0 0 20px var(--neon-gold);">SISTEMA BLOCCATO</h2>
+        <p style="font-family:'Rajdhani'; color:#555;">Protocollo di Ban non ancora inizializzato...</p>
+        <button onclick="activateProtocol()" style="margin-top:30px; padding:15px 40px; background:none; border:2px solid var(--neon-blue); color:var(--neon-blue); font-family:'Orbitron'; cursor:pointer; box-shadow: 0 0 15px var(--neon-blue);">START BAN PHASE</button>
+    </div>
 
     <div class="header"><h1>GALACTIC NEMESIS - ELITE DRAFT</h1></div>
 
@@ -108,9 +123,8 @@
         </div>
 
         <div class="fearless-container">
-            <!-- GAME 1 -->
             <div class="fearless-box">
-                <h4>GAME 1 FEARLESS (4)</h4>
+                <h4>GAME 1 FEARLESS</h4>
                 <div class="fearless-grid">
                     <select class="fearless-select" id="f1_1" onchange="syncFearless()"><option value="">- P1 -</option></select>
                     <select class="fearless-select" id="f1_2" onchange="syncFearless()"><option value="">- P2 -</option></select>
@@ -118,9 +132,8 @@
                     <select class="fearless-select" id="f1_4" onchange="syncFearless()"><option value="">- P4 -</option></select>
                 </div>
             </div>
-            <!-- GAME 2 -->
             <div class="fearless-box">
-                <h4>GAME 2 FEARLESS (4)</h4>
+                <h4>GAME 2 FEARLESS</h4>
                 <div class="fearless-grid">
                     <select class="fearless-select" id="f2_1" onchange="syncFearless()"><option value="">- P1 -</option></select>
                     <select class="fearless-select" id="f2_2" onchange="syncFearless()"><option value="">- P2 -</option></select>
@@ -128,9 +141,8 @@
                     <select class="fearless-select" id="f2_4" onchange="syncFearless()"><option value="">- P4 -</option></select>
                 </div>
             </div>
-            <!-- GAME 3 -->
             <div class="fearless-box">
-                <h4>GAME 3 FEARLESS (4)</h4>
+                <h4>GAME 3 FEARLESS</h4>
                 <div class="fearless-grid">
                     <select class="fearless-select" id="f3_1" onchange="syncFearless()"><option value="">- P1 -</option></select>
                     <select class="fearless-select" id="f3_2" onchange="syncFearless()"><option value="">- P2 -</option></select>
@@ -138,7 +150,7 @@
                     <select class="fearless-select" id="f3_4" onchange="syncFearless()"><option value="">- P4 -</option></select>
                 </div>
             </div>
-            <button class="btn-reset" onclick="resetBanPhase()">RESET BAN ATTUALI</button>
+            <button class="btn-reset" onclick="resetBanPhase()">RESET PROTOCOL</button>
         </div>
     </div>
 
@@ -162,54 +174,35 @@
 
         const allChampions = ["Aatrox", "Ahri", "Akali", "Akshan", "Alistar", "Ambessa", "Amumu", "Anivia", "Annie", "Aphelios", "Ashe", "Aurelion Sol", "Azir", "Bard", "Bel'Veth", "Blitzcrank", "Brand", "Braum", "Briar", "Caitlyn", "Camille", "Cassiopeia", "Cho'Gath", "Corki", "Darius", "Diana", "Dr. Mundo", "Draven", "Ekko", "Elise", "Evelynn", "Ezreal", "Fiddlesticks", "Fiora", "Fizz", "Galio", "Gangplank", "Garen", "Gnar", "Gragas", "Graves", "Gwen", "Hecarim", "Heimerdinger", "Hwei", "Illaoi", "Irelia", "Ivern", "Janna", "Jarvan IV", "Jax", "Jayce", "Jhin", "Jinx", "K'Sante", "Kai'Sa", "Kalista", "Karma", "Karthus", "Kassadin", "Katarina", "Kayle", "Kayn", "Kennen", "Kha'Zix", "Kindred", "Kled", "Kog'Maw", "LeBlanc", "Lee Sin", "Leona", "Lillia", "Lissandra", "Lucian", "Lulu", "Lux", "Malphite", "Malzahar", "Maokai", "Master Yi", "Milio", "Miss Fortune", "Mordekaiser", "Morgana", "Naafiri", "Nami", "Nasus", "Nautilus", "Neeko", "Nidalee", "Nilah", "Nocturne", "Nunu & Willump", "Olaf", "Orianna", "Ornn", "Pantheon", "Poppy", "Pyke", "Qiyana", "Quinn", "Rakan", "Rammus", "Rek'Sai", "Rell", "Renata Glasc", "Renekton", "Rengar", "Riven", "Rumble", "Ryze", "Samira", "Sejuani", "Senna", "Seraphine", "Sett", "Shaco", "Shen", "Shyvana", "Singed", "Sion", "Sivir", "Skarner", "Smolder", "Sona", "Soraka", "Swain", "Sylas", "Syndra", "Tahm Kench", "Taliyah", "Talon", "Taric", "Teemo", "Thresh", "Tristana", "Trundle", "Tryndamere", "Twisted Fate", "Twitch", "Udyr", "Urgot", "Varus", "Vayne", "Veigar", "Vel'Koz", "Vex", "Vi", "Viego", "Viktor", "Vladimir", "Volibear", "Warwick", "Wukong", "Xayah", "Xerath", "Xin Zhao", "Yasuo", "Yone", "Yorick", "Yuumi", "Zac", "Zed", "Zeri", "Ziggs", "Zilean", "Zoe", "Zyra"];
 
-        let currentPhase = 0;
+        let currentPhase = -1; 
         let timerInterval;
         const phaseOrder = ['slotA1', 'slotB1', 'slotA2', 'slotB2', 'slotA3', 'slotB3', 'slotA4', 'slotB4', 'slotA5', 'slotB5'];
         
-        function initUI() {
-            document.querySelectorAll('.fearless-select').forEach(sel => {
-                allChampions.sort().forEach(c => {
-                    let opt = document.createElement('option');
-                    opt.value = c; opt.innerText = c; sel.appendChild(opt);
-                });
-            });
-            renderChamps();
-        }
-
-        function renderChamps(filter = "") {
-            const grid = document.getElementById('champGrid');
-            grid.innerHTML = "";
-            allChampions.forEach(name => {
-                if (name.toLowerCase().includes(filter.toLowerCase())) {
-                    const btn = document.createElement('button');
-                    btn.className = 'champ-btn'; btn.innerText = name;
-                    btn.onclick = () => selectChamp(name); grid.appendChild(btn);
-                }
-            });
-        }
-
-        function filterChamps() { renderChamps(document.getElementById('filterInput').value); }
-
-        function selectChamp(name) {
-            if (currentPhase >= 10) return;
-            banRef.update({ [phaseOrder[currentPhase]]: name, currentPhase: currentPhase + 1 });
+        function activateProtocol() {
+            banRef.update({ status: "ACTIVE", currentPhase: 0 });
         }
 
         function startTimer() {
             clearInterval(timerInterval);
             let time = 60;
             const timerEl = document.getElementById('timer');
-            
-            // Funzione interna per il decremento
+            timerEl.innerText = time;
             timerInterval = setInterval(() => {
                 time--;
                 timerEl.innerText = time;
-                
                 if (time <= 0) {
                     clearInterval(timerInterval);
                     timerEl.innerText = "TIME UP";
                 }
             }, 1000);
+        }
+
+        function selectChamp(name) {
+            banRef.once('value', (snap) => {
+                const phase = snap.val().currentPhase || 0;
+                if (phase >= 10) return;
+                banRef.update({ [phaseOrder[phase]]: name, currentPhase: phase + 1 });
+            });
         }
 
         function syncFearless() {
@@ -219,65 +212,79 @@
         }
 
         function resetBanPhase() {
-            if(confirm("Vuoi resettare i ban attuali? (Fearless rimangono)")) {
+            if(confirm("Vuoi resettare tutto?")) {
                 clearInterval(timerInterval);
-                const resetObj = { currentPhase: 0 };
+                const resetObj = { status: "IDLE", currentPhase: 0 };
                 phaseOrder.forEach(id => resetObj[id] = "");
                 banRef.update(resetObj);
             }
         }
 
-        // LISTENER REALTIME
         banRef.on('value', (snap) => {
             const data = snap.val() || {};
             const newPhase = data.currentPhase || 0;
-            
-            // Sincronizza i Fearless Dropdown
+            const overlay = document.getElementById('overlay');
+
+            // Overlay Sync
+            overlay.style.display = (data.status === "ACTIVE") ? "none" : "flex";
+
+            // Fearless Sync
             if (data.fearless) {
                 Object.keys(data.fearless).forEach(id => {
-                    document.getElementById(id).value = data.fearless[id];
+                    const sel = document.getElementById(id);
+                    if(sel) sel.value = data.fearless[id];
                 });
             }
 
-            // Aggiorna visivamente gli slot dei Ban
+            // Bans Sync
             phaseOrder.forEach((id, idx) => {
                 const el = document.getElementById(id);
                 el.classList.remove('active', 'filled');
-                if (data[id]) { 
-                    el.innerText = data[id]; 
-                    el.classList.add('filled'); 
-                } else { 
-                    el.innerText = "-"; 
-                    if (idx === newPhase) el.classList.add('active'); 
-                }
+                if (data[id]) { el.innerText = data[id]; el.classList.add('filled'); }
+                else { el.innerText = "-"; if (idx === newPhase && data.status === "ACTIVE") el.classList.add('active'); }
             });
 
+            // Logic Timer/FIGHT
             const timerEl = document.getElementById('timer');
-
-            // LOGICA TIMER E TURNI
-            if (newPhase < 10) {
+            if (newPhase < 10 && data.status === "ACTIVE") {
                 const activeTeam = phaseOrder[newPhase].includes('A') ? "TEAM A" : "TEAM B";
                 document.getElementById('turn-display').innerText = "TURNO: " + activeTeam;
-                document.getElementById('turn-display').style.color = activeTeam === "TEAM A" ? "var(--neon-blue)" : "var(--neon-red)";
+                document.getElementById('turn-display').style.color = (activeTeam === "TEAM A") ? "var(--neon-blue)" : "var(--neon-red)";
                 
-                // IMPORTANTE: Fai ripartire il timer solo se la fase è cambiata
-                if (newPhase !== currentPhase || timerEl.innerText === "60") {
+                if (newPhase !== currentPhase) {
                     currentPhase = newPhase;
                     startTimer();
                 }
-            } else {
-                // FINE DRAFT
-                currentPhase = newPhase;
+            } else if (newPhase >= 10) {
                 clearInterval(timerInterval);
                 document.getElementById('turn-display').innerText = "DRAFT COMPLETA";
                 document.getElementById('turn-display').style.color = "var(--neon-gold)";
                 timerEl.innerText = "FIGHT";
                 timerEl.style.color = "var(--neon-gold)";
-                timerEl.style.textShadow = "0 0 20px var(--neon-gold)";
             }
         });
 
-        initUI();
+        // Init Dropdowns e Griglia
+        document.querySelectorAll('.fearless-select').forEach(sel => {
+            allChampions.sort().forEach(c => {
+                let opt = document.createElement('option');
+                opt.value = c; opt.innerText = c; sel.appendChild(opt);
+            });
+        });
+
+        const grid = document.getElementById('champGrid');
+        function renderChamps(filter = "") {
+            grid.innerHTML = "";
+            allChampions.forEach(name => {
+                if (name.toLowerCase().includes(filter.toLowerCase())) {
+                    const btn = document.createElement('button');
+                    btn.className = 'champ-btn'; btn.innerText = name;
+                    btn.onclick = () => selectChamp(name); grid.appendChild(btn);
+                }
+            });
+        }
+        function filterChamps() { renderChamps(document.getElementById('filterInput').value); }
+        renderChamps();
     </script>
 </body>
 </html>
