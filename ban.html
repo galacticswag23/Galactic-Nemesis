@@ -199,12 +199,16 @@
             clearInterval(timerInterval);
             let time = 60;
             const timerEl = document.getElementById('timer');
-            timerEl.innerText = time;
-            timerEl.style.color = "var(--neon-red)";
+            
+            // Funzione interna per il decremento
             timerInterval = setInterval(() => {
                 time--;
                 timerEl.innerText = time;
-                if (time <= 0) clearInterval(timerInterval);
+                
+                if (time <= 0) {
+                    clearInterval(timerInterval);
+                    timerEl.innerText = "TIME UP";
+                }
             }, 1000);
         }
 
@@ -216,42 +220,60 @@
 
         function resetBanPhase() {
             if(confirm("Vuoi resettare i ban attuali? (Fearless rimangono)")) {
+                clearInterval(timerInterval);
                 const resetObj = { currentPhase: 0 };
                 phaseOrder.forEach(id => resetObj[id] = "");
                 banRef.update(resetObj);
             }
         }
 
+        // LISTENER REALTIME
         banRef.on('value', (snap) => {
             const data = snap.val() || {};
-            currentPhase = data.currentPhase || 0;
+            const newPhase = data.currentPhase || 0;
             
+            // Sincronizza i Fearless Dropdown
             if (data.fearless) {
                 Object.keys(data.fearless).forEach(id => {
                     document.getElementById(id).value = data.fearless[id];
                 });
             }
 
+            // Aggiorna visivamente gli slot dei Ban
             phaseOrder.forEach((id, idx) => {
                 const el = document.getElementById(id);
                 el.classList.remove('active', 'filled');
-                if (data[id]) { el.innerText = data[id]; el.classList.add('filled'); }
-                else { el.innerText = "-"; if (idx === currentPhase) el.classList.add('active'); }
+                if (data[id]) { 
+                    el.innerText = data[id]; 
+                    el.classList.add('filled'); 
+                } else { 
+                    el.innerText = "-"; 
+                    if (idx === newPhase) el.classList.add('active'); 
+                }
             });
 
-            if (currentPhase < 10) {
-                const activeTeam = phaseOrder[currentPhase].includes('A') ? "TEAM A" : "TEAM B";
+            const timerEl = document.getElementById('timer');
+
+            // LOGICA TIMER E TURNI
+            if (newPhase < 10) {
+                const activeTeam = phaseOrder[newPhase].includes('A') ? "TEAM A" : "TEAM B";
                 document.getElementById('turn-display').innerText = "TURNO: " + activeTeam;
                 document.getElementById('turn-display').style.color = activeTeam === "TEAM A" ? "var(--neon-blue)" : "var(--neon-red)";
-                startTimer();
+                
+                // IMPORTANTE: Fai ripartire il timer solo se la fase è cambiata
+                if (newPhase !== currentPhase || timerEl.innerText === "60") {
+                    currentPhase = newPhase;
+                    startTimer();
+                }
             } else {
+                // FINE DRAFT
+                currentPhase = newPhase;
+                clearInterval(timerInterval);
                 document.getElementById('turn-display').innerText = "DRAFT COMPLETA";
                 document.getElementById('turn-display').style.color = "var(--neon-gold)";
-                const timerEl = document.getElementById('timer');
                 timerEl.innerText = "FIGHT";
                 timerEl.style.color = "var(--neon-gold)";
                 timerEl.style.textShadow = "0 0 20px var(--neon-gold)";
-                clearInterval(timerInterval);
             }
         });
 
