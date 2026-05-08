@@ -82,6 +82,8 @@
             text-align: center;
             display: block; /* Necessario per il margin auto */
             box-shadow: 0 0 10px rgba(0, 242, 255, 0.1);
+            z-index: 10;
+            position: relative;
         }
         .champ-grid {
             display: grid; grid-template-columns: repeat(auto-fill, minmax(85px, 1fr));
@@ -294,21 +296,44 @@
             });
         });
 
-        function initUI() {
-            const grid = document.getElementById('champGrid');
-            allChampions.sort().forEach(name => {
-                document.querySelectorAll('.fearless-select').forEach(sel => {
-                    let opt = document.createElement('option');
-                    opt.value = name; opt.innerText = name; sel.appendChild(opt);
-                });
-                const btn = document.createElement('button');
-                btn.className = 'champ-btn';
-                btn.id = `btn-${name.replace(/\s+/g, '').replace("'", "").replace(".", "")}`;
-                btn.innerHTML = `<img src="${getIconUrl(name)}"><span>${name}</span>`;
-                btn.onclick = () => selectChamp(name);
-                grid.appendChild(btn);
+        async function initUI() {
+    const grid = document.getElementById('champGrid');
+    const statusDisplay = document.getElementById('turn-display');
+    
+    // Messaggio di caricamento iniziale
+    statusDisplay.innerText = "CARICAMENTO ICONE...";
+
+    // Creiamo un array di promesse per il precaricamento
+    const loadPromises = allChampions.sort().map(name => {
+        return new Promise((resolve) => {
+            const img = new Image();
+            img.src = getIconUrl(name);
+            
+            // Quando l'immagine è caricata (o se fallisce), risolviamo la promessa
+            img.onload = () => resolve();
+            img.onerror = () => resolve(); 
+
+            // Creazione contemporanea dell'elemento UI
+            document.querySelectorAll('.fearless-select').forEach(sel => {
+                let opt = document.createElement('option');
+                opt.value = name; opt.innerText = name; sel.appendChild(opt);
             });
-        }
+
+            const btn = document.createElement('button');
+            btn.className = 'champ-btn';
+            btn.id = `btn-${name.replace(/\s+/g, '').replace("'", "").replace(".", "")}`;
+            btn.innerHTML = `<img src="${img.src}"><span>${name}</span>`;
+            btn.onclick = () => selectChamp(name);
+            grid.appendChild(btn);
+        });
+    });
+
+    // Aspettiamo che TUTTE le immagini siano state richieste e scaricate
+    await Promise.all(loadPromises);
+    
+    statusDisplay.innerText = "SISTEMA PRONTO";
+    console.log("Tutte le icone sono state caricate in parallelo.");
+}
 
         function filterChamps() {
             const val = document.getElementById('filterInput').value.toLowerCase();
