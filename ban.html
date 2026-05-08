@@ -55,7 +55,34 @@
             font-family: 'Orbitron'; font-size: 0.75rem; transition: 0.3s; overflow: hidden; gap: 8px;
         }
         .ban-slot img { width: 40px; height: 40px; object-fit: cover; border: 1px solid #444; }
-        .ban-slot.active { border-color: var(--neon-blue); box-shadow: 0 0 10px var(--neon-blue); background: rgba(0, 242, 255, 0.1); }
+        /* Slot attivo durante il turno: DORATO */
+.ban-slot.active { 
+    border-color: var(--neon-gold) !important; 
+    box-shadow: 0 0 15px rgba(200, 155, 60, 0.4), inset 0 0 10px rgba(200, 155, 60, 0.2); 
+    background: rgba(200, 155, 60, 0.1) !important;
+    color: var(--neon-gold);
+    animation: pulse-gold 1.5s infinite; /* Effetto pulsante opzionale */
+}
+
+@keyframes pulse-gold {
+    0% { opacity: 1; }
+    50% { opacity: 0.6; }
+    100% { opacity: 1; }
+}
+
+/* Ban Team A - Cornice Blu quando confermato */
+.side-panel:first-child .ban-slot.filled { 
+    color: var(--neon-blue); 
+    border: 1px solid var(--neon-blue); 
+    background: rgba(0, 242, 255, 0.1); 
+}
+
+/* Ban Team B - Cornice Rossa quando confermato */
+.side-panel:last-of-type .ban-slot.filled { 
+    color: var(--neon-red); 
+    border: 1px solid var(--neon-red); 
+    background: rgba(255, 70, 85, 0.1); 
+}
         /* Ban Team A - Cornice Blu quando pieno */
 .side-panel:first-child .ban-slot.filled { 
     color: var(--neon-blue); 
