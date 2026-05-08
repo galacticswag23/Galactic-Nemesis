@@ -56,8 +56,21 @@
         }
         .ban-slot img { width: 40px; height: 40px; object-fit: cover; border: 1px solid #444; }
         .ban-slot.active { border-color: var(--neon-blue); box-shadow: 0 0 10px var(--neon-blue); background: rgba(0, 242, 255, 0.1); }
-        .ban-slot.filled { color: var(--neon-red); border: 1px solid var(--neon-red); background: rgba(255, 70, 85, 0.1); }
+        /* Ban Team A - Cornice Blu quando pieno */
+.side-panel:first-child .ban-slot.filled { 
+    color: var(--neon-blue); 
+    border: 1px solid var(--neon-blue); 
+    background: rgba(0, 242, 255, 0.1); 
+    box-shadow: inset 0 0 10px rgba(0, 242, 255, 0.2);
+}
 
+/* Ban Team B - Mantiene la cornice Rossa quando pieno */
+.side-panel:last-of-type .ban-slot.filled { 
+    color: var(--neon-red); 
+    border: 1px solid var(--neon-red); 
+    background: rgba(255, 70, 85, 0.1); 
+    box-shadow: inset 0 0 10px rgba(255, 70, 85, 0.2);
+}
         /* GRID CAMPIONI */
         .selection-area { display: flex; flex-direction: column; gap: 10px; height: 100%; min-height: 0; }
         .search-box {
@@ -243,16 +256,21 @@
             }
 
             phaseOrder.forEach((id, idx) => {
-                const el = document.getElementById(id);
-                el.classList.remove('active', 'filled');
-                if (data[id]) { 
-                    el.innerHTML = `<img src="${getIconUrl(data[id])}"> <span>${data[id]}</span>`; 
-                    el.classList.add('filled'); 
-                } else { 
-                    el.innerText = "-"; 
-                    if (idx === newPhase && data.status === "ACTIVE") el.classList.add('active'); 
-                }
-            });
+    const el = document.getElementById(id);
+    el.classList.remove('active', 'filled');
+    
+    if (data[id]) { 
+        // Se il ban è presente, inserisce immagine e nome
+        el.innerHTML = `<img src="${getIconUrl(data[id])}"> <span>${data[id]}</span>`; 
+        el.classList.add('filled'); // Il CSS farà il resto in base alla posizione (A o B)
+    } else { 
+        el.innerText = "-"; 
+        // Mostra il bordo lampeggiante solo se è il turno attivo
+        if (idx === newPhase && data.status === "ACTIVE") {
+            el.classList.add('active'); 
+        }
+    }
+});
 
             if (newPhase < 10 && data.status === "ACTIVE") {
                 const activeTeam = phaseOrder[newPhase].includes('A') ? "TEAM A" : "TEAM B";
