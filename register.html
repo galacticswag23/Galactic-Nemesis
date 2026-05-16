@@ -4,14 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Horizon 6 Tournament - Driver Registration</title>
-    <!-- Font stile racing e moderno -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,700;1,900&display=swap" rel="stylesheet">
     <style>
         :root {
             --horizon-pink: #ff0055;
             --horizon-orange: #ff5500;
-            --asphalt-dark: #12141c;
-            --carbon-grey: #1a1d29;
+            --asphalt-dark: #0e1017;
+            --carbon-grey: #161922;
             --neon-white: #f3f4f6;
         }
 
@@ -25,127 +24,126 @@
         body {
             background-color: var(--asphalt-dark);
             background-image: 
-                radial-gradient(circle at 20% 30%, rgba(255, 0, 85, 0.15) 0%, transparent 40%),
-                radial-gradient(circle at 80% 70%, rgba(255, 85, 0, 0.15) 0%, transparent 40%);
+                radial-gradient(circle at 15% 20%, rgba(255, 0, 85, 0.18) 0%, transparent 50%),
+                radial-gradient(circle at 85% 80%, rgba(255, 85, 0, 0.18) 0%, transparent 50%);
             color: var(--neon-white);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow-x: hidden;
             padding: 20px;
         }
 
-        /* Contenitore Principale stile "Paddock Pass" */
+        /* Contenitore Paddock Pass */
         .registration-card {
-            background: linear-gradient(135deg, var(--carbon-grey) 0%, #11131a 100%);
-            border: 2px solid rgba(255, 255, 255, 0.05);
+            background: linear-gradient(135deg, var(--carbon-grey) 0%, #0b0d13 100%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             border-left: 6px solid var(--horizon-pink);
-            border-top-right-radius: 20px;
-            border-bottom-left-radius: 20px;
+            border-radius: 12px;
+            border-top-left-radius: 0px;
+            border-bottom-right-radius: 0px;
             width: 100%;
-            max-width: 480px;
-            padding: 40px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.1);
+            max-width: 440px;
+            padding: 40px 35px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.6);
             position: relative;
         }
 
-        /* Dettaglio estetico Tachimetro / Linee di corsa */
+        /* Linea racing arancione/rosa nell'angolo in alto a destra */
         .registration-card::before {
             content: '';
             position: absolute;
-            top: 0;
-            right: 0;
-            width: 100px;
+            top: -1px;
+            right: -1px;
+            width: 120px;
             height: 4px;
             background: linear-gradient(90deg, var(--horizon-pink), var(--horizon-orange));
-            border-top-right-radius: 20px;
+            border-top-right-radius: 12px;
         }
 
         .header {
             text-align: center;
-            margin-bottom: 35px;
+            margin-bottom: 30px;
         }
 
         .header h1 {
             font-weight: 900;
-            font-size: 1.8rem;
-            letter-spacing: 2px;
+            font-size: 1.9rem;
+            letter-spacing: 1px;
             text-transform: uppercase;
             font-style: italic;
-            background: linear-gradient(45deg, #fff 50%, #aaa 100%);
+            background: linear-gradient(45deg, #ffffff 40%, #a5abc0 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
         .header span {
             color: var(--horizon-orange);
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             font-weight: 700;
-            letter-spacing: 4px;
+            letter-spacing: 5px;
             text-transform: uppercase;
             display: block;
-            margin-top: 5px;
+            margin-top: 4px;
         }
 
-        /* Gruppi di Input */
         .input-group {
-            position: relative;
-            margin-bottom: 25px;
+            margin-bottom: 22px;
         }
 
         .input-group label {
             display: block;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #8a8f9d;
+            letter-spacing: 1.5px;
+            color: #83899a;
             margin-bottom: 8px;
         }
 
-        .input-group input, .input-group select {
+        .input-group input {
             width: 100%;
-            padding: 12px 16px;
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 13px 16px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.12);
             border-radius: 6px;
             color: #fff;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             font-weight: 700;
-            transition: all 0.3s ease;
+            letter-spacing: 0.5px;
+            transition: all 0.25s ease;
         }
 
-        /* Effetto Focus stile fari LED */
-        .input-group input:focus, .input-group select:focus {
+        /* Fix illuminazione campi al focus */
+        .input-group input:focus {
             outline: none;
             border-color: var(--horizon-pink);
-            box-shadow: 0 0 12px rgba(255, 0, 85, 0.3);
-            background: rgba(0, 0, 0, 0.5);
+            box-shadow: 0 0 10px rgba(255, 0, 85, 0.25);
+            background: rgba(0, 0, 0, 0.6);
         }
 
-        /* Pulsante di Submit Nitro Boost */
+        /* Bottone Nitro */
         .btn-register {
             width: 100%;
-            padding: 15px;
+            padding: 16px;
             background: linear-gradient(135deg, var(--horizon-pink) 0%, var(--horizon-orange) 100%);
             border: none;
             border-radius: 6px;
             color: white;
             font-weight: 900;
-            font-size: 1rem;
+            font-size: 0.95rem;
             text-transform: uppercase;
             font-style: italic;
             letter-spacing: 1px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(255, 0, 85, 0.4);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 5px 20px rgba(255, 0, 85, 0.35);
             margin-top: 10px;
         }
 
         .btn-register:hover {
-            transform: translateY(-2px) scale(1.01);
-            box-shadow: 0 8px 25px rgba(255, 85, 0, 0.6);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 85, 0, 0.5);
             filter: brightness(1.1);
         }
 
@@ -153,28 +151,28 @@
             transform: translateY(1px);
         }
 
-        /* Messaggi di Feedback dello Schermo/Terminal */
+        /* Box di Risposta */
         .message {
             margin-top: 20px;
             padding: 12px;
             border-radius: 6px;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             font-weight: 700;
             text-align: center;
             display: none;
         }
 
         .message.error {
-            background: rgba(255, 0, 0, 0.15);
-            border: 1px solid #ff3333;
-            color: #ff6666;
+            background: rgba(255, 51, 51, 0.12);
+            border: 1px solid #ff3355;
+            color: #ff5577;
             display: block;
         }
 
         .message.success {
-            background: rgba(0, 255, 100, 0.15);
-            border: 1px solid #00cc66;
-            color: #66ff99;
+            background: rgba(0, 255, 136, 0.12);
+            border: 1px solid #00ff88;
+            color: #55ffaa;
             display: block;
         }
     </style>
@@ -188,48 +186,36 @@
         </div>
 
         <form id="registrationForm">
-            <!-- Email (Richiesta da Firebase Auth) -->
+            <!-- Display and Login ID -->
             <div class="input-group">
-                <label for="email">Indirizzo Email</label>
-                <input type="email" id="email" placeholder="pilota@esempio.com" required>
+                <label for="loginId">Display & Login ID</label>
+                <input type="text" id="loginId" placeholder="Es. AlfaRomero" autocomplete="username" required>
             </div>
 
-            <!-- Gamertag / Nome Utente -->
+            <!-- Xbox Gamer Tag -->
             <div class="input-group">
-                <label for="gamertag">Gamertag Xbox / Nome Utente</label>
-                <input type="text" id="gamertag" placeholder="Es. ForzaRacer99" required>
+                <label for="gamertag">Xbox Gamertag</label>
+                <input type="text" id="gamertag" placeholder="Es. RomeroXbox92" required>
             </div>
 
             <!-- Password -->
             <div class="input-group">
                 <label for="password">Password Key (Min. 6 caratteri)</label>
-                <input type="password" id="password" placeholder="••••••••" required>
+                <input type="password" id="password" placeholder="••••••••" autocomplete="new-password" required>
             </div>
 
-            <!-- Dispositivo/Piattaforma -->
-            <div class="input-group">
-                <label for="platform">Piattaforma Hardware</label>
-                <select id="platform" required>
-                    <option value="" disabled selected>Seleziona la tua piattaforma</option>
-                    <option value="PC">PC (Steam / MS Store)</option>
-                    <option value="Xbox Series X">Xbox Series X</option>
-                    <option value="Xbox Series S">Xbox Series S</option>
-                </select>
-            </div>
-
-            <button type="submit" class="btn-register">ACCENDI I MOTORI (ISCRIVITI)</button>
+            <button type="submit" class="btn-register">REGISTRA PILOTA</button>
         </form>
 
         <div id="feedback" class="message"></div>
     </div>
 
-    <!-- Moduli SDK Firebase (Versione v9+ Compatta) -->
+    <!-- Firebase SDK Setup -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
         import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
         import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js";
 
-        // CONFIGURE QUI IL TUO PROGETTO FIREBASE
         const firebaseConfig = {
             apiKey: "LA_TUA_API_KEY",
             authDomain: "IL_TUO_AUTH_DOMAIN",
@@ -240,54 +226,51 @@
             appId: "IL_TUO_APP_ID"
         };
 
-        // Inizializzazione di Firebase
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const database = getDatabase(app);
 
-        // Gestione Invio Form
         document.getElementById('registrationForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             
-            const email = document.getElementById('email').value;
+            const loginId = document.getElementById('loginId').value.trim();
+            const gamertag = document.getElementById('gamertag').value.trim();
             const password = document.getElementById('password').value;
-            const gamertag = document.getElementById('gamertag').value;
-            const platform = document.getElementById('platform').value;
             const feedback = document.getElementById('feedback');
 
-            // Reset dello stato del messaggio
             feedback.className = "message";
             feedback.style.display = "none";
 
+            // Creiamo un indirizzo email fittizio standard partendo dall'ID inserito
+            // Rimuoviamo eventuali spazi per preservare la validità della mail di backend
+            const cleanId = loginId.replace(/\s+/g, '').toLowerCase();
+            const virtualEmail = `${cleanId}@horizon6.festival`;
+
             try {
-                // 1. Creazione dell'account in Firebase Authentication
-                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                // 1. Registrazione dell'account di sicurezza su Firebase Auth
+                const userCredential = await createUserWithEmailAndPassword(auth, virtualEmail, password);
                 const user = userCredential.user;
 
-                // 2. Salvataggio delle informazioni aggiuntive nel Realtime Database
-                // Strutturiamo i piloti dentro il nodo 'horizon_tournament/drivers'
+                // 2. Scrittura dei dati del pilota sul Realtime Database
                 await set(ref(database, 'horizon_tournament/drivers/' + user.uid), {
+                    loginId: loginId,
                     gamertag: gamertag,
-                    email: email,
-                    platform: platform,
                     registrationDate: new Date().toISOString(),
-                    assignedMatch: "PENDING" // Verrà usato dall'algoritmo di accoppiamento automatizzato
+                    assignedMatch: "PENDING"
                 });
 
-                // Successo
-                feedback.innerText = "REGISTRAZIONE COMPLETATA! Benvenuto al Festival, " + gamertag;
+                feedback.innerText = "ACCESSO ASSEGNATO! Benvenuto in griglia, " + loginId;
                 feedback.className = "message success";
                 document.getElementById('registrationForm').reset();
 
             } catch (error) {
-                // Gestione errori (es. Email già in uso o password troppo debole)
                 feedback.className = "message error";
                 if(error.code === 'auth/email-already-in-use') {
-                    feedback.innerText = "ERRORE: Questo indirizzo email è già registrato sulla griglia.";
+                    feedback.innerText = "ERRORE: Questo Login ID è già stato preso da un altro pilota.";
                 } else if(error.code === 'auth/weak-password') {
-                    feedback.innerText = "ERRORE: La password deve avere almeno 6 caratteri.";
+                    feedback.innerText = "ERRORE: La Password Key deve contenere almeno 6 caratteri.";
                 } else {
-                    feedback.innerText = "ERRORE CRITICO: " + error.message;
+                    feedback.innerText = "ERRORE MOTORE: " + error.message;
                 }
             }
         });
