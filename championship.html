@@ -142,10 +142,11 @@
     </div>
 
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
-        import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js"; // Aggiunto getAuth e onAuthStateChanged
+    import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js";
 
-        const firebaseConfig = {
+    const firebaseConfig = {
   apiKey: "AIzaSyDNRL0Rbo58WPjII0BzSRQZ1M7ZJ9MdsY4",
   authDomain: "galactic-nemesis-7bee5.firebaseapp.com",
   databaseURL: "https://galactic-nemesis-7bee5-default-rtdb.europe-west1.firebasedatabase.app",
@@ -155,9 +156,17 @@
   appId: "1:265814903052:web:6c59477e9852e91387a129"
         };
 
-        const app = initializeApp(firebaseConfig);
-        const database = getDatabase(app);
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app); // Inizializza l'autenticazione
+    const database = getDatabase(app);
 
+    // 🔒 BLOCCO DI PROTEZIONE: Controlla se l'utente è loggato
+    onAuthStateChanged(auth, (user) => {
+        if (!user) {
+            // Se l'utente non è loggato, viene rispedito istantaneamente al login
+            window.location.href = "login.html";
+        }
+    });
         // Sistema Punti F1/Horizon
         const pointsTable = { "1": 25, "2": 18, "3": 15, "4": 12, "5": 10, "6": 8, "7": 6, "8": 4, "9": 2, "10": 1 };
         
