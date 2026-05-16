@@ -51,7 +51,6 @@
             text-overflow: ellipsis;
         }
 
-        /* Modificato da input a select per i Dropdown */
         .admin-row select {
             width: 100%;
             padding: 8px 2px;
@@ -107,15 +106,19 @@
         table { width: 100%; border-collapse: collapse; text-align: left; min-width: 700px; }
         th { text-transform: uppercase; font-size: 0.7rem; color: #727888; padding: 12px; letter-spacing: 1px; }
         
-        /* [ANIMAZIONE DI SORPASSO] Transizione fluida applicata alle righe */
-        tr { 
-            transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1); 
+        /* [ANIMAZIONE FLUIDA RIPRISTINATA] */
+        tbody {
+            display: table-row-group;
         }
-        td { padding: 16px 12px; border-bottom: 1px solid rgba(255,255,255,0.05); font-weight: 700; font-size: 0.9rem; }
+        tr { 
+            position: relative;
+            background: transparent;
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        td { padding: 16px 12px; border-bottom: 1px solid rgba(255,255,255,0.05); font-weight: 700; font-size: 0.9rem; transition: all 0.5s ease; }
         
         .pos-num { font-style: italic; font-weight: 900; color: #727888; width: 40px; }
         
-        /* [PODIO VISIVO CSS] Stili per i primi 3 posti */
         .badge-podio {
             display: inline-block;
             padding: 4px 10px;
@@ -126,6 +129,7 @@
             font-size: 0.85rem;
             text-align: center;
             min-width: 45px;
+            transition: all 0.5s ease;
         }
 
         tr.oro .badge-podio { 
@@ -156,7 +160,6 @@
         }
 
         .points-total { color: var(--neon-blue); font-weight: 900; text-align: right; font-size: 1.1rem; }
-        /* Il primo in classifica ha i punti dorati */
         tr.oro .points-total { color: var(--gold-neon); text-shadow: 0 0 8px rgba(255, 215, 0, 0.3); }
 
         .admin-panel {
@@ -276,34 +279,34 @@
                         });
                     });
 
+                    // Ordina l'array in base ai punti
                     driversArray.sort((a, b) => b.points - a.points);
 
-                    // Rendering della Tabella Pubblica (Con Podio Condizionale)
                     const tableBody = document.getElementById('leaderboardBody');
-                    tableBody.innerHTML = '';
-                    
+
+                    // [LOGICA DI ANIMAZIONE FLUIDA SENZA RESET]
                     driversArray.forEach((driver, index) => {
-                        let tr = document.createElement('tr');
+                        let tr = document.getElementById(`row_${driver.id}`);
                         
-                        // Determina la classe del podio basata sulla posizione reale
+                        // Determina i dati del podio
                         let classePodio = "";
                         let testoPosizione = `#${index + 1}`;
                         
-                        if (index === 0) {
-                            classePodio = "oro";
-                            testoPosizione = `<span class="badge-podio">1st</span>`;
-                        } else if (index === 1) {
-                            classePodio = "argento";
-                            testoPosizione = `<span class="badge-podio">2nd</span>`;
-                        } else if (index === 2) {
-                            classePodio = "bronzo";
-                            testoPosizione = `<span class="badge-podio">3rd</span>`;
-                        }
-                        
-                        if (classePodio !== "") {
-                            tr.className = classePodio;
+                        if (index === 0) { classePodio = "oro"; testoPosizione = `<span class="badge-podio">1st</span>`; }
+                        else if (index === 1) { classePodio = "argento"; testoPosizione = `<span class="badge-podio">2nd</span>`; }
+                        else if (index === 2) { classePodio = "bronzo"; testoPosizione = `<span class="badge-podio">3rd</span>`; }
+
+                        // Se la riga non esiste ancora nel DOM, la creiamo una volta sola
+                        if (!tr) {
+                            tr = document.createElement('tr');
+                            tr.id = `row_${driver.id}`;
+                            tableBody.appendChild(tr);
                         }
 
+                        // Aggiorniamo le classi grafiche senza distruggere l'elemento
+                        tr.className = classePodio;
+
+                        // Aggiorniamo i contenuti interni della riga in tempo reale
                         tr.innerHTML = `
                             <td class="pos-num">${testoPosizione}</td>
                             <td>${driver.loginId} <span style="font-size:0.75rem; color:#6b7180; font-weight:300;">(${driver.gamertag})</span></td>
@@ -315,6 +318,8 @@
                             <td style="text-align: center; color: var(--horizon-pink);">${driver.g6}</td>
                             <td class="points-total">${driver.points} PTS</td>
                         `;
+
+                        // Ri-appendere l'elemento sposta la riga nella nuova posizione corretta ordinata
                         tableBody.appendChild(tr);
                     });
 
@@ -328,7 +333,7 @@
                         return `<select id="${idGara}_${driverId}">${optionsHTML}</select>`;
                     }
 
-                    // Rendering della Griglia Input con i nuovi Dropdown integrati
+                    // Rendering della Griglia Input Admin
                     const adminContainer = document.getElementById('adminDriversContainer');
                     adminContainer.innerHTML = '';
 
@@ -348,7 +353,7 @@
                     });
                 });
 
-                // 💾 SALVATAGGIO DATI (Adattato per leggere il valore dei Dropdown)
+                // 💾 SALVATAGGIO DATI
                 document.getElementById('btnUpdateScores').addEventListener('click', async () => {
                     try {
                         const btn = document.getElementById('btnUpdateScores');
