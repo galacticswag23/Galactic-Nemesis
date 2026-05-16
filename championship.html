@@ -313,6 +313,25 @@
                 alert("Errore durante il salvataggio dei dati: " + error.message);
             }
         });
+        // Rendering Pannello Admin aggiornato e ordinato
+const adminContainer = document.getElementById('adminDriversContainer');
+if(adminContainer) {
+    adminContainer.innerHTML = '';
+    driversArray.forEach(driver => {
+        let row = document.createElement('div');
+        row.className = 'admin-row';
+        row.innerHTML = `
+            <span>${driver.loginId}</span>
+            <input type="text" id="g1_${driver.id}" placeholder="G1" title="Gara 1" value="${driver.g1 === '-' ? '' : driver.g1}" maxlength="2">
+            <input type="text" id="g2_${driver.id}" placeholder="G2" title="Gara 2" value="${driver.g2 === '-' ? '' : driver.g2}" maxlength="2">
+            <input type="text" id="g3_${driver.id}" placeholder="G3" title="Gara 3" value="${driver.g3 === '-' ? '' : driver.g3}" maxlength="2">
+            <input type="text" id="g4_${driver.id}" placeholder="G4" title="Gara 4" value="${driver.g4 === '-' ? '' : driver.g4}" maxlength="2">
+            <input type="text" id="g5_${driver.id}" placeholder="G5" title="Gara 5" value="${driver.g5 === '-' ? '' : driver.g5}" maxlength="2">
+            <input type="text" id="g6_${driver.id}" placeholder="G6" title="Gara 6" value="${driver.g6 === '-' ? '' : driver.g6}" maxlength="2">
+        `;
+        adminContainer.appendChild(row);
+    });
+}
     </script>
 </body>
 </html>
