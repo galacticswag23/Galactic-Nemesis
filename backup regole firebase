@@ -1,0 +1,22 @@
+{
+  "rules": {
+    "ban_phase_2vs2_final_v5": {
+      // Chiunque può leggere la draft in tempo reale
+      ".read": true,
+      
+      // La scrittura è permessa solo se la struttura contiene i campi fondamentali
+      ".write": true,
+
+      // Validazione: Impedisce di svuotare il database o mandare dati a caso
+      ".validate": "newData.hasChildren(['status', 'currentPhase'])",
+
+      "currentPhase": {
+        ".validate": "newData.isNumber() && newData.val() <= 10"
+      },
+      "status": {
+        // Usiamo .val() e il triplo uguale === richiesto da Firebase per le stringhe
+        ".validate": "newData.isString() && (newData.val() === 'ACTIVE' || newData.val() === 'IDLE')"
+      }
+    }
+  }
+}
