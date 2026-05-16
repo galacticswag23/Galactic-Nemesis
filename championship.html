@@ -17,7 +17,58 @@
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Montserrat', sans-serif; }
+/* Contenitore principale del pannello Admin */
+#adminDriversContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    margin-bottom: 20px;
+}
 
+/* La singola riga del pilota: diventa una griglia rigida */
+.admin-row {
+    display: grid;
+    /* 1fr per il nome del pilota, e 6 colonne fisse da 50px per i piazzamenti */
+    grid-template-columns: 2fr repeat(6, 55px);
+    align-items: center;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.03);
+    padding: 10px 15px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Stile del nome del pilota nella riga di inserimento */
+.admin-row span {
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: var(--neon-white);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; /* Se il nome è troppo lungo, mette i tre puntini invece di rompere la riga */
+}
+
+/* Stile dei 6 input dei piazzamenti */
+.admin-row input {
+    width: 100%;
+    padding: 8px;
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 4px;
+    color: #fff;
+    font-weight: 700;
+    text-align: center;
+    font-size: 0.85rem;
+    transition: border-color 0.2s;
+}
+
+/* Evidenzia il campo quando ci clicchi dentro per inserire il voto */
+.admin-row input:focus {
+    outline: none;
+    border-color: var(--horizon-pink);
+    background: rgba(255, 0, 85, 0.05);
+}
         body {
             background-color: var(--asphalt-dark);
             background-image: radial-gradient(circle at 50% 0%, rgba(255, 0, 85, 0.15) 0%, transparent 60%);
