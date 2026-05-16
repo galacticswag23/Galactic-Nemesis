@@ -106,10 +106,7 @@
         table { width: 100%; border-collapse: collapse; text-align: left; min-width: 700px; }
         th { text-transform: uppercase; font-size: 0.7rem; color: #727888; padding: 12px; letter-spacing: 1px; }
         
-        /* [ANIMAZIONE FLUIDA RIPRISTINATA] */
-        tbody {
-            display: table-row-group;
-        }
+        tbody { display: table-row-group; }
         tr { 
             position: relative;
             background: transparent;
@@ -245,8 +242,9 @@
             } else {
                 
                 const myAdminUID = "n0W4WVJchQdRthpqZqvZrvblu653";
+                let isAdmin = (user.uid === myAdminUID);
                 
-                if (user.uid === myAdminUID) {
+                if (isAdmin) {
                     document.getElementById("adminSection").style.display = "block";
                 } else {
                     document.getElementById("adminSection").style.display = "none";
@@ -259,7 +257,9 @@
                 }
 
                 let driversData = {};
+                let adminGridRendered = false; // [SISTEMATO] Flag per impedire la distruzione della griglia durante il salvataggio
 
+                // Sincronizzazione Realtime Firebase
                 onValue(ref(database, 'horizon_championship/drivers'), (snapshot) => {
                     driversData = snapshot.val() || {};
                     let driversArray = [];
@@ -279,16 +279,14 @@
                         });
                     });
 
-                    // Ordina l'array in base ai punti
+                    // Ordina la classifica
                     driversArray.sort((a, b) => b.points - a.points);
 
+                    // Aggiornamento Tabella Pubblica (Fluido e in tempo reale)
                     const tableBody = document.getElementById('leaderboardBody');
 
-                    // [LOGICA DI ANIMAZIONE FLUIDA SENZA RESET]
                     driversArray.forEach((driver, index) => {
                         let tr = document.getElementById(`row_${driver.id}`);
-                        
-                        // Determina i dati del podio
                         let classePodio = "";
                         let testoPosizione = `#${index + 1}`;
                         
@@ -296,17 +294,13 @@
                         else if (index === 1) { classePodio = "argento"; testoPosizione = `<span class="badge-podio">2nd</span>`; }
                         else if (index === 2) { classePodio = "bronzo"; testoPosizione = `<span class="badge-podio">3rd</span>`; }
 
-                        // Se la riga non esiste ancora nel DOM, la creiamo una volta sola
                         if (!tr) {
                             tr = document.createElement('tr');
                             tr.id = `row_${driver.id}`;
                             tableBody.appendChild(tr);
                         }
 
-                        // Aggiorniamo le classi grafiche senza distruggere l'elemento
                         tr.className = classePodio;
-
-                        // Aggiorniamo i contenuti interni della riga in tempo reale
                         tr.innerHTML = `
                             <td class="pos-num">${testoPosizione}</td>
                             <td>${driver.loginId} <span style="font-size:0.75rem; color:#6b7180; font-weight:300;">(${driver.gamertag})</span></td>
@@ -318,49 +312,52 @@
                             <td style="text-align: center; color: var(--horizon-pink);">${driver.g6}</td>
                             <td class="points-total">${driver.points} PTS</td>
                         `;
-
-                        // Ri-appendere l'elemento sposta la riga nella nuova posizione corretta ordinata
-                        tableBody.appendChild(tr);
+                        tableBody.appendChild(tr); // Esegue il riordinamento visivo (Sorpasso)
                     });
 
-                    // FUNZIONE AUSILIARIA PER GENERARE IL MENU DROPDOWN (<select>)
-                    function generateDropdownHTML(idGara, driverId, currentValue) {
-                        let optionsHTML = `<option value="-" ${currentValue === '-' ? 'selected' : ''}>-</option>`;
-                        for (let i = 1; i <= 12; i++) {
-                            let strI = i.toString();
-                            optionsHTML += `<option value="${strI}" ${currentValue === strI ? 'selected' : ''}>${i}</option>`;
-                        }
-                        return `<select id="${idGara}_${driverId}">${optionsHTML}</select>`;
+                    // [SISTEMATO] Renderizziamo la griglia admin SOLO la prima volta che carichiamo la pagina.
+                    // Evita che la griglia si azzeri a metà mentre il ciclo di salvataggio sta scrivendo su Firebase.
+                    if (isAdmin && !adminGridRendered) {
+                        const adminContainer = document.getElementById('adminDriversContainer');
+                        adminContainer.innerHTML = '';
+
+                        driversArray.forEach(driver => {
+                            let row = document.createElement('div');
+                            row.className = 'admin-row';
+                            row.innerHTML = `
+                                <span>${driver.loginId}</span>
+                                ${generateDropdownHTML('g1', driver.id, driver.g1)}
+                                ${generateDropdownHTML('g2', driver.id, driver.g2)}
+                                ${generateDropdownHTML('g3', driver.id, driver.g3)}
+                                ${generateDropdownHTML('g4', driver.id, driver.g4)}
+                                ${generateDropdownHTML('g5', driver.id, driver.g5)}
+                                ${generateDropdownHTML('g6', driver.id, driver.g6)}
+                            `;
+                            adminContainer.appendChild(row);
+                        });
+                        adminGridRendered = true; // Griglia bloccata e pronta all'input di massa
                     }
-
-                    // Rendering della Griglia Input Admin
-                    const adminContainer = document.getElementById('adminDriversContainer');
-                    adminContainer.innerHTML = '';
-
-                    driversArray.forEach(driver => {
-                        let row = document.createElement('div');
-                        row.className = 'admin-row';
-                        row.innerHTML = `
-                            <span>${driver.loginId}</span>
-                            ${generateDropdownHTML('g1', driver.id, driver.g1)}
-                            ${generateDropdownHTML('g2', driver.id, driver.g2)}
-                            ${generateDropdownHTML('g3', driver.id, driver.g3)}
-                            ${generateDropdownHTML('g4', driver.id, driver.g4)}
-                            ${generateDropdownHTML('g5', driver.id, driver.g5)}
-                            ${generateDropdownHTML('g6', driver.id, driver.g6)}
-                        `;
-                        adminContainer.appendChild(row);
-                    });
                 });
 
-                // 💾 SALVATAGGIO DATI
+                // Funzione ausiliaria per generare i menu dropdown delle posizioni (1-12)
+                function generateDropdownHTML(idGara, driverId, currentValue) {
+                    let optionsHTML = `<option value="-" ${currentValue === '-' ? 'selected' : ''}>-</option>`;
+                    for (let i = 1; i <= 12; i++) {
+                        let strI = i.toString();
+                        optionsHTML += `<option value="${strI}" ${currentValue === strI ? 'selected' : ''}>${i}</option>`;
+                    }
+                    return `<select id="${idGara}_${driverId}">${optionsHTML}</select>`;
+                }
+
+                // 💾 SALVATAGGIO MASSIVO UNIFICATO
                 document.getElementById('btnUpdateScores').addEventListener('click', async () => {
                     try {
                         const btn = document.getElementById('btnUpdateScores');
                         const originalText = btn.innerText;
-                        btn.innerText = "Salvataggio in corso...";
+                        btn.innerText = "Salvataggio simultaneo...";
                         btn.disabled = true;
 
+                        // Raccogliamo contemporaneamente tutti i dati aggiornati dai dropdown
                         const savePromises = Object.keys(driversData).map(async (id) => {
                             const g1 = document.getElementById(`g1_${id}`).value;
                             const g2 = document.getElementById(`g2_${id}`).value;
@@ -380,13 +377,16 @@
                             return set(driverRef, driversData[id]);
                         });
 
+                        // Eseguiamo il salvataggio in un colpo solo per tutti i giocatori
                         await Promise.all(savePromises);
+                        
                         btn.innerText = originalText;
                         btn.disabled = false;
-                        alert("Classifica aggiornata sul Database!");
+                        alert("Tutte le posizioni del campionato sono state aggiornate insieme con successo!");
 
                     } catch (error) {
-                        alert("Errore critico durante il salvataggio: " + error.message);
+                        alert("Errore critico durante il salvataggio massivo: " + error.message);
+                        document.getElementById('btnUpdateScores').disabled = false;
                     }
                 });
 
