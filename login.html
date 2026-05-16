@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Horizon 6 Tournament - Driver Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,700;1,900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --horizon-pink: #ff0055;
+            --horizon-orange: #ff5500;
+            --asphalt-dark: #0e1017;
+            --carbon-grey: #161922;
+            --neon-white: #f3f4f6;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Montserrat', sans-serif; }
+
+        body {
+            background-color: var(--asphalt-dark);
+            background-image: radial-gradient(circle at 85% 20%, rgba(255, 85, 0, 0.15) 0%, transparent 50%);
+            color: var(--neon-white);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .login-card {
+            background: linear-gradient(135deg, var(--carbon-grey) 0%, #0b0d13 100%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-left: 6px solid var(--horizon-orange);
+            border-radius: 12px;
+            width: 100%;
+            max-width: 440px;
+            padding: 40px 35px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.6);
+        }
+
+        .header { text-align: center; margin-bottom: 30px; }
+        .header h1 { font-weight: 900; font-size: 1.9rem; text-transform: uppercase; font-style: italic; }
+        .header span { color: var(--horizon-pink); font-size: 0.75rem; font-weight: 700; letter-spacing: 5px; text-transform: uppercase; display: block; }
+
+        .input-group { margin-bottom: 22px; }
+        .input-group label { display: block; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: #83899a; margin-bottom: 8px; }
+        .input-group input { width: 100%; padding: 13px 16px; background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 6px; color: #fff; font-weight: 700; }
+        .input-group input:focus { outline: none; border-color: var(--horizon-orange); box-shadow: 0 0 10px rgba(255, 85, 0, 0.25); }
+
+        .btn-login {
+            width: 100%; padding: 16px; background: linear-gradient(135deg, var(--horizon-orange) 0%, var(--horizon-pink) 100%);
+            border: none; border-radius: 6px; color: white; font-weight: 900; text-transform: uppercase; font-style: italic; cursor: pointer; transition: all 0.2s;
+        }
+        .btn-login:hover { filter: brightness(1.1); transform: translateY(-2px); }
+
+        .register-link { text-align: center; margin-top: 20px; font-size: 0.8rem; color: #83899a; }
+        .register-link a { color: var(--horizon-pink); text-decoration: none; font-weight: 700; }
+
+        .message { margin-top: 20px; padding: 12px; border-radius: 6px; font-size: 0.8rem; font-weight: 700; text-align: center; display: none; }
+        .message.error { background: rgba(255, 51, 51, 0.12); border: 1px solid #ff3355; color: #ff5577; display: block; }
+    </style>
+</head>
+<body>
+
+    <div class="login-card">
+        <div class="header">
+            <h1>Festival Gate</h1>
+            <span>Driver Authentication</span>
+        </div>
+
+        <form id="loginForm">
+            <div class="input-group">
+                <label for="loginId">Display & Login ID</label>
+                <input type="text" id="loginId" placeholder="Il tuo Login ID" required>
+            </div>
+
+            <div class="input-group">
+                <label for="password">Password Key</label>
+                <input type="password" id="password" placeholder="••••••••" required>
+            </div>
+
+            <button type="submit" class="btn-login">ACCEDI ALLA CLASSIFICA</button>
+        </form>
+
+        <div class="register-link">
+            Non sei ancora in griglia? <a href="register.html">Iscriviti ora</a>
+        </div>
+
+        <div id="feedback" class="message"></div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
+
+        // CONFIGURAZIONE FIREBASE
+        const firebaseConfig = {
+            apiKey: "LA_TUA_API_KEY",
+            authDomain: "IL_TUO_AUTH_DOMAIN",
+            databaseURL: "IL_TUO_DATABASE_URL",
+            projectId: "IL_TUO_PROJECT_ID",
+            storageBucket: "IL_TUO_STORAGE_BUCKET",
+            messagingSenderId: "IL_TUO_MESSAGING_SENDER_ID",
+            appId: "IL_TUO_APP_ID"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const loginId = document.getElementById('loginId').value.trim();
+            const password = document.getElementById('password').value;
+            const feedback = document.getElementById('feedback');
+
+            feedback.style.display = "none";
+
+            // Rigeneriamo la mail fittizia usata in fase di registrazione
+            const cleanId = loginId.replace(/\s+/g, '').toLowerCase();
+            const virtualEmail = `${cleanId}@horizon6.festival`;
+
+            try {
+                // Eseguiamo il login
+                await signInWithEmailAndPassword(auth, virtualEmail, password);
+                
+                // Login riuscito -> Reindirizza alla classifica
+                window.location.href = "championship-v2.html";
+
+            } catch (error) {
+                feedback.className = "message error";
+                feedback.style.display = "block";
+                if (error.code === 'auth/wrong-password' || error.code === 'auth/user-not-found') {
+                    feedback.innerText = "ACCESSO NEGATO: Login ID o Password errati.";
+                } else {
+                    feedback.innerText = "ERRORE DI AUTENTICAZIONE: " + error.message;
+                }
+            }
+        });
+    </script>
+</body>
+</html>
