@@ -17,58 +17,54 @@
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Montserrat', sans-serif; }
-/* Contenitore principale del pannello Admin */
-#adminDriversContainer {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    width: 100%;
-    margin-bottom: 20px;
-}
 
-/* La singola riga del pilota: diventa una griglia rigida */
-.admin-row {
-    display: grid;
-    /* 1fr per il nome del pilota, e 6 colonne fisse da 50px per i piazzamenti */
-    grid-template-columns: 2fr repeat(6, 55px);
-    align-items: center;
-    gap: 10px;
-    background: rgba(255, 255, 255, 0.03);
-    padding: 10px 15px;
-    border-radius: 8px;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-}
+        #adminDriversContainer {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            width: 100%;
+            margin-bottom: 20px;
+        }
 
-/* Stile del nome del pilota nella riga di inserimento */
-.admin-row span {
-    font-weight: 700;
-    font-size: 0.9rem;
-    color: var(--neon-white);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis; /* Se il nome è troppo lungo, mette i tre puntini invece di rompere la riga */
-}
+        .admin-row {
+            display: grid;
+            grid-template-columns: 2fr repeat(6, 55px);
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
 
-/* Stile dei 6 input dei piazzamenti */
-.admin-row input {
-    width: 100%;
-    padding: 8px;
-    background: rgba(0, 0, 0, 0.5);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 4px;
-    color: #fff;
-    font-weight: 700;
-    text-align: center;
-    font-size: 0.85rem;
-    transition: border-color 0.2s;
-}
+        .admin-row span {
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--neon-white);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
 
-/* Evidenzia il campo quando ci clicchi dentro per inserire il voto */
-.admin-row input:focus {
-    outline: none;
-    border-color: var(--horizon-pink);
-    background: rgba(255, 0, 85, 0.05);
-}
+        .admin-row input {
+            width: 100%;
+            padding: 8px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 4px;
+            color: #fff;
+            font-weight: 700;
+            text-align: center;
+            font-size: 0.85rem;
+            transition: border-color 0.2s;
+        }
+
+        .admin-row input:focus {
+            outline: none;
+            border-color: var(--horizon-pink);
+            background: rgba(255, 0, 85, 0.05);
+        }
+
         body {
             background-color: var(--asphalt-dark);
             background-image: radial-gradient(circle at 50% 0%, rgba(255, 0, 85, 0.15) 0%, transparent 60%);
@@ -78,7 +74,6 @@
         }
 
         .container { max-width: 1100px; margin: 0 auto; }
-
         .header { text-align: center; margin-bottom: 40px; }
         .header h1 {
             font-weight: 900; font-size: 2.8rem; text-transform: uppercase; font-style: italic; letter-spacing: 2px;
@@ -86,14 +81,6 @@
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
         .header span { color: var(--horizon-orange); font-weight: 700; letter-spacing: 6px; text-transform: uppercase; font-size: 0.9rem; }
-
-        /* Timeline dei due turni */
-        .stage-title {
-            grid-column: span 3; font-weight: 900; font-style: italic; text-transform: uppercase; 
-            font-size: 0.9rem; letter-spacing: 2px; margin-bottom: 5px;
-        }
-        .stage-title.andata { color: var(--neon-blue); text-align: left; }
-        .stage-title.ritorno { color: var(--horizon-pink); text-align: left; }
 
         .categories-info {
             display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; margin-bottom: 30px; text-align: center;
@@ -105,7 +92,6 @@
         .cat-badge.rit { border-top: 3px solid var(--horizon-pink); }
         .cat-badge span { color: #888; font-size: 0.65rem; display: block; margin-top: 3px;}
 
-        /* Tabella Classifica */
         .leaderboard-card {
             background: var(--carbon-card); border-radius: 12px; padding: 25px; box-shadow: 0 20px 40px rgba(0,0,0,0.5);
             border: 1px solid rgba(255,255,255,0.05); margin-bottom: 40px; overflow-x: auto;
@@ -122,22 +108,11 @@
 
         .points-total { color: var(--neon-blue); font-weight: 900; text-align: right; font-size: 1.1rem; }
 
-        /* Pannello Direzione Gara (Admin) */
         .admin-panel {
             background: #11141c; border: 2px dashed rgba(255, 85, 0, 0.3); border-radius: 12px; padding: 30px;
         }
         .admin-panel h2 { font-style: italic; text-transform: uppercase; font-size: 1.2rem; margin-bottom: 20px; color: var(--horizon-orange); }
         
-        .admin-row {
-            display: grid; grid-template-columns: 2fr repeat(6, 1fr); gap: 10px; margin-bottom: 15px; align-items: center;
-            background: rgba(0,0,0,0.2); padding: 10px 15px; border-radius: 6px;
-        }
-        .admin-row span { font-weight: 700; font-size: 0.9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .admin-row input {
-            background: #000; border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; padding: 8px 4px; color: #fff; font-weight: 700; text-align: center; font-size: 0.85rem;
-        }
-        .admin-row input:focus { border-color: var(--horizon-pink); outline: none; }
-
         .btn-save {
             width: 100%; padding: 15px; background: linear-gradient(135deg, var(--horizon-pink) 0%, var(--horizon-orange) 100%);
             border: none; border-radius: 6px; color: white; font-weight: 900; text-transform: uppercase; font-style: italic; cursor: pointer; letter-spacing: 1px; transition: all 0.2s;
@@ -177,210 +152,165 @@
                         <th style="text-align: right;">Punti Live</th>
                     </tr>
                 </thead>
-                <tbody id="leaderboardBody">
-                    </tbody>
+                <tbody id="leaderboardBody"></tbody>
             </table>
         </div>
 
-        <div class="admin-panel">
+        <!-- [SISTEMATO] Ho aggiunto id="adminSection" ed impostato display:none di partenza -->
+        <div id="adminSection" class="admin-panel" style="display: none;">
             <h2>Direzione Gara: Inserimento Piazzamenti (Andata e Ritorno)</h2>
             <div style="display: grid; grid-template-columns: 2fr repeat(6, 1fr); gap: 10px; padding: 0 15px 10px 15px; font-size: 0.7rem; font-weight: 700; color: #6b7180; text-transform: uppercase;">
                 <div>Pilota</div><div>G1 (A)</div><div>G2 (A)</div><div>G3 (A)</div><div>G4 (R)</div><div>G5 (R)</div><div>G6 (R)</div>
             </div>
-            <div id="adminDriversContainer">
-                </div>
+            <div id="adminDriversContainer"></div>
             <button id="btnUpdateScores" class="btn-save">Salva Posizioni e Ricalcola Campionato</button>
         </div>
     </div>
 
     <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
-    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js"; // Aggiunto getAuth e onAuthStateChanged
-    import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js";
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
+        import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js";
 
-    const firebaseConfig = {
-  apiKey: "AIzaSyDNRL0Rbo58WPjII0BzSRQZ1M7ZJ9MdsY4",
-  authDomain: "galactic-nemesis-7bee5.firebaseapp.com",
-  databaseURL: "https://galactic-nemesis-7bee5-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: "galactic-nemesis-7bee5",
-  storageBucket: "galactic-nemesis-7bee5.firebasestorage.app",
-  messagingSenderId: "265814903052",
-  appId: "1:265814903052:web:6c59477e9852e91387a129"
+        const firebaseConfig = {
+            apiKey: "AIzaSyDNRL0Rbo58WPjII0BzSRQZ1M7ZJ9MdsY4",
+            authDomain: "galactic-nemesis-7bee5.firebaseapp.com",
+            databaseURL: "https://galactic-nemesis-7bee5-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "galactic-nemesis-7bee5",
+            storageBucket: "galactic-nemesis-7bee5.firebasestorage.app",
+            messagingSenderId: "265814903052",
+            appId: "1:265814903052:web:6c59477e9852e91387a129"
         };
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app); // Inizializza l'autenticazione
-    const database = getDatabase(app);
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const database = getDatabase(app);
 
-    // 🔒 BLOCCO DI PROTEZIONE: Controlla se l'utente è loggato
-    onAuthStateChanged(auth, (user) => {
-    if (!user) {
-        // Se non è loggato, dritto alla pagina di login
-        window.location.href = "login.html";
-    } else {
-        // 🛡️ CONTROLLO BODYGUARD: Tu sei l'Admin?
-        const myAdminUID = "n0W4WVJchQdRthpqZqvZrvblu653"; // <-- Incolla qui il tuo codice tra le virgolette
-        
-        if (user.uid === myAdminUID) {
-            // Se l'UID corrisponde, rendiamo visibile lo scatolone Admin
-            document.getElementById("adminSection").style.display = "block";
-        } else {
-            // Se è un pilota normale, ci assicuriamo che rimanga nascosto
-            document.getElementById("adminSection").style.display = "none";
-        }
-        // Sistema Punti F1/Horizon
-        const pointsTable = { "1": 25, "2": 18, "3": 15, "4": 12, "5": 10, "6": 8, "7": 6, "8": 4, "9": 2, "10": 1 };
-        
-        function calculatePoints(pos) {
-            return pointsTable[pos] || 0;
-        }
-
-        let driversData = {};
-// CONTROLLO UID ADMIN
-                // Rimpiazza questa stringa con il tuo vero UID che trovi su Firebase Authentication
+        // 🔒 CONTROLLO DI PROTEZIONE GENERALE
+        onAuthStateChanged(auth, (user) => {
+            if (!user) {
+                window.location.href = "login.html";
+            } else {
+                
+                // 🛡️ CONTROLLO BODYGUARD: Tu sei l'Admin?
+                const myAdminUID = "n0W4WVJchQdRthpqZqvZrvblu653";
                 
                 if (user.uid === myAdminUID) {
-                    // Se sei tu, mostriamo lo scatolone dell'admin
-                    document.getElementById('adminSection').style.display = "block";
+                    document.getElementById("adminSection").style.display = "block";
                 } else {
-                    // Se è un amico, lo scatolone rimane invisibile
-                    document.getElementById('adminSection').style.display = "none";
+                    document.getElementById("adminSection").style.display = "none";
                 }
-        // Sincronizzazione in tempo reale con Firebase
-        onValue(ref(database, 'horizon_championship/drivers'), (snapshot) => {
-            driversData = snapshot.val() || {};
-            
-            let driversArray = [];
-            Object.keys(driversData).forEach(id => {
-                let d = driversData[id];
+
+                // Sistema Punti F1/Horizon
+                const pointsTable = { "1": 25, "2": 18, "3": 15, "4": 12, "5": 10, "6": 8, "7": 6, "8": 4, "9": 2, "10": 1 };
                 
-                // Calcolo complessivo distribuito su tutte e 6 le gare
-                let total = calculatePoints(d.g1_pos) + calculatePoints(d.g2_pos) + calculatePoints(d.g3_pos) +
-                            calculatePoints(d.g4_pos) + calculatePoints(d.g5_pos) + calculatePoints(d.g6_pos);
-                
-                driversArray.push({
-                    id: id,
-                    loginId: d.loginId,
-                    gamertag: d.gamertag,
-                    g1: d.g1_pos || "-", g2: d.g2_pos || "-", g3: d.g3_pos || "-",
-                    g4: d.g4_pos || "-", g5: d.g5_pos || "-", g6: d.g6_pos || "-",
-                    points: total
+                function calculatePoints(pos) {
+                    return pointsTable[pos] || 0;
+                }
+
+                let driversData = {};
+
+                // Sincronizzazione in tempo reale con Firebase
+                onValue(ref(database, 'horizon_championship/drivers'), (snapshot) => {
+                    driversData = snapshot.val() || {};
+                    let driversArray = [];
+                    
+                    Object.keys(driversData).forEach(id => {
+                        let d = driversData[id];
+                        let total = calculatePoints(d.g1_pos) + calculatePoints(d.g2_pos) + calculatePoints(d.g3_pos) +
+                                    calculatePoints(d.g4_pos) + calculatePoints(d.g5_pos) + calculatePoints(d.g6_pos);
+                        
+                        driversArray.push({
+                            id: id,
+                            loginId: d.loginId,
+                            gamertag: d.gamertag,
+                            g1: d.g1_pos || "-", g2: d.g2_pos || "-", g3: d.g3_pos || "-",
+                            g4: d.g4_pos || "-", g5: d.g5_pos || "-", g6: d.g6_pos || "-",
+                            points: total
+                        });
+                    });
+
+                    driversArray.sort((a, b) => b.points - a.points);
+
+                    // Rendering della Tabella Pubblica
+                    const tableBody = document.getElementById('leaderboardBody');
+                    tableBody.innerHTML = '';
+                    
+                    driversArray.forEach((driver, index) => {
+                        let tr = document.createElement('tr');
+                        tr.innerHTML = `
+                            <td class="pos-num">#${index + 1}</td>
+                            <td>${driver.loginId} <span style="font-size:0.75rem; color:#6b7180; font-weight:300;">(${driver.gamertag})</span></td>
+                            <td style="text-align: center; color: var(--neon-blue);">${driver.g1}</td>
+                            <td style="text-align: center; color: var(--neon-blue);">${driver.g2}</td>
+                            <td style="text-align: center; color: var(--neon-blue);">${driver.g3}</td>
+                            <td style="text-align: center; color: var(--horizon-pink);">${driver.g4}</td>
+                            <td style="text-align: center; color: var(--horizon-pink);">${driver.g5}</td>
+                            <td style="text-align: center; color: var(--horizon-pink);">${driver.g6}</td>
+                            <td class="points-total">${driver.points} PTS</td>
+                        `;
+                        tableBody.appendChild(tr);
+                    });
+
+                    // Rendering della Griglia Input dell'Amministratore
+                    const adminContainer = document.getElementById('adminDriversContainer');
+                    adminContainer.innerHTML = '';
+
+                    driversArray.forEach(driver => {
+                        let row = document.createElement('div');
+                        row.className = 'admin-row';
+                        row.innerHTML = `
+                            <span>${driver.loginId}</span>
+                            <input type="text" id="g1_${driver.id}" placeholder="G1" title="Gara 1" value="${driver.g1 === '-' ? '' : driver.g1}" maxlength="2">
+                            <input type="text" id="g2_${driver.id}" placeholder="G2" title="Gara 2" value="${driver.g2 === '-' ? '' : driver.g2}" maxlength="2">
+                            <input type="text" id="g3_${driver.id}" placeholder="G3" title="Gara 3" value="${driver.g3 === '-' ? '' : driver.g3}" maxlength="2">
+                            <input type="text" id="g4_${driver.id}" placeholder="G4" title="Gara 4" value="${driver.g4 === '-' ? '' : driver.g4}" maxlength="2">
+                            <input type="text" id="g5_${driver.id}" placeholder="G5" title="Gara 5" value="${driver.g5 === '-' ? '' : driver.g5}" maxlength="2">
+                            <input type="text" id="g6_${driver.id}" placeholder="G6" title="Gara 6" value="${driver.g6 === '-' ? '' : driver.g6}" maxlength="2">
+                        `;
+                        adminContainer.appendChild(row);
+                    });
                 });
-            });
 
-            // Ordinamento Meritocratico (Chi ha più punti sta sopra)
-            driversArray.sort((a, b) => b.points - a.points);
+                // 💾 SALVATAGGIO DATI (Agganciato internamente alle parentesi di onAuthStateChanged)
+                document.getElementById('btnUpdateScores').addEventListener('click', async () => {
+                    try {
+                        const btn = document.getElementById('btnUpdateScores');
+                        const originalText = btn.innerText;
+                        btn.innerText = "Salvataggio in corso...";
+                        btn.disabled = true;
 
-            // Renering della Tabella Pubblica
-            const tableBody = document.getElementById('leaderboardBody');
-            tableBody.innerHTML = '';
-            
-            driversArray.forEach((driver, index) => {
-                let tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td class="pos-num">#${index + 1}</td>
-                    <td>${driver.loginId} <span style="font-size:0.75rem; color:#6b7180; font-weight:300;">(${driver.gamertag})</span></td>
-                    <td style="text-align: center; color: var(--neon-blue);">${driver.g1}</td>
-                    <td style="text-align: center; color: var(--neon-blue);">${driver.g2}</td>
-                    <td style="text-align: center; color: var(--neon-blue);">${driver.g3}</td>
-                    <td style="text-align: center; color: var(--horizon-pink);">${driver.g4}</td>
-                    <td style="text-align: center; color: var(--horizon-pink);">${driver.g5}</td>
-                    <td style="text-align: center; color: var(--horizon-pink);">${driver.g6}</td>
-                    <td class="points-total">${driver.points} PTS</td>
-                `;
-                tableBody.appendChild(tr);
-            });
+                        const savePromises = Object.keys(driversData).map(async (id) => {
+                            const g1 = document.getElementById(`g1_${id}`).value.trim();
+                            const g2 = document.getElementById(`g2_${id}`).value.trim();
+                            const g3 = document.getElementById(`g3_${id}`).value.trim();
+                            const g4 = document.getElementById(`g4_${id}`).value.trim();
+                            const g5 = document.getElementById(`g5_${id}`).value.trim();
+                            const g6 = document.getElementById(`g6_${id}`).value.trim();
 
-            // Rendering della Griglia Input dell'Amministratore
-            const adminContainer = document.getElementById('adminDriversContainer');
-            adminContainer.innerHTML = '';
+                            driversData[id].g1_pos = g1 === "" ? "-" : g1;
+                            driversData[id].g2_pos = g2 === "" ? "-" : g2;
+                            driversData[id].g3_pos = g3 === "" ? "-" : g3;
+                            driversData[id].g4_pos = g4 === "" ? "-" : g4;
+                            driversData[id].g5_pos = g5 === "" ? "-" : g5;
+                            driversData[id].g6_pos = g6 === "" ? "-" : g6;
 
-            driversArray.forEach(driver => {
-                let row = document.createElement('div');
-                row.className = 'admin-row';
-                row.innerHTML = `
-                    <span>${driver.loginId}</span>
-                    <input type="text" id="g1_${driver.id}" placeholder="P" value="${driver.g1 === '-' ? '' : driver.g1}">
-                    <input type="text" id="g2_${driver.id}" placeholder="P" value="${driver.g2 === '-' ? '' : driver.g2}">
-                    <input type="text" id="g3_${driver.id}" placeholder="P" value="${driver.g3 === '-' ? '' : driver.g3}">
-                    <input type="text" id="g4_${driver.id}" placeholder="P" value="${driver.g4 === '-' ? '' : driver.g4}">
-                    <input type="text" id="g5_${driver.id}" placeholder="P" value="${driver.g5 === '-' ? '' : driver.g5}">
-                    <input type="text" id="g6_${driver.id}" placeholder="P" value="${driver.g6 === '-' ? '' : driver.g6}">
-                `;
-                adminContainer.appendChild(row);
-            });
-        });
+                            const driverRef = ref(database, `horizon_championship/drivers/${id}`);
+                            return set(driverRef, driversData[id]);
+                        });
 
-        // FIX EVENTO CLICK: Aggiornato con l'ID corretto "btnUpdateScores"
-        // 💾 GESTIONE SALVATAGGIO VOTI ADMIN (CORRETTO E ASINCRONO)
-document.getElementById('btnUpdateScores').addEventListener('click', async () => {
-    try {
-        // Mostriamo un feedback visivo immediato sul pulsante per dire che sta lavorando
-        const btn = document.getElementById('btnUpdateScores');
-        const originalText = btn.innerText;
-        btn.innerText = "Salvataggio in corso...";
-        btn.disabled = true;
+                        await Promise.all(savePromises);
+                        btn.innerText = originalText;
+                        btn.disabled = false;
+                        alert("Classifica aggiornata sul Database!");
 
-        // Creiamo una lista di promesse di salvataggio
-        const savePromises = Object.keys(driversData).map(async (id) => {
-            
-            // Recuperiamo i valori dai singoli input HTML della griglia admin
-            const g1 = document.getElementById(`g1_${id}`).value.trim();
-            const g2 = document.getElementById(`g2_${id}`).value.trim();
-            const g3 = document.getElementById(`g3_${id}`).value.trim();
-            const g4 = document.getElementById(`g4_${id}`).value.trim();
-            const g5 = document.getElementById(`g5_${id}`).value.trim();
-            const g6 = document.getElementById(`g6_${id}`).value.trim();
+                    } catch (error) {
+                        alert("Errore critico durante il salvataggio: " + error.message);
+                    }
+                });
 
-            // Aggiorniamo l'oggetto locale con le chiavi ESATTE usate dal database (_pos)
-            // Se il campo è vuoto, rimettiamo il trattino "-"
-            driversData[id].g1_pos = g1 === "" ? "-" : g1;
-            driversData[id].g2_pos = g2 === "" ? "-" : g2;
-            driversData[id].g3_pos = g3 === "" ? "-" : g3;
-            driversData[id].g4_pos = g4 === "" ? "-" : g4;
-            driversData[id].g5_pos = g5 === "" ? "-" : g5;
-            driversData[id].g6_pos = g6 === "" ? "-" : g6;
-
-            // Prepariamo il percorso specifico per questo pilota nel database
-            const driverRef = ref(database, `horizon_championship/drivers/${id}`);
-            
-            // Inviamo l'aggiornamento a Firebase
-            return set(driverRef, driversData[id]);
-        });
-
-        // 🔥 Aspettiamo che TUTTI i piloti siano stati salvati con successo su Firebase
-        await Promise.all(savePromises);
-
-        // Ripristiniamo il pulsante
-        btn.innerText = originalText;
-        btn.disabled = false;
-
-        alert("Classifica aggiornata e salvata permanentemente sul Database!");
-
-    } catch (error) {
-        alert("Errore critico durante il salvataggio: " + error.message);
-        console.error(error);
-    }
-});
-        // Rendering Pannello Admin aggiornato e ordinato
-const adminContainer = document.getElementById('adminDriversContainer');
-if(adminContainer) {
-    adminContainer.innerHTML = '';
-    driversArray.forEach(driver => {
-        let row = document.createElement('div');
-        row.className = 'admin-row';
-        row.innerHTML = `
-            <span>${driver.loginId}</span>
-            <input type="text" id="g1_${driver.id}" placeholder="G1" title="Gara 1" value="${driver.g1 === '-' ? '' : driver.g1}" maxlength="2">
-            <input type="text" id="g2_${driver.id}" placeholder="G2" title="Gara 2" value="${driver.g2 === '-' ? '' : driver.g2}" maxlength="2">
-            <input type="text" id="g3_${driver.id}" placeholder="G3" title="Gara 3" value="${driver.g3 === '-' ? '' : driver.g3}" maxlength="2">
-            <input type="text" id="g4_${driver.id}" placeholder="G4" title="Gara 4" value="${driver.g4 === '-' ? '' : driver.g4}" maxlength="2">
-            <input type="text" id="g5_${driver.id}" placeholder="G5" title="Gara 5" value="${driver.g5 === '-' ? '' : driver.g5}" maxlength="2">
-            <input type="text" id="g6_${driver.id}" placeholder="G6" title="Gara 6" value="${driver.g6 === '-' ? '' : driver.g6}" maxlength="2">
-        `;
-        adminContainer.appendChild(row);
-    });
-}
+            } // Finisce l'else
+        }); // Finisce l'onAuthStateChanged
     </script>
 </body>
 </html>
