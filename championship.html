@@ -222,4 +222,36 @@
                 row.innerHTML = `
                     <span>${driver.loginId}</span>
                     <input type="text" id="g1_${driver.id}" placeholder="P" value="${driver.g1 === '-' ? '' : driver.g1}">
-                    <input type="text" id="g2_${driver.id}" placeholder="P" value="${driver.g
+                    <input type="text" id="g2_${driver.id}" placeholder="P" value="${driver.g2 === '-' ? '' : driver.g2}">
+                    <input type="text" id="g3_${driver.id}" placeholder="P" value="${driver.g3 === '-' ? '' : driver.g3}">
+                    <input type="text" id="g4_${driver.id}" placeholder="P" value="${driver.g4 === '-' ? '' : driver.g4}">
+                    <input type="text" id="g5_${driver.id}" placeholder="P" value="${driver.g5 === '-' ? '' : driver.g5}">
+                    <input type="text" id="g6_${driver.id}" placeholder="P" value="${driver.g6 === '-' ? '' : driver.g6}">
+                `;
+                adminContainer.appendChild(row);
+            });
+        });
+
+        // FIX EVENTO CLICK: Aggiornato con l'ID corretto "btnUpdateScores"
+        document.getElementById('btnUpdateScores').addEventListener('click', async () => {
+            try {
+                for (let id in driversData) {
+                    // Prende i dati dai 6 input e imposta "-" se lasciati vuoti
+                    driversData[id].g1_pos = document.getElementById(`g1_${id}`).value.trim() || "-";
+                    driversData[id].g2_pos = document.getElementById(`g2_${id}`).value.trim() || "-";
+                    driversData[id].g3_pos = document.getElementById(`g3_${id}`).value.trim() || "-";
+                    driversData[id].g4_pos = document.getElementById(`g4_${id}`).value.trim() || "-";
+                    driversData[id].g5_pos = document.getElementById(`g5_${id}`).value.trim() || "-";
+                    driversData[id].g6_pos = document.getElementById(`g6_${id}`).value.trim() || "-";
+
+                    // Invia le modifiche al database
+                    await set(ref(database, `horizon_championship/drivers/${id}`), driversData[id]);
+                }
+                alert("Griglia di Andata e Ritorno salvata! Punteggi ricalcolati.");
+            } catch (error) {
+                alert("Errore durante il salvataggio dei dati: " + error.message);
+            }
+        });
+    </script>
+</body>
+</html>
