@@ -155,32 +155,41 @@
             feedback.className = "message success";
             feedback.style.display = "block";
 
-            try {
-                // 1. Autenticazione su Firebase
-                const userCredential = await createUserWithEmailAndPassword(auth, virtualEmail, password);
-                const user = userCredential.user;
+            // ... (Tutto il resto del codice sopra all'interno del blocco try rimane identico) ...
 
-                // 2. Struttura dati 6 Gare (Andata + Ritorno)
-                const newDriverData = {
-                    loginId: loginId,
-                    gamertag: gamertag,
-                    g1_pos: "-", g2_pos: "-", g3_pos: "-",
-                    g4_pos: "-", g5_pos: "-", g6_pos: "-"
-                };
+try {
+    // 1. Autenticazione su Firebase
+    const userCredential = await createUserWithEmailAndPassword(auth, virtualEmail, password);
+    const user = userCredential.user;
 
-                // 3. Scrittura nel database reale
-                await set(ref(database, 'horizon_championship/drivers/' + user.uid), newDriverData);
+    // 2. Struttura dati 6 Gare
+    const newDriverData = {
+        loginId: loginId,
+        gamertag: gamertag,
+        g1_pos: "-", g2_pos: "-", g3_pos: "-",
+        g4_pos: "-", g5_pos: "-", g6_pos: "-"
+    };
 
-                // Successo totale
-                feedback.innerText = "PILOTA REGISTRATO! Il database è stato aggiornato.";
-                feedback.className = "message success";
-                
-                // Reset dei campi
-                loginIdInput.value = "";
-                gamertagInput.value = "";
-                passwordInput.value = "";
+    // 3. Scrittura nel database reale
+    await set(ref(database, 'horizon_championship/drivers/' + user.uid), newDriverData);
 
-            } catch (error) {
+    // [MODIFICATO] Successo totale con Reindirizzamento Automatico
+    feedback.innerText = "PILOTA REGISTRATO CON SUCCESSO! Trasferimento al Gate di Login in corso...";
+    feedback.className = "message success";
+    feedback.style.display = "block";
+    
+    // Reset dei campi
+    loginIdInput.value = "";
+    gamertagInput.value = "";
+    passwordInput.value = "";
+
+    // ⏱️ Attendi 2.5 secondi e poi sposta l'utente alla pagina di login
+    setTimeout(() => {
+        window.location.href = "login.html";
+    }, 2500);
+
+} catch (error) {
+    // ... (Il blocco catch dell'errore rimane identico) ...
                 feedback.className = "message error";
                 console.error("Errore dettagliato riscontrato:", error);
                 
