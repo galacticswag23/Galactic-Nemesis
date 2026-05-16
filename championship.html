@@ -294,25 +294,56 @@
         });
 
         // FIX EVENTO CLICK: Aggiornato con l'ID corretto "btnUpdateScores"
-        document.getElementById('btnUpdateScores').addEventListener('click', async () => {
-            try {
-                for (let id in driversData) {
-                    // Prende i dati dai 6 input e imposta "-" se lasciati vuoti
-                    driversData[id].g1_pos = document.getElementById(`g1_${id}`).value.trim() || "-";
-                    driversData[id].g2_pos = document.getElementById(`g2_${id}`).value.trim() || "-";
-                    driversData[id].g3_pos = document.getElementById(`g3_${id}`).value.trim() || "-";
-                    driversData[id].g4_pos = document.getElementById(`g4_${id}`).value.trim() || "-";
-                    driversData[id].g5_pos = document.getElementById(`g5_${id}`).value.trim() || "-";
-                    driversData[id].g6_pos = document.getElementById(`g6_${id}`).value.trim() || "-";
+        // 💾 GESTIONE SALVATAGGIO VOTI ADMIN (CORRETTO E ASINCRONO)
+document.getElementById('btnUpdateScores').addEventListener('click', async () => {
+    try {
+        // Mostriamo un feedback visivo immediato sul pulsante per dire che sta lavorando
+        const btn = document.getElementById('btnUpdateScores');
+        const originalText = btn.innerText;
+        btn.innerText = "Salvataggio in corso...";
+        btn.disabled = true;
 
-                    // Invia le modifiche al database
-                    await set(ref(database, `horizon_championship/drivers/${id}`), driversData[id]);
-                }
-                alert("Griglia di Andata e Ritorno salvata! Punteggi ricalcolati.");
-            } catch (error) {
-                alert("Errore durante il salvataggio dei dati: " + error.message);
-            }
+        // Creiamo una lista di promesse di salvataggio
+        const savePromises = Object.keys(driversData).map(async (id) => {
+            
+            // Recuperiamo i valori dai singoli input HTML della griglia admin
+            const g1 = document.getElementById(`g1_${id}`).value.trim();
+            const g2 = document.getElementById(`g2_${id}`).value.trim();
+            const g3 = document.getElementById(`g3_${id}`).value.trim();
+            const g4 = document.getElementById(`g4_${id}`).value.trim();
+            const g5 = document.getElementById(`g5_${id}`).value.trim();
+            const g6 = document.getElementById(`g6_${id}`).value.trim();
+
+            // Aggiorniamo l'oggetto locale con le chiavi ESATTE usate dal database (_pos)
+            // Se il campo è vuoto, rimettiamo il trattino "-"
+            driversData[id].g1_pos = g1 === "" ? "-" : g1;
+            driversData[id].g2_pos = g2 === "" ? "-" : g2;
+            driversData[id].g3_pos = g3 === "" ? "-" : g3;
+            driversData[id].g4_pos = g4 === "" ? "-" : g4;
+            driversData[id].g5_pos = g5 === "" ? "-" : g5;
+            driversData[id].g6_pos = g6 === "" ? "-" : g6;
+
+            // Prepariamo il percorso specifico per questo pilota nel database
+            const driverRef = ref(database, `horizon_championship/drivers/${id}`);
+            
+            // Inviamo l'aggiornamento a Firebase
+            return set(driverRef, driversData[id]);
         });
+
+        // 🔥 Aspettiamo che TUTTI i piloti siano stati salvati con successo su Firebase
+        await Promise.all(savePromises);
+
+        // Ripristiniamo il pulsante
+        btn.innerText = originalText;
+        btn.disabled = false;
+
+        alert("Classifica aggiornata e salvata permanentemente sul Database!");
+
+    } catch (error) {
+        alert("Errore critico durante il salvataggio: " + error.message);
+        console.error(error);
+    }
+});
         // Rendering Pannello Admin aggiornato e ordinato
 const adminContainer = document.getElementById('adminDriversContainer');
 if(adminContainer) {
