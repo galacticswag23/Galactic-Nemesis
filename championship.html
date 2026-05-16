@@ -14,6 +14,11 @@
             --carbon-card: #141822;
             --neon-blue: #00f0ff;
             --neon-white: #f3f4f6;
+            
+            /* Colori del Podio */
+            --gold-neon: #ffd700;
+            --silver-satin: #e0e0e0;
+            --bronze-burnished: #cd7f32;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Montserrat', sans-serif; }
@@ -28,7 +33,7 @@
 
         .admin-row {
             display: grid;
-            grid-template-columns: 2fr repeat(6, 55px);
+            grid-template-columns: 2fr repeat(6, 65px);
             align-items: center;
             gap: 10px;
             background: rgba(255, 255, 255, 0.03);
@@ -46,10 +51,11 @@
             text-overflow: ellipsis;
         }
 
-        .admin-row input {
+        /* Modificato da input a select per i Dropdown */
+        .admin-row select {
             width: 100%;
-            padding: 8px;
-            background: rgba(0, 0, 0, 0.5);
+            padding: 8px 2px;
+            background: rgba(0, 0, 0, 0.8);
             border: 1px solid rgba(255, 255, 255, 0.15);
             border-radius: 4px;
             color: #fff;
@@ -57,12 +63,13 @@
             text-align: center;
             font-size: 0.85rem;
             transition: border-color 0.2s;
+            cursor: pointer;
         }
 
-        .admin-row input:focus {
+        .admin-row select:focus {
             outline: none;
             border-color: var(--horizon-pink);
-            background: rgba(255, 0, 85, 0.05);
+            background: rgba(255, 0, 85, 0.1);
         }
 
         body {
@@ -99,14 +106,58 @@
         
         table { width: 100%; border-collapse: collapse; text-align: left; min-width: 700px; }
         th { text-transform: uppercase; font-size: 0.7rem; color: #727888; padding: 12px; letter-spacing: 1px; }
+        
+        /* [ANIMAZIONE DI SORPASSO] Transizione fluida applicata alle righe */
+        tr { 
+            transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1); 
+        }
         td { padding: 16px 12px; border-bottom: 1px solid rgba(255,255,255,0.05); font-weight: 700; font-size: 0.9rem; }
         
-        .pos-num { font-style: italic; font-weight: 900; color: var(--horizon-orange); width: 40px; }
-        tr:nth-child(1) .pos-num { color: #ffd700; font-size: 1.3rem; }
-        tr:nth-child(2) .pos-num { color: #c0c0c0; }
-        tr:nth-child(3) .pos-num { color: #cd7f32; }
+        .pos-num { font-style: italic; font-weight: 900; color: #727888; width: 40px; }
+        
+        /* [PODIO VISIVO CSS] Stili per i primi 3 posti */
+        .badge-podio {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-weight: 900;
+            font-style: italic;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            text-align: center;
+            min-width: 45px;
+        }
+
+        tr.oro .badge-podio { 
+            background: linear-gradient(135deg, #1a1500 0%, #ffd700 100%);
+            color: #000;
+            box-shadow: 0 0 12px rgba(255, 215, 0, 0.4);
+            border: 1px solid var(--gold-neon);
+            animation: pulse-gold 2s infinite alternate;
+        }
+        tr.oro td { color: #fff; }
+
+        tr.argento .badge-podio { 
+            background: linear-gradient(135deg, #222 0%, #c0c0c0 100%);
+            color: #000;
+            border: 1px solid var(--silver-satin);
+            box-shadow: 0 0 8px rgba(224, 224, 224, 0.2);
+        }
+
+        tr.bronzo .badge-podio { 
+            background: linear-gradient(135deg, #1a0b00 0%, #cd7f32 100%);
+            color: #fff;
+            border: 1px solid var(--bronze-burnished);
+        }
+
+        @keyframes pulse-gold {
+            0% { box-shadow: 0 0 8px rgba(255, 215, 0, 0.3); transform: scale(1); }
+            100% { box-shadow: 0 0 16px rgba(255, 215, 0, 0.6); transform: scale(1.03); }
+        }
 
         .points-total { color: var(--neon-blue); font-weight: 900; text-align: right; font-size: 1.1rem; }
+        /* Il primo in classifica ha i punti dorati */
+        tr.oro .points-total { color: var(--gold-neon); text-shadow: 0 0 8px rgba(255, 215, 0, 0.3); }
 
         .admin-panel {
             background: #11141c; border: 2px dashed rgba(255, 85, 0, 0.3); border-radius: 12px; padding: 30px;
@@ -156,10 +207,9 @@
             </table>
         </div>
 
-        <!-- [SISTEMATO] Ho aggiunto id="adminSection" ed impostato display:none di partenza -->
         <div id="adminSection" class="admin-panel" style="display: none;">
             <h2>Direzione Gara: Inserimento Piazzamenti (Andata e Ritorno)</h2>
-            <div style="display: grid; grid-template-columns: 2fr repeat(6, 1fr); gap: 10px; padding: 0 15px 10px 15px; font-size: 0.7rem; font-weight: 700; color: #6b7180; text-transform: uppercase;">
+            <div style="display: grid; grid-template-columns: 2fr repeat(6, 65px); gap: 10px; padding: 0 15px 10px 15px; font-size: 0.7rem; font-weight: 700; color: #6b7180; text-transform: uppercase;">
                 <div>Pilota</div><div>G1 (A)</div><div>G2 (A)</div><div>G3 (A)</div><div>G4 (R)</div><div>G5 (R)</div><div>G6 (R)</div>
             </div>
             <div id="adminDriversContainer"></div>
@@ -186,13 +236,11 @@
         const auth = getAuth(app);
         const database = getDatabase(app);
 
-        // 🔒 CONTROLLO DI PROTEZIONE GENERALE
         onAuthStateChanged(auth, (user) => {
             if (!user) {
                 window.location.href = "login.html";
             } else {
                 
-                // 🛡️ CONTROLLO BODYGUARD: Tu sei l'Admin?
                 const myAdminUID = "n0W4WVJchQdRthpqZqvZrvblu653";
                 
                 if (user.uid === myAdminUID) {
@@ -201,7 +249,6 @@
                     document.getElementById("adminSection").style.display = "none";
                 }
 
-                // Sistema Punti F1/Horizon
                 const pointsTable = { "1": 25, "2": 18, "3": 15, "4": 12, "5": 10, "6": 8, "7": 6, "8": 4, "9": 2, "10": 1 };
                 
                 function calculatePoints(pos) {
@@ -210,7 +257,6 @@
 
                 let driversData = {};
 
-                // Sincronizzazione in tempo reale con Firebase
                 onValue(ref(database, 'horizon_championship/drivers'), (snapshot) => {
                     driversData = snapshot.val() || {};
                     let driversArray = [];
@@ -232,14 +278,34 @@
 
                     driversArray.sort((a, b) => b.points - a.points);
 
-                    // Rendering della Tabella Pubblica
+                    // Rendering della Tabella Pubblica (Con Podio Condizionale)
                     const tableBody = document.getElementById('leaderboardBody');
                     tableBody.innerHTML = '';
                     
                     driversArray.forEach((driver, index) => {
                         let tr = document.createElement('tr');
+                        
+                        // Determina la classe del podio basata sulla posizione reale
+                        let classePodio = "";
+                        let testoPosizione = `#${index + 1}`;
+                        
+                        if (index === 0) {
+                            classePodio = "oro";
+                            testoPosizione = `<span class="badge-podio">1st</span>`;
+                        } else if (index === 1) {
+                            classePodio = "argento";
+                            testoPosizione = `<span class="badge-podio">2nd</span>`;
+                        } else if (index === 2) {
+                            classePodio = "bronzo";
+                            testoPosizione = `<span class="badge-podio">3rd</span>`;
+                        }
+                        
+                        if (classePodio !== "") {
+                            tr.className = classePodio;
+                        }
+
                         tr.innerHTML = `
-                            <td class="pos-num">#${index + 1}</td>
+                            <td class="pos-num">${testoPosizione}</td>
                             <td>${driver.loginId} <span style="font-size:0.75rem; color:#6b7180; font-weight:300;">(${driver.gamertag})</span></td>
                             <td style="text-align: center; color: var(--neon-blue);">${driver.g1}</td>
                             <td style="text-align: center; color: var(--neon-blue);">${driver.g2}</td>
@@ -252,7 +318,17 @@
                         tableBody.appendChild(tr);
                     });
 
-                    // Rendering della Griglia Input dell'Amministratore
+                    // FUNZIONE AUSILIARIA PER GENERARE IL MENU DROPDOWN (<select>)
+                    function generateDropdownHTML(idGara, driverId, currentValue) {
+                        let optionsHTML = `<option value="-" ${currentValue === '-' ? 'selected' : ''}>-</option>`;
+                        for (let i = 1; i <= 12; i++) {
+                            let strI = i.toString();
+                            optionsHTML += `<option value="${strI}" ${currentValue === strI ? 'selected' : ''}>${i}</option>`;
+                        }
+                        return `<select id="${idGara}_${driverId}">${optionsHTML}</select>`;
+                    }
+
+                    // Rendering della Griglia Input con i nuovi Dropdown integrati
                     const adminContainer = document.getElementById('adminDriversContainer');
                     adminContainer.innerHTML = '';
 
@@ -261,18 +337,18 @@
                         row.className = 'admin-row';
                         row.innerHTML = `
                             <span>${driver.loginId}</span>
-                            <input type="text" id="g1_${driver.id}" placeholder="G1" title="Gara 1" value="${driver.g1 === '-' ? '' : driver.g1}" maxlength="2">
-                            <input type="text" id="g2_${driver.id}" placeholder="G2" title="Gara 2" value="${driver.g2 === '-' ? '' : driver.g2}" maxlength="2">
-                            <input type="text" id="g3_${driver.id}" placeholder="G3" title="Gara 3" value="${driver.g3 === '-' ? '' : driver.g3}" maxlength="2">
-                            <input type="text" id="g4_${driver.id}" placeholder="G4" title="Gara 4" value="${driver.g4 === '-' ? '' : driver.g4}" maxlength="2">
-                            <input type="text" id="g5_${driver.id}" placeholder="G5" title="Gara 5" value="${driver.g5 === '-' ? '' : driver.g5}" maxlength="2">
-                            <input type="text" id="g6_${driver.id}" placeholder="G6" title="Gara 6" value="${driver.g6 === '-' ? '' : driver.g6}" maxlength="2">
+                            ${generateDropdownHTML('g1', driver.id, driver.g1)}
+                            ${generateDropdownHTML('g2', driver.id, driver.g2)}
+                            ${generateDropdownHTML('g3', driver.id, driver.g3)}
+                            ${generateDropdownHTML('g4', driver.id, driver.g4)}
+                            ${generateDropdownHTML('g5', driver.id, driver.g5)}
+                            ${generateDropdownHTML('g6', driver.id, driver.g6)}
                         `;
                         adminContainer.appendChild(row);
                     });
                 });
 
-                // 💾 SALVATAGGIO DATI (Agganciato internamente alle parentesi di onAuthStateChanged)
+                // 💾 SALVATAGGIO DATI (Adattato per leggere il valore dei Dropdown)
                 document.getElementById('btnUpdateScores').addEventListener('click', async () => {
                     try {
                         const btn = document.getElementById('btnUpdateScores');
@@ -281,19 +357,19 @@
                         btn.disabled = true;
 
                         const savePromises = Object.keys(driversData).map(async (id) => {
-                            const g1 = document.getElementById(`g1_${id}`).value.trim();
-                            const g2 = document.getElementById(`g2_${id}`).value.trim();
-                            const g3 = document.getElementById(`g3_${id}`).value.trim();
-                            const g4 = document.getElementById(`g4_${id}`).value.trim();
-                            const g5 = document.getElementById(`g5_${id}`).value.trim();
-                            const g6 = document.getElementById(`g6_${id}`).value.trim();
+                            const g1 = document.getElementById(`g1_${id}`).value;
+                            const g2 = document.getElementById(`g2_${id}`).value;
+                            const g3 = document.getElementById(`g3_${id}`).value;
+                            const g4 = document.getElementById(`g4_${id}`).value;
+                            const g5 = document.getElementById(`g5_${id}`).value;
+                            const g6 = document.getElementById(`g6_${id}`).value;
 
-                            driversData[id].g1_pos = g1 === "" ? "-" : g1;
-                            driversData[id].g2_pos = g2 === "" ? "-" : g2;
-                            driversData[id].g3_pos = g3 === "" ? "-" : g3;
-                            driversData[id].g4_pos = g4 === "" ? "-" : g4;
-                            driversData[id].g5_pos = g5 === "" ? "-" : g5;
-                            driversData[id].g6_pos = g6 === "" ? "-" : g6;
+                            driversData[id].g1_pos = g1;
+                            driversData[id].g2_pos = g2;
+                            driversData[id].g3_pos = g3;
+                            driversData[id].g4_pos = g4;
+                            driversData[id].g5_pos = g5;
+                            driversData[id].g6_pos = g6;
 
                             const driverRef = ref(database, `horizon_championship/drivers/${id}`);
                             return set(driverRef, driversData[id]);
@@ -309,8 +385,8 @@
                     }
                 });
 
-            } // Finisce l'else
-        }); // Finisce l'onAuthStateChanged
+            }
+        });
     </script>
 </body>
 </html>
