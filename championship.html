@@ -214,11 +214,20 @@
 
     // 🔒 BLOCCO DI PROTEZIONE: Controlla se l'utente è loggato
     onAuthStateChanged(auth, (user) => {
-        if (!user) {
-            // Se l'utente non è loggato, viene rispedito istantaneamente al login
-            window.location.href = "login.html";
+    if (!user) {
+        // Se non è loggato, dritto alla pagina di login
+        window.location.href = "login.html";
+    } else {
+        // 🛡️ CONTROLLO BODYGUARD: Tu sei l'Admin?
+        const myAdminUID = "IL_TUO_UID_ADMIN_QUI"; // <-- Incolla qui il tuo codice tra le virgolette
+        
+        if (user.uid === myAdminUID) {
+            // Se l'UID corrisponde, rendiamo visibile lo scatolone Admin
+            document.getElementById("adminSection").style.display = "block";
+        } else {
+            // Se è un pilota normale, ci assicuriamo che rimanga nascosto
+            document.getElementById("adminSection").style.display = "none";
         }
-    });
         // Sistema Punti F1/Horizon
         const pointsTable = { "1": 25, "2": 18, "3": 15, "4": 12, "5": 10, "6": 8, "7": 6, "8": 4, "9": 2, "10": 1 };
         
