@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Horizon 6 - Championship Standings</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght=0,300;0,700;1,900&display=swap" rel="stylesheet">
+    <title>Horizon 6 - Season Standings</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,700;1,900&display=swap" rel="stylesheet">
     <style>
         :root {
             --horizon-pink: #ff0055;
@@ -25,7 +25,7 @@
             min-height: 100vh;
         }
 
-        .container { max-width: 900px; margin: 0 auto; }
+        .container { max-width: 1100px; margin: 0 auto; }
 
         .header { text-align: center; margin-bottom: 40px; }
         .header h1 {
@@ -35,34 +35,40 @@
         }
         .header span { color: var(--horizon-orange); font-weight: 700; letter-spacing: 6px; text-transform: uppercase; font-size: 0.9rem; }
 
-        /* Griglia delle Categorie */
+        /* Timeline dei due turni */
+        .stage-title {
+            grid-column: span 3; font-weight: 900; font-style: italic; text-transform: uppercase; 
+            font-size: 0.9rem; letter-spacing: 2px; margin-bottom: 5px;
+        }
+        .stage-title.andata { color: var(--neon-blue); text-align: left; }
+        .stage-title.ritorno { color: var(--horizon-pink); text-align: left; }
+
         .categories-info {
-            display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 30px; text-align: center;
+            display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; margin-bottom: 30px; text-align: center;
         }
         .cat-badge {
-            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); padding: 12px; border-radius: 6px; font-size: 0.8rem; font-weight: 700; text-transform: uppercase;
+            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); padding: 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
         }
-        .cat-badge.g1 { border-bottom: 3px solid var(--neon-blue); }
-        .cat-badge.g2 { border-bottom: 3px solid var(--horizon-orange); }
-        .cat-badge.g3 { border-bottom: 3px solid var(--horizon-pink); }
+        .cat-badge.and { border-top: 3px solid var(--neon-blue); }
+        .cat-badge.rit { border-top: 3px solid var(--horizon-pink); }
+        .cat-badge span { color: #888; font-size: 0.65rem; display: block; margin-top: 3px;}
 
         /* Tabella Classifica */
         .leaderboard-card {
             background: var(--carbon-card); border-radius: 12px; padding: 25px; box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-            border: 1px solid rgba(255,255,255,0.05); margin-bottom: 40px;
+            border: 1px solid rgba(255,255,255,0.05); margin-bottom: 40px; overflow-x: auto;
         }
         
-        table { width: 100%; border-collapse: collapse; text-align: left; }
-        th { text-transform: uppercase; font-size: 0.75rem; color: #727888; padding: 12px; letter-spacing: 1px; }
-        td { padding: 16px 12px; border-bottom: 1px solid rgba(255,255,255,0.05); font-weight: 700; font-size: 0.95rem; }
+        table { width: 100%; border-collapse: collapse; text-align: left; min-width: 700px; }
+        th { text-transform: uppercase; font-size: 0.7rem; color: #727888; padding: 12px; letter-spacing: 1px; }
+        td { padding: 16px 12px; border-bottom: 1px solid rgba(255,255,255,0.05); font-weight: 700; font-size: 0.9rem; }
         
-        tr:first-child td { color: #fff; font-size: 1.1rem; }
-        .pos-num { font-style: italic; font-weight: 900; color: var(--horizon-orange); width: 50px; }
-        tr:nth-child(1) .pos-num { color: #ffd700; font-size: 1.4rem; } /* Oro al 1° */
-        tr:nth-child(2) .pos-num { color: #c0c0c0; } /* Argento */
-        tr:nth-child(3) .pos-num { color: #cd7f32; } /* Bronzo */
+        .pos-num { font-style: italic; font-weight: 900; color: var(--horizon-orange); width: 40px; }
+        tr:nth-child(1) .pos-num { color: #ffd700; font-size: 1.3rem; }
+        tr:nth-child(2) .pos-num { color: #c0c0c0; }
+        tr:nth-child(3) .pos-num { color: #cd7f32; }
 
-        .points-total { color: var(--neon-blue); font-weight: 900; text-align: right; }
+        .points-total { color: var(--neon-blue); font-weight: 900; text-align: right; font-size: 1.1rem; }
 
         /* Pannello Direzione Gara (Admin) */
         .admin-panel {
@@ -71,12 +77,12 @@
         .admin-panel h2 { font-style: italic; text-transform: uppercase; font-size: 1.2rem; margin-bottom: 20px; color: var(--horizon-orange); }
         
         .admin-row {
-            display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 15px; margin-bottom: 15px; align-items: center;
+            display: grid; grid-template-columns: 2fr repeat(6, 1fr); gap: 10px; margin-bottom: 15px; align-items: center;
             background: rgba(0,0,0,0.2); padding: 10px 15px; border-radius: 6px;
         }
-        .admin-row span { font-weight: 700; font-size: 0.9rem; }
+        .admin-row span { font-weight: 700; font-size: 0.9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .admin-row input {
-            background: #000; border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; padding: 8px; color: #fff; font-weight: 700; text-align: center;
+            background: #000; border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; padding: 8px 4px; color: #fff; font-weight: 700; text-align: center; font-size: 0.85rem;
         }
         .admin-row input:focus { border-color: var(--horizon-pink); outline: none; }
 
@@ -91,46 +97,50 @@
 
     <div class="container">
         <div class="header">
-            <h1>Horizon Championship</h1>
-            <span>Classifica Generale Piloti</span>
+            <h1>Horizon Apex Season</h1>
+            <span>Campionato Andata & Ritorno</span>
         </div>
 
         <div class="categories-info">
-            <div class="cat-badge g1">Stage 1<br><span style="color:#fff">Asfalto (Road)</span></div>
-            <div class="cat-badge g2">Stage 2<br><span style="color:#fff">Sterrato (Dirt)</span></div>
-            <div class="cat-badge g3">Stage 3<br><span style="color:#fff">Cross-Country</span></div>
+            <div class="cat-badge and">G1 <span>Asfalto (A)</span></div>
+            <div class="cat-badge and">G2 <span>Sterrato (A)</span></div>
+            <div class="cat-badge and">G3 <span>Cross (A)</span></div>
+            <div class="cat-badge rit">G4 <span>Asfalto (R)</span></div>
+            <div class="cat-badge rit">G5 <span>Sterrato (R)</span></div>
+            <div class="cat-badge rit">G6 <span>Cross (R)</span></div>
         </div>
 
-        <!-- Tabella Live della Competizione -->
         <div class="leaderboard-card">
             <table>
                 <thead>
                     <tr>
                         <th>Pos</th>
                         <th>Pilota (Gamertag)</th>
-                        <th style="text-align: center;">G1</th>
-                        <th style="text-align: center;">G2</th>
-                        <th style="text-align: center;">G3</th>
-                        <th style="text-align: right;">Punti Totali</th>
+                        <th style="text-align: center; color: var(--neon-blue);">G1</th>
+                        <th style="text-align: center; color: var(--neon-blue);">G2</th>
+                        <th style="text-align: center; color: var(--neon-blue);">G3</th>
+                        <th style="text-align: center; color: var(--horizon-pink);">G4</th>
+                        <th style="text-align: center; color: var(--horizon-pink);">G5</th>
+                        <th style="text-align: center; color: var(--horizon-pink);">G6</th>
+                        <th style="text-align: right;">Punti Live</th>
                     </tr>
                 </thead>
                 <tbody id="leaderboardBody">
-                    <!-- Popolato in automatico da Firebase -->
-                </tbody>
+                    </tbody>
             </table>
         </div>
 
-        <!-- Pannello di Gestione Risultati (Admin) -->
         <div class="admin-panel">
-            <h2>Direzione Gara: Assegna Posizioni d'Arrivo</h2>
-            <div id="adminDriversContainer">
-                <!-- Elenco piloti per inserimento rapido posizioni -->
+            <h2>Direzione Gara: Inserimento Piazzamenti (Andata e Ritorno)</h2>
+            <div style="display: grid; grid-template-columns: 2fr repeat(6, 1fr); gap: 10px; padding: 0 15px 10px 15px; font-size: 0.7rem; font-weight: 700; color: #6b7180; text-transform: uppercase;">
+                <div>Pilota</div><div>G1 (A)</div><div>G2 (A)</div><div>G3 (A)</div><div>G4 (R)</div><div>G5 (R)</div><div>G6 (R)</div>
             </div>
-            <button id="btnUpdateScores" class="btn-save">Aggiorna Griglia e Ricalcola Punti</button>
+            <div id="adminDriversContainer">
+                </div>
+            <button id="btnUpdateScores" class="btn-save">Salva Posizioni e Ricalcola Campionato</button>
         </div>
     </div>
 
-    <!-- Firebase SDK Logic -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
         import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js";
@@ -148,7 +158,7 @@
         const app = initializeApp(firebaseConfig);
         const database = getDatabase(app);
 
-        // Tabella dei Punti del Campionato
+        // Sistema Punti F1/Horizon
         const pointsTable = { "1": 25, "2": 18, "3": 15, "4": 12, "5": 10, "6": 8, "7": 6, "8": 4, "9": 2, "10": 1 };
         
         function calculatePoints(pos) {
@@ -157,31 +167,32 @@
 
         let driversData = {};
 
-        // NOTA IMPORTANTE: Per far sì che la vecchia pagina di iscrizione scriva qui, 
-        // assicurati che nel codice del form precedente l'indirizzo del database sia impostato su 'horizon_championship/drivers/' + user.uid
+        // Sincronizzazione in tempo reale con Firebase
         onValue(ref(database, 'horizon_championship/drivers'), (snapshot) => {
             driversData = snapshot.val() || {};
             
             let driversArray = [];
             Object.keys(driversData).forEach(id => {
                 let d = driversData[id];
-                // Calcola il totale punti all'istante
-                let total = calculatePoints(d.g1_pos) + calculatePoints(d.g2_pos) + calculatePoints(d.g3_pos);
+                
+                // Calcolo complessivo distribuito su tutte e 6 le gare
+                let total = calculatePoints(d.g1_pos) + calculatePoints(d.g2_pos) + calculatePoints(d.g3_pos) +
+                            calculatePoints(d.g4_pos) + calculatePoints(d.g5_pos) + calculatePoints(d.g6_pos);
+                
                 driversArray.push({
                     id: id,
                     loginId: d.loginId,
                     gamertag: d.gamertag,
-                    g1: d.g1_pos || "-",
-                    g2: d.g2_pos || "-",
-                    g3: d.g3_pos || "-",
+                    g1: d.g1_pos || "-", g2: d.g2_pos || "-", g3: d.g3_pos || "-",
+                    g4: d.g4_pos || "-", g5: d.g5_pos || "-", g6: d.g6_pos || "-",
                     points: total
                 });
             });
 
-            // Ordina la classifica: prima per punti totali, poi in ordine alfabetico
+            // Ordinamento Meritocratico (Chi ha più punti sta sopra)
             driversArray.sort((a, b) => b.points - a.points);
 
-            // 1. Renderizza la classifica pubblica
+            // Renering della Tabella Pubblica
             const tableBody = document.getElementById('leaderboardBody');
             tableBody.innerHTML = '';
             
@@ -189,16 +200,19 @@
                 let tr = document.createElement('tr');
                 tr.innerHTML = `
                     <td class="pos-num">#${index + 1}</td>
-                    <td>${driver.loginId} <span style="font-size:0.75rem; color:#6b7180; block; font-weight:300;">(${driver.gamertag})</span></td>
+                    <td>${driver.loginId} <span style="font-size:0.75rem; color:#6b7180; font-weight:300;">(${driver.gamertag})</span></td>
                     <td style="text-align: center; color: var(--neon-blue);">${driver.g1}</td>
-                    <td style="text-align: center; color: var(--horizon-orange);">${driver.g2}</td>
-                    <td style="text-align: center; color: var(--horizon-pink);">${driver.g3}</td>
+                    <td style="text-align: center; color: var(--neon-blue);">${driver.g2}</td>
+                    <td style="text-align: center; color: var(--neon-blue);">${driver.g3}</td>
+                    <td style="text-align: center; color: var(--horizon-pink);">${driver.g4}</td>
+                    <td style="text-align: center; color: var(--horizon-pink);">${driver.g5}</td>
+                    <td style="text-align: center; color: var(--horizon-pink);">${driver.g6}</td>
                     <td class="points-total">${driver.points} PTS</td>
                 `;
                 tableBody.appendChild(tr);
             });
 
-            // 2. Renderizza il pannello amministratore per l'input posizioni
+            // Rendering della Griglia Input dell'Amministratore
             const adminContainer = document.getElementById('adminDriversContainer');
             adminContainer.innerHTML = '';
 
@@ -207,34 +221,5 @@
                 row.className = 'admin-row';
                 row.innerHTML = `
                     <span>${driver.loginId}</span>
-                    <input type="text" id="g1_${driver.id}" placeholder="Pos. G1" value="${driver.g1 === '-' ? '' : driver.g1}">
-                    <input type="text" id="g2_${driver.id}" placeholder="Pos. G2" value="${driver.g2 === '-' ? '' : driver.g2}">
-                    <input type="text" id="g3_${driver.id}" placeholder="Pos. G3" value="${driver.g3 === '-' ? '' : driver.g3}">
-                `;
-                adminContainer.appendChild(row);
-            });
-        });
-
-        // Aggiorna i dati sul Database al click del pulsante
-        document.getElementById('updateScores').addEventListener('click', async () => {
-            try {
-                for (let id in driversData) {
-                    let g1Val = document.getElementById(`g1_${id}`).value.trim() || "-";
-                    let g2Val = document.getElementById(`g2_${id}`).value.trim() || "-";
-                    let g3Val = document.getElementById(`g3_${id}`).value.trim() || "-";
-
-                    // Aggiorna la singola scheda del pilota mantenendo intatti i dati di iscrizione
-                    driversData[id].g1_pos = g1Val;
-                    driversData[id].g2_pos = g2Val;
-                    driversData[id].g3_pos = g3Val;
-
-                    await set(ref(database, `horizon_championship/drivers/${id}`), driversData[id]);
-                }
-                alert("Punteggi aggiornati con successo! Classifica ricalcolata.");
-            } catch (error) {
-                alert("Errore nel salvataggio: " + error.message);
-            }
-        });
-    </script>
-</body>
-</html>
+                    <input type="text" id="g1_${driver.id}" placeholder="P" value="${driver.g1 === '-' ? '' : driver.g1}">
+                    <input type="text" id="g2_${driver.id}" placeholder="P" value="${driver.g
