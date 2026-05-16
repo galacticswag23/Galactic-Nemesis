@@ -223,7 +223,7 @@
         function getIconUrl(name) {
             let img = name.replace(/\s+/g, '').replace("'", "").replace(".", "");
             const mapping = {"Wukong": "MonkeyKing", "LeBlanc": "Leblanc", "KhaZix": "Khazix", "ChoGath": "Chogath", "KaiSa": "Kaisa", "KSante": "Ksante", "BelVeth": "Belveth", "Nunu&Willump": "Nunu", "VelKoz": "Velkoz", "RenataGlasc": "Renata"};
-            return `https://ddragon.leagueoflegends.com/cdn/14.22.1/img/champion/${mapping[img] || img}.png`;
+            return `https://ddragon.leagueoflegends.com/cdn/26.10/img/champion/${mapping[img] || img}.png`;
         }
 
         function activateProtocol() { banRef.update({ status: "ACTIVE", currentPhase: 0 }); }
