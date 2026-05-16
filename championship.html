@@ -106,15 +106,29 @@
         table { width: 100%; border-collapse: collapse; text-align: left; min-width: 700px; }
         th { text-transform: uppercase; font-size: 0.7rem; color: #727888; padding: 12px; letter-spacing: 1px; }
         
-        tbody { display: table-row-group; }
-        tr { 
-            position: relative;
-            background: transparent;
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        /* [STRUTTURA DA ANIMARE] Sganciamo il layout rigido delle tabelle per permettere il movimento libero CSS */
+        tbody { 
+            display: flex;
+            flex-direction: column;
+            width: 100%;
         }
-        td { padding: 16px 12px; border-bottom: 1px solid rgba(255,255,255,0.05); font-weight: 700; font-size: 0.9rem; transition: all 0.5s ease; }
+        tr { 
+            display: grid;
+            grid-template-columns: 60px 2fr repeat(6, 1fr) 100px;
+            align-items: center;
+            width: 100%;
+            background: transparent;
+            /* Forza il browser a gestire il movimento in modo fluido a 60fps */
+            will-change: transform; 
+        }
+        thead tr {
+            display: grid;
+            grid-template-columns: 60px 2fr repeat(6, 1fr) 100px;
+            width: 100%;
+        }
+        td { padding: 16px 12px; border-bottom: 1px solid rgba(255,255,255,0.05); font-weight: 700; font-size: 0.9rem; }
         
-        .pos-num { font-style: italic; font-weight: 900; color: #727888; width: 40px; }
+        .pos-num { font-style: italic; font-weight: 900; color: #727888; }
         
         .badge-podio {
             display: inline-block;
@@ -126,7 +140,6 @@
             font-size: 0.85rem;
             text-align: center;
             min-width: 45px;
-            transition: all 0.5s ease;
         }
 
         tr.oro .badge-podio { 
@@ -257,7 +270,7 @@
                 }
 
                 let driversData = {};
-                let adminGridRendered = false; // [SISTEMATO] Flag per impedire la distruzione della griglia durante il salvataggio
+                let adminGridRendered = false;
 
                 // Sincronizzazione Realtime Firebase
                 onValue(ref(database, 'horizon_championship/drivers'), (snapshot) => {
@@ -279,12 +292,21 @@
                         });
                     });
 
-                    // Ordina la classifica
                     driversArray.sort((a, b) => b.points - a.points);
 
-                    // Aggiornamento Tabella Pubblica (Fluido e in tempo reale)
                     const tableBody = document.getElementById('leaderboardBody');
 
+                    // 🏎️ [MOTORE ANIMAZIONE FLUIDA FLIP] 🏎️
+                    // 1. FIRST: Registriamo le posizioni verticali prima del riordinamento
+                    const positionsBefore = {};
+                    driversArray.forEach(driver => {
+                        const tr = document.getElementById(`row_${driver.id}`);
+                        if (tr) {
+                            positionsBefore[driver.id] = tr.getBoundingClientRect().top;
+                        }
+                    });
+
+                    // 2. LAST & INVERT: Aggiorniamo i dati strutturali e forziamo il nuovo ordinamento nel DOM
                     driversArray.forEach((driver, index) => {
                         let tr = document.getElementById(`row_${driver.id}`);
                         let classePodio = "";
@@ -302,7 +324,7 @@
 
                         tr.className = classePodio;
                         tr.innerHTML = `
-                            <td class="pos-num">${testoPosizione}</td>
+                            <td class="pos-num" style="text-align: center;">${testoPosizione}</td>
                             <td>${driver.loginId} <span style="font-size:0.75rem; color:#6b7180; font-weight:300;">(${driver.gamertag})</span></td>
                             <td style="text-align: center; color: var(--neon-blue);">${driver.g1}</td>
                             <td style="text-align: center; color: var(--neon-blue);">${driver.g2}</td>
@@ -312,11 +334,35 @@
                             <td style="text-align: center; color: var(--horizon-pink);">${driver.g6}</td>
                             <td class="points-total">${driver.points} PTS</td>
                         `;
-                        tableBody.appendChild(tr); // Esegue il riordinamento visivo (Sorpasso)
+                        
+                        tableBody.appendChild(tr); // Lo sposta fisicamente nella nuova posizione
                     });
 
-                    // [SISTEMATO] Renderizziamo la griglia admin SOLO la prima volta che carichiamo la pagina.
-                    // Evita che la griglia si azzeri a metà mentre il ciclo di salvataggio sta scrivendo su Firebase.
+                    // 3. PLAY: Calcoliamo il delta spaziale e attiviamo la transizione fluida
+                    driversArray.forEach(driver => {
+                        const tr = document.getElementById(`row_${driver.id}`);
+                        const topBefore = positionsBefore[driver.id];
+                        
+                        if (tr && topBefore !== undefined) {
+                            const topAfter = tr.getBoundingClientRect().top;
+                            const deltaY = topBefore - topAfter; // La differenza di pixel tra prima e dopo
+
+                            if (deltaY !== 0) {
+                                // Annulliamo il movimento istantaneo portando la riga indietro artificialmente
+                                tr.style.transition = 'none';
+                                tr.style.transform = `translateY(${deltaY}px)`;
+                                
+                                // Forziamo il Reflow del browser per fargli capire lo stato di partenza
+                                tr.offsetHeight; 
+                                
+                                // Avviamo l'animazione fluida di rilascio verso lo zero (la nuova posizione reale)
+                                tr.style.transition = 'transform 0.8s cubic-bezier(0.25, 1, 0.5, 1)';
+                                tr.style.transform = 'translateY(0)';
+                            }
+                        }
+                    });
+
+                    // Rendering Stabile Griglia Admin (Solo al primo avvio)
                     if (isAdmin && !adminGridRendered) {
                         const adminContainer = document.getElementById('adminDriversContainer');
                         adminContainer.innerHTML = '';
@@ -335,11 +381,10 @@
                             `;
                             adminContainer.appendChild(row);
                         });
-                        adminGridRendered = true; // Griglia bloccata e pronta all'input di massa
+                        adminGridRendered = true;
                     }
                 });
 
-                // Funzione ausiliaria per generare i menu dropdown delle posizioni (1-12)
                 function generateDropdownHTML(idGara, driverId, currentValue) {
                     let optionsHTML = `<option value="-" ${currentValue === '-' ? 'selected' : ''}>-</option>`;
                     for (let i = 1; i <= 12; i++) {
@@ -357,7 +402,6 @@
                         btn.innerText = "Salvataggio simultaneo...";
                         btn.disabled = true;
 
-                        // Raccogliamo contemporaneamente tutti i dati aggiornati dai dropdown
                         const savePromises = Object.keys(driversData).map(async (id) => {
                             const g1 = document.getElementById(`g1_${id}`).value;
                             const g2 = document.getElementById(`g2_${id}`).value;
@@ -377,7 +421,6 @@
                             return set(driverRef, driversData[id]);
                         });
 
-                        // Eseguiamo il salvataggio in un colpo solo per tutti i giocatori
                         await Promise.all(savePromises);
                         
                         btn.innerText = originalText;
