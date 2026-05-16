@@ -14,18 +14,11 @@
             --neon-white: #f3f4f6;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Montserrat', sans-serif;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Montserrat', sans-serif; }
 
         body {
             background-color: var(--asphalt-dark);
-            background-image: 
-                radial-gradient(circle at 15% 20%, rgba(255, 0, 85, 0.18) 0%, transparent 50%),
-                radial-gradient(circle at 85% 80%, rgba(255, 85, 0, 0.18) 0%, transparent 50%);
+            background-image: radial-gradient(circle at 15% 20%, rgba(255, 0, 85, 0.18) 0%, transparent 50%);
             color: var(--neon-white);
             min-height: 100vh;
             display: flex;
@@ -34,147 +27,35 @@
             padding: 20px;
         }
 
-        /* Contenitore Paddock Pass */
         .registration-card {
             background: linear-gradient(135deg, var(--carbon-grey) 0%, #0b0d13 100%);
             border: 1px solid rgba(255, 255, 255, 0.08);
             border-left: 6px solid var(--horizon-pink);
             border-radius: 12px;
-            border-top-left-radius: 0px;
-            border-bottom-right-radius: 0px;
             width: 100%;
             max-width: 440px;
             padding: 40px 35px;
             box-shadow: 0 25px 50px rgba(0,0,0,0.6);
-            position: relative;
         }
 
-        /* Linea racing arancione/rosa nell'angolo in alto a destra */
-        .registration-card::before {
-            content: '';
-            position: absolute;
-            top: -1px;
-            right: -1px;
-            width: 120px;
-            height: 4px;
-            background: linear-gradient(90deg, var(--horizon-pink), var(--horizon-orange));
-            border-top-right-radius: 12px;
-        }
+        .header { text-align: center; margin-bottom: 30px; }
+        .header h1 { font-weight: 900; font-size: 1.9rem; text-transform: uppercase; font-style: italic; }
+        .header span { color: var(--horizon-orange); font-size: 0.75rem; font-weight: 700; letter-spacing: 5px; text-transform: uppercase; display: block; }
 
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
+        .input-group { margin-bottom: 22px; }
+        .input-group label { display: block; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: #83899a; margin-bottom: 8px; }
+        .input-group input { width: 100%; padding: 13px 16px; background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 6px; color: #fff; font-weight: 700; }
+        .input-group input:focus { outline: none; border-color: var(--horizon-pink); box-shadow: 0 0 10px rgba(255, 0, 85, 0.25); }
 
-        .header h1 {
-            font-weight: 900;
-            font-size: 1.9rem;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            font-style: italic;
-            background: linear-gradient(45deg, #ffffff 40%, #a5abc0 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .header span {
-            color: var(--horizon-orange);
-            font-size: 0.75rem;
-            font-weight: 700;
-            letter-spacing: 5px;
-            text-transform: uppercase;
-            display: block;
-            margin-top: 4px;
-        }
-
-        .input-group {
-            margin-bottom: 22px;
-        }
-
-        .input-group label {
-            display: block;
-            font-size: 0.7rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            color: #83899a;
-            margin-bottom: 8px;
-        }
-
-        .input-group input {
-            width: 100%;
-            padding: 13px 16px;
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            border-radius: 6px;
-            color: #fff;
-            font-size: 0.9rem;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-            transition: all 0.25s ease;
-        }
-
-        /* Fix illuminazione campi al focus */
-        .input-group input:focus {
-            outline: none;
-            border-color: var(--horizon-pink);
-            box-shadow: 0 0 10px rgba(255, 0, 85, 0.25);
-            background: rgba(0, 0, 0, 0.6);
-        }
-
-        /* Bottone Nitro */
         .btn-register {
-            width: 100%;
-            padding: 16px;
-            background: linear-gradient(135deg, var(--horizon-pink) 0%, var(--horizon-orange) 100%);
-            border: none;
-            border-radius: 6px;
-            color: white;
-            font-weight: 900;
-            font-size: 0.95rem;
-            text-transform: uppercase;
-            font-style: italic;
-            letter-spacing: 1px;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 5px 20px rgba(255, 0, 85, 0.35);
-            margin-top: 10px;
+            width: 100%; padding: 16px; background: linear-gradient(135deg, var(--horizon-pink) 0%, var(--horizon-orange) 100%);
+            border: none; border-radius: 6px; color: white; font-weight: 900; text-transform: uppercase; font-style: italic; cursor: pointer; transition: all 0.2s;
         }
+        .btn-register:hover { filter: brightness(1.1); transform: translateY(-2px); }
 
-        .btn-register:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(255, 85, 0, 0.5);
-            filter: brightness(1.1);
-        }
-
-        .btn-register:active {
-            transform: translateY(1px);
-        }
-
-        /* Box di Risposta */
-        .message {
-            margin-top: 20px;
-            padding: 12px;
-            border-radius: 6px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            text-align: center;
-            display: none;
-        }
-
-        .message.error {
-            background: rgba(255, 51, 51, 0.12);
-            border: 1px solid #ff3355;
-            color: #ff5577;
-            display: block;
-        }
-
-        .message.success {
-            background: rgba(0, 255, 136, 0.12);
-            border: 1px solid #00ff88;
-            color: #55ffaa;
-            display: block;
-        }
+        .message { margin-top: 20px; padding: 12px; border-radius: 6px; font-size: 0.8rem; font-weight: 700; text-align: center; display: none; }
+        .message.error { background: rgba(255, 51, 51, 0.12); border: 1px solid #ff3355; color: #ff5577; display: block; }
+        .message.success { background: rgba(0, 255, 136, 0.12); border: 1px solid #00ff88; color: #55ffaa; display: block; }
     </style>
 </head>
 <body>
@@ -185,23 +66,21 @@
             <span>Driver Enlistment</span>
         </div>
 
+        <!-- NOTA: Gli ID qui sotto sono esattamente quelli chiamati dal codice Javascript sotto -->
         <form id="registrationForm">
-            <!-- Display and Login ID -->
             <div class="input-group">
                 <label for="loginId">Display & Login ID</label>
-                <input type="text" id="loginId" placeholder="Es. AlfaRomero" autocomplete="username" required>
+                <input type="text" id="loginId" placeholder="Es. AlfaRomero" required>
             </div>
 
-            <!-- Xbox Gamer Tag -->
             <div class="input-group">
                 <label for="gamertag">Xbox Gamertag</label>
                 <input type="text" id="gamertag" placeholder="Es. RomeroXbox92" required>
             </div>
 
-            <!-- Password -->
             <div class="input-group">
                 <label for="password">Password Key (Min. 6 caratteri)</label>
-                <input type="password" id="password" placeholder="••••••••" autocomplete="new-password" required>
+                <input type="password" id="password" placeholder="••••••••" required>
             </div>
 
             <button type="submit" class="btn-register">REGISTRA PILOTA</button>
@@ -210,20 +89,20 @@
         <div id="feedback" class="message"></div>
     </div>
 
-    <!-- Firebase SDK Setup -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
         import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
         import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js";
 
+        // Metti qui le tue chiavi personali recuperate dalle impostazioni del progetto
         const firebaseConfig = {
-          apiKey: "AIzaSyDNRL0Rbo58WPjII0BzSRQZ1M7ZJ9MdsY4",
-          authDomain: "galactic-nemesis-7bee5.firebaseapp.com",
-          databaseURL: "https://galactic-nemesis-7bee5-default-rtdb.europe-west1.firebasedatabase.app",
-          projectId: "galactic-nemesis-7bee5",
-          storageBucket: "galactic-nemesis-7bee5.firebasestorage.app",
-          messagingSenderId: "265814903052",
-          appId: "1:265814903052:web:6c59477e9852e91387a129"
+            apiKey: "LA_TUA_API_KEY",
+            authDomain: "IL_TUO_AUTH_DOMAIN",
+            databaseURL: "IL_TUO_DATABASE_URL",
+            projectId: "IL_TUO_PROJECT_ID",
+            storageBucket: "IL_TUO_STORAGE_BUCKET",
+            messagingSenderId: "IL_TUO_MESSAGING_SENDER_ID",
+            appId: "IL_TUO_APP_ID"
         };
 
         const app = initializeApp(firebaseConfig);
@@ -231,7 +110,7 @@
         const database = getDatabase(app);
 
         document.getElementById('registrationForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
+            e.preventDefault(); // Blocca il refresh stupido della pagina
             
             const loginId = document.getElementById('loginId').value.trim();
             const gamertag = document.getElementById('gamertag').value.trim();
@@ -241,36 +120,44 @@
             feedback.className = "message";
             feedback.style.display = "none";
 
-            // Creiamo un indirizzo email fittizio standard partendo dall'ID inserito
-            // Rimuoviamo eventuali spazi per preservare la validità della mail di backend
+            // Creiamo la mail virtuale fittizia per far felice Firebase Auth
             const cleanId = loginId.replace(/\s+/g, '').toLowerCase();
             const virtualEmail = `${cleanId}@horizon6.festival`;
 
             try {
-                // 1. Registrazione dell'account di sicurezza su Firebase Auth
+                // 1. Crea l'utente nei server di autenticazione
                 const userCredential = await createUserWithEmailAndPassword(auth, virtualEmail, password);
                 const user = userCredential.user;
 
-                // 2. Scrittura dei dati del pilota sul Realtime Database
-                await set(ref(database, 'horizon_tournament/drivers/' + user.uid), {
+                // 2. Prepariamo la struttura dati adatta alla classifica a 6 gare (Andata + Ritorno)
+                const newDriverData = {
                     loginId: loginId,
                     gamertag: gamertag,
-                    registrationDate: new Date().toISOString(),
-                    assignedMatch: "PENDING"
-                });
+                    g1_pos: "-",
+                    g2_pos: "-",
+                    g3_pos: "-",
+                    g4_pos: "-",
+                    g5_pos: "-",
+                    g6_pos: "-"
+                };
 
-                feedback.innerText = "ACCESSO ASSEGNATO! Benvenuto in griglia, " + loginId;
+                // 3. Scriviamo nel Realtime Database. QUESTA riga creerà il nodo "horizon_championship"
+                await set(ref(database, 'horizon_championship/drivers/' + user.uid), newDriverData);
+
+                feedback.innerText = "ACCESSO ASSEGNATO! Sincronizzazione database riuscita.";
                 feedback.className = "message success";
                 document.getElementById('registrationForm').reset();
 
             } catch (error) {
                 feedback.className = "message error";
+                console.error("Dettaglio Errore:", error); // Questo manderà l'errore esatto in console F12
+                
                 if(error.code === 'auth/email-already-in-use') {
-                    feedback.innerText = "ERRORE: Questo Login ID è già stato preso da un altro pilota.";
+                    feedback.innerText = "ERRORE: Questo Login ID è già stato preso.";
                 } else if(error.code === 'auth/weak-password') {
-                    feedback.innerText = "ERRORE: La Password Key deve contenere almeno 6 caratteri.";
+                    feedback.innerText = "ERRORE: La password deve avere almeno 6 caratteri.";
                 } else {
-                    feedback.innerText = "ERRORE MOTORE: " + error.message;
+                    feedback.innerText = "ERRORE FIREBASE: " + error.message;
                 }
             }
         });
