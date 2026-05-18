@@ -80,14 +80,53 @@
     }
 
     .container { max-width: 1100px; margin: 0 auto; }
-    .header { text-align: center; margin-bottom: 40px; }
-    .header h1 {
-        font-weight: 900; font-size: 2.8rem; text-transform: uppercase; font-style: italic; letter-spacing: 2px;
-        background: linear-gradient(45deg, #fff 30%, var(--horizon-pink) 100%);
-        -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    }
-    .header span { color: var(--horizon-orange); font-weight: 700; letter-spacing: 6px; text-transform: uppercase; font-size: 0.9rem; }
+    /* 🏎️ RE-STYLING INTRODUZIONE FESTIVAL */
+.header { 
+    text-align: center; 
+    margin-bottom: 50px; 
+    position: relative;
+    padding: 20px 0;
+}
 
+.header h1 {
+    font-weight: 900; 
+    font-size: 3.5rem; /* Più grande e d'impatto */
+    text-transform: uppercase; 
+    font-style: italic; 
+    letter-spacing: -1px; /* Lettere serrate stile racing */
+    line-height: 0.95;
+    background: linear-gradient(135deg, #ffffff 20%, #a1a1aa 50%, var(--horizon-pink) 100%);
+    -webkit-background-clip: text; 
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 15px rgba(255, 0, 85, 0.3));
+    position: relative;
+    display: inline-block;
+}
+
+/* Sottotitolo Neon stile tabellone laser */
+.header span { 
+    display: block;
+    color: #fff; 
+    font-weight: 700; 
+    letter-spacing: 8px; 
+    text-transform: uppercase; 
+    font-size: 0.85rem; 
+    margin-top: 10px;
+    text-shadow: 0 0 8px var(--horizon-orange), 0 0 20px var(--horizon-pink);
+    opacity: 0.9;
+}
+
+/* Linea decorativa asimmetrica sotto il titolo (Stile Interfaccia di Gioco) */
+.header::after {
+    content: '';
+    display: block;
+    width: 120px;
+    height: 4px;
+    background: linear-gradient(90deg, var(--horizon-pink), var(--horizon-orange));
+    margin: 20px auto 0 auto;
+    transform: skewX(-25deg); /* Taglio diagonale sportivo */
+    box-shadow: 0 0 10px var(--horizon-pink);
+}
     .categories-info {
         display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; margin-bottom: 30px; text-align: center;
     }
