@@ -11,7 +11,8 @@
             --horizon-pink: #ff0055;
             --horizon-orange: #ff5500;
             --asphalt-dark: #0e1017;
-            --carbon-grey: #161922;
+            /* Effetto vetro semitrasparente sincronizzato con il login */
+            --carbon-grey: rgba(22, 25, 34, 0.82); 
             --neon-white: #f3f4f6;
         }
 
@@ -19,24 +20,62 @@
 
         body {
             background-color: var(--asphalt-dark);
-            background-image: radial-gradient(circle at 15% 20%, rgba(255, 0, 85, 0.18) 0%, transparent 50%);
             color: var(--neon-white);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 20px;
+            overflow: hidden; /* Blocca le barre di scorrimento create dal video */
+            position: relative;
+        }
+
+        /* 🏎️ CONTENITORE VIDEO YOUTUBE LIVE */
+        .video-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .video-background iframe {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100vw;
+            height: 56.25vw;
+            min-height: 100vh;
+            min-width: 177.77vh;
+            transform: translate(-50%, -50%);
+        }
+
+        /* 🕶️ OVERLAY SCURO CONTRASTO */
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 50%, rgba(14, 16, 23, 0.45) 0%, rgba(14, 16, 23, 0.88) 100%);
+            z-index: -1;
         }
 
         .registration-card {
-            background: linear-gradient(135deg, var(--carbon-grey) 0%, #0b0d13 100%);
+            background: linear-gradient(135deg, var(--carbon-grey) 0%, rgba(11, 13, 19, 0.9) 100%);
+            backdrop-filter: blur(12px); /* Sfocatura sullo sfondo in movimento */
+            -webkit-backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.08);
-            border-left: 6px solid var(--horizon-pink);
+            border-left: 6px solid var(--horizon-pink); /* Mantenuto rosa per identificare la registrazione */
             border-radius: 12px;
             width: 100%;
             max-width: 440px;
             padding: 40px 35px;
             box-shadow: 0 25px 50px rgba(0,0,0,0.6);
+            z-index: 1;
         }
 
         .header { text-align: center; margin-bottom: 30px; }
@@ -45,7 +84,7 @@
 
         .input-group { margin-bottom: 22px; }
         .input-group label { display: block; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: #83899a; margin-bottom: 8px; }
-        .input-group input { width: 100%; padding: 13px 16px; background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 6px; color: #fff; font-weight: 700; }
+        .input-group input { width: 100%; padding: 13px 16px; background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 6px; color: #fff; font-weight: 700; }
         .input-group input:focus { outline: none; border-color: var(--horizon-pink); box-shadow: 0 0 10px rgba(255, 0, 85, 0.25); }
 
         .btn-register {
@@ -54,6 +93,10 @@
         }
         .btn-register:hover { filter: brightness(1.1); transform: translateY(-2px); }
 
+        /* Link per tornare indietro se si è già registrati */
+        .login-link { text-align: center; margin-top: 20px; font-size: 0.8rem; color: #83899a; }
+        .login-link a { color: var(--horizon-orange); text-decoration: none; font-weight: 700; }
+
         .message { margin-top: 20px; padding: 12px; border-radius: 6px; font-size: 0.8rem; font-weight: 700; text-align: center; display: none; }
         .message.error { background: rgba(255, 51, 51, 0.12); border: 1px solid #ff3355; color: #ff5577; display: block; }
         .message.success { background: rgba(0, 255, 136, 0.12); border: 1px solid #00ff88; color: #55ffaa; display: block; }
@@ -61,6 +104,19 @@
 </head>
 <body>
 
+    <!-- 🎥 SFONDO ANIMATO VIDEO FORZA HORIZON 6 -->
+    <div class="video-background">
+        <iframe src="https://www.youtube.com/embed/2GTeFh6dx8c?autoplay=1&mute=1&loop=1&playlist=2GTeFh6dx8c&controls=0&showinfo=0&rel=0&modestbranding=1&iv_load_policy=3&playsinline=1" 
+                frameborder="0" 
+                allow="autoplay; encrypted-media" 
+                allowfullscreen>
+         iframe>
+    </div>
+    
+    <!-- 🕶️ FILTRO SCURO PER LEGGIBILITÀ TESTI -->
+    <div class="video-overlay"></div>
+
+    <!-- 🎴 SCHEDA DI REGISTRAZIONE INTERATTIVA -->
     <div class="registration-card">
         <div class="header">
             <h1>Horizon 6 Festival</h1>
@@ -83,6 +139,10 @@
         </div>
 
         <button type="button" id="btnRegister" class="btn-register">REGISTRA PILOTA</button>
+
+        <div class="login-link">
+            Hai già un account? <a href="login.html">Accedi qui</a>
+        </div>
 
         <div id="feedback" class="message"></div>
     </div>
@@ -162,7 +222,7 @@
                 const userCredential = await createUserWithEmailAndPassword(auth, virtualEmail, password);
                 const user = userCredential.user;
 
-                // 2. Struttura dati 6 Gare (Corrispondente alle regole del Database)
+                // 2. Struttura dati 6 Gare
                 const newDriverData = {
                     loginId: loginId,
                     gamertag: gamertag,
