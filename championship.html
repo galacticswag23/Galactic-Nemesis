@@ -778,7 +778,12 @@
                             <span class="tcg-hp">HP 990</span>
                         </div>
                         <div class="lootbox-logo-frame">
-                            <img id="lootboxCarImg" src="${data.car_image}" alt="Manufacturer Logo">
+                            <img
+    id="lootboxCarImg"
+    src="${data.car_image}"
+    alt="Manufacturer Logo"
+    onerror="this.src='https://cdn.simpleicons.org/car/white'"
+>
                         </div>
                         <div class="tcg-info-box">
                             <div class="lootbox-car-title">${data.car_name}</div>
