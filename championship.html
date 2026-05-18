@@ -358,30 +358,67 @@
         };
 
         function extractBrandLogoUrl(carName) {
-            let cleanName = carName.replace(/^\d{4}\s+/, '').trim();
-            if (cleanName.startsWith('#')) { cleanName = cleanName.replace(/^#\d+\s+/, '').trim(); }
-            let brand = cleanName.split(' ')[0].toLowerCase();
+    let cleanName = carName.replace(/^\d{4}\s+/, '').trim();
 
-            const domainMapping = {
-                "abarth": "abarth.it", "acura": "acura.com", "alfa": "alfaromeo.it", "ariel": "arielmotor.co.uk", 
-                "aston": "astonmartin.com", "audi": "audi.com", "bac": "bac-mono.com", "bentley": "bentleymotors.com", 
-                "bmw": "bmw.com", "buick": "buick.com", "cadillac": "cadillac.com", "casey": "jeep.com", 
-                "chevrolet": "chevrolet.com", "dodge": "dodge.com", "ferrari": "ferrari.com", "ford": "ford.com", 
-                "gmc": "gmc.com", "honda": "honda.com", "hyundai": "hyundai.com", "jaguar": "jaguar.com", 
-                "jeep": "jeep.com", "jimco": "jimcorace.com", "koenigsegg": "koenigsegg.com", "ktm": "ktm.com", 
-                "lamborghini": "lamborghini.com", "lancia": "lancia.it", "land": "landrover.com", "lexus": "lexus.com", 
-                "lotus": "lotuscars.com", "maserati": "maserati.com", "mazda": "mazda.com", "mclaren": "mclaren.com", 
-                "mercedes-amg": "mercedes-benz.com", "mercedes-benz": "mercedes-benz.com", "meyers": "meyersmanx.com", 
-                "mg": "mgmotor.co.uk", "mini": "mini.com", "mitsubishi": "mitsubishi-motors.com", "noble": "noblecars.com", 
-                "nissan": "nissan-global.com", "pagani": "pagani.com", "peugeot": "peugeot.com", "polaris": "polaris.com", 
-                "porsche": "porsche.com", "ram": "ramtrucks.com", "renault": "renaultgroup.com", "saleen": "saleen.com", 
-                "shelby": "shelby.com", "subaru": "subaru-global.com", "toyota": "toyota-global.com", "tvr": "tvrofficial.com", 
-                "volkswagen": "volkswagen.com"
-            };
+    if (cleanName.startsWith('#')) {
+        cleanName = cleanName.replace(/^#\d+\s+/, '').trim();
+    }
 
-            let targetDomain = domainMapping[brand] || `${brand}.com`;
-            return `https://cdn.simpleicons.org/${targetDomain}`;
-        }
+    let brand = cleanName.split(' ')[0].toLowerCase();
+
+    const simpleIconsMapping = {
+        "abarth": "abarth",
+        "acura": "acura",
+        "alfa": "alfaromeo",
+        "ariel": "ariel",
+        "aston": "astonmartin",
+        "audi": "audi",
+        "bac": "bac",
+        "bmw": "bmw",
+        "bugatti": "bugatti",
+        "cadillac": "cadillac",
+        "chevrolet": "chevrolet",
+        "dodge": "dodge",
+        "ferrari": "ferrari",
+        "ford": "ford",
+        "gmc": "gmc",
+        "honda": "honda",
+        "hyundai": "hyundai",
+        "jaguar": "jaguar",
+        "jeep": "jeep",
+        "koenigsegg": "koenigsegg",
+        "ktm": "ktm",
+        "lamborghini": "lamborghini",
+        "lancia": "lancia",
+        "land": "landrover",
+        "lexus": "lexus",
+        "lotus": "lotus",
+        "maserati": "maserati",
+        "mazda": "mazda",
+        "mclaren": "mclaren",
+        "mercedes-amg": "mercedes",
+        "mercedes-benz": "mercedes",
+        "mini": "mini",
+        "mitsubishi": "mitsubishi",
+        "nissan": "nissan",
+        "pagani": "pagani",
+        "peugeot": "peugeot",
+        "porsche": "porsche",
+        "ram": "ram",
+        "renault": "renault",
+        "subaru": "subaru",
+        "toyota": "toyota",
+        "volkswagen": "volkswagen"
+    };
+
+    const iconSlug = simpleIconsMapping[brand];
+
+    if (!iconSlug) {
+        return 'https://www.freeiconspng.com/uploads/xbox-icon-2.png';
+    }
+
+    return `https://cdn.simpleicons.org/${iconSlug}`;
+}
 
         onAuthStateChanged(auth, (user) => {
             if (!user) {
