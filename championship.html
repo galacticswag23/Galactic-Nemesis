@@ -393,11 +393,15 @@
             }
         };
 
-        // 🏁 SISTEMA DI RECUPERO IMMAGINI AUTOMATICO VIA UNSPLASH EMBED UTILE A EVITARE ERRORI CROSS-ORIGIN
+        // 🏁 SISTEMA DI RECUPERO IMMAGINI AUTOMATICO (Corretto e Dinamico)
         function getCarImageUrl(carName) {
             if (!carName) return "https://images.unsplash.com/photo-1542282088-fe8426682b8f?q=80&w=600&auto=format&fit=crop";
+            
+            // Puliamo il nome dell'auto rimuovendo l'anno (es. "2022 Toyota GR86" diventa "Toyota GR86")
             const queryName = carName.replace(/^\d{4}\s+/, ''); 
-            return `https://images.unsplash.com/photo-1542282088-fe8426682b8f?q=80&w=600&auto=format&fit=crop&q=${encodeURIComponent(queryName + ' car racing')}`;
+            
+            // Utilizziamo l'endpoint di ricerca "source" che genera un'immagine casuale ma coerente con i tag
+            return `https://images.unsplash.com/featured/600x400/?${encodeURIComponent(queryName + ',car,racing')}`;
         }
 
         onAuthStateChanged(auth, (user) => {
