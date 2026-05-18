@@ -178,17 +178,6 @@
     .points-total { color: var(--neon-blue); font-weight: 900; text-align: right; font-size: 1.1rem; }
     tr.oro .points-total { color: var(--gold-neon); text-shadow: 0 0 8px rgba(255, 215, 0, 0.3); }
 
-    .admin-panel {
-        background: #11141c; border: 2px dashed rgba(255, 85, 0, 0.3); border-radius: 12px; padding: 30px; margin-top: 30px;
-    }
-    .admin-panel h2 { font-style: italic; text-transform: uppercase; font-size: 1.2rem; margin-bottom: 20px; color: var(--horizon-orange); }
-    
-    .btn-save {
-        width: 100%; padding: 15px; background: linear-gradient(135deg, var(--horizon-pink) 0%, var(--horizon-orange) 100%);
-        border: none; border-radius: 6px; color: white; font-weight: 900; text-transform: uppercase; font-style: italic; cursor: pointer; letter-spacing: 1px; transition: all 0.2s;
-    }
-    .btn-save:hover { filter: brightness(1.2); transform: translateY(-1px); }
-
     /* 💎 STRUTTURA ED EFFETTI CARTA TCG FISICA (POKÉMON / TRADING CARD STYLE) */
     .lootbox-container {
         perspective: 1600px;
@@ -368,7 +357,6 @@
             <span>Campionato Andata & Ritorno</span>
         </div>
 
-        <!-- 📦 AREA DI ARRIVO CARTA TCG -->
         <div id="lootboxPlacementZone" class="lootbox-container"></div>
 
         <div class="categories-info">
@@ -387,11 +375,11 @@
                         <th>Pos</th>
                         <th>Pilota (Gamertag)</th>
                         <th style="text-align: center; color: var(--neon-blue);">G1</th>
-                        <th style="text-align: center; color: var(--neon-blue);">G2</th>
-                        <th style="text-align: center; color: var(--neon-blue);">G3</th>
-                        <th style="text-align: center; color: var(--horizon-pink);">G4</th>
-                        <th style="text-align: center; color: var(--horizon-pink);">G5</th>
-                        <th style="text-align: center; color: var(--horizon-pink);">G6</th>
+                        <th style="text-align: center; color: var(--neon-blue);">${driver.g2}</th>
+                        <th style="text-align: center; color: var(--neon-blue);">${driver.g3}</th>
+                        <th style="text-align: center; color: var(--horizon-pink);">${driver.g4}</th>
+                        <th style="text-align: center; color: var(--horizon-pink);">${driver.g5}</th>
+                        <th style="text-align: center; color: var(--horizon-pink);">${driver.g6}</th>
                         <th style="text-align: right;">Punti Live</th>
                     </tr>
                 </thead>
@@ -399,7 +387,6 @@
             </table>
         </div>
 
-        <!-- 🛠️ INTERFACCIA DIREZIONE GARA -->
         <div id="adminSection" class="admin-panel" style="display: none;">
             <h2>Direzione Gara: Estrazione Veicolo della Tappa</h2>
             <div class="extraction-controls">
@@ -484,20 +471,101 @@
         };
 
         function extractBrandLogoUrl(carName) {
+            // 1. Rimuove l'anno iniziale (es. "2016 Abarth..." -> "Abarth...")
             let cleanName = carName.replace(/^\d{4}\s+/, '').trim();
+            
+            // 2. Rimuove il numero di gara iniziale se presente dopo l'anno (es. "#2 Audi...")
+            if (cleanName.startsWith('#')) {
+                cleanName = cleanName.replace(/^#\d+\s+/, '').trim();
+            }
+            
+            // 3. Prende la prima parola
             let brand = cleanName.split(' ')[0].toLowerCase();
 
-            if (brand === "alfa") brand = "alfaromeo";
-            if (brand === "aston") brand = "astonmartin";
-            if (brand === "mercedes-amg" || brand === "mercedes-benz") brand = "mercedes";
-            if (brand === "formula" || brand === "forsberg") brand = "nissan"; 
-            if (brand === "deberti") brand = "ford";
-            if (brand === "casey" || brand === "ultra") brand = "jeep";
-            if (brand === "sierra") brand = "sierracars";
+            // Mappature specifiche per domini aziendali reali e stabili su Clearbit
+            const domainMapping = {
+                "abarth": "abarth.it",
+                "acura": "acura.com",
+                "alfa": "alfaromeo.it",
+                "amg": "mercedes-benz.com",
+                "ariel": "arielmotor.co.uk",
+                "aston": "astonmartin.com",
+                "audi": "audi.com",
+                "autozam": "mazda.com",
+                "bac": "bac-mono.com",
+                "bentley": "bentleymotors.com",
+                "bmw": "bmw.com",
+                "buick": "buick.com",
+                "cadillac": "cadillac.com",
+                "can-am": "brp.com",
+                "casey": "jeep.com",
+                "chevrolet": "chevrolet.com",
+                "datsun": "datsun.com",
+                "deberti": "ford.com",
+                "delorean": "delorean.com",
+                "dodge": "dodge.com",
+                "ferrari": "ferrari.com",
+                "ford": "ford.com",
+                "formula": "nissanusa.com", 
+                "forsberg": "nissanusa.com",
+                "gmc": "gmc.com",
+                "holden": "holden.com.au",
+                "honda": "honda.com",
+                "hsv": "hsv.com.au",
+                "hyundai": "hyundai.com",
+                "jaguar": "jaguar.com",
+                "jeep": "jeep.com",
+                "jimco": "jimcorace.com",
+                "koenigsegg": "koenigsegg.com",
+                "ktm": "ktm.com",
+                "lamborghini": "lamborghini.com",
+                "lancia": "lancia.it",
+                "land": "landrover.com",
+                "lexus": "lexus.com",
+                "lincoln": "lincoln.com",
+                "lotus": "lotuscars.com",
+                "lucid": "lucidmotors.com",
+                "maserati": "maserati.com",
+                "mazda": "mazda.com",
+                "mclaren": "mclaren.com",
+                "mercedes-amg": "mercedes-benz.com",
+                "mercedes-benz": "mercedes-benz.com",
+                "meyers": "meyersmanx.com",
+                "mg": "mgmotor.co.uk",
+                "mini": "mini.com",
+                "mitsubishi": "mitsubishi-motors.com",
+                "noble": "noblecars.com",
+                "nissan": "nissan-global.com",
+                "opel": "opel.com",
+                "pagani": "pagani.com",
+                "peugeot": "peugeot.com",
+                "polaris": "polaris.com",
+                "porsche": "porsche.com",
+                "radical": "radicalsportscars.com",
+                "ram": "ramtrucks.com",
+                "renault": "renaultgroup.com",
+                "rivian": "rivian.com",
+                "rj": "polaris.com",
+                "saleen": "saleen.com",
+                "schuppan": "porsche.com",
+                "shelby": "shelby.com",
+                "sierra": "sierracars.com",
+                "sierracars": "sierracars.com",
+                "subaru": "subaru-global.com",
+                "toyota": "toyota-global.com",
+                "tvr": "tvrofficial.com",
+                "volkswagen": "volkswagen.com",
+                "volvo": "volvocars.com",
+                "zenvo": "zenvoautomotive.com"
+            };
+
+            // Eccezioni con loghi fissi che non esistono su Clearbit (Peel, Wuling, marchi custom)
             if (brand === "peel") return "https://upload.wikimedia.org/wikipedia/commons/b/b0/Peel_Engineering_Company_logo.png";
             if (brand === "wuling") return "https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/Wuling_Motors_logo.svg/512px-Wuling_Motors_logo.svg.png";
+            if (brand === "funco" || brand === "penhall") return "https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/Gran_Turismo_series_logo.svg/512px-Gran_Turismo_series_logo.svg.png";
 
-            return `https://logo.clearbit.com/${brand}.com`;
+            let targetDomain = domainMapping[brand] || `${brand}.com`;
+            return `https://logo.clearbit.com/${targetDomain}`;
         }
 
         onAuthStateChanged(auth, (user) => {
@@ -597,14 +665,17 @@
                 const currentCard = document.querySelector('.lootbox-card');
                 if (currentCard && currentCard.dataset.car === data.car_name) return;
 
+                // Fallback standard sicuro (Logo Gran Turismo) se Clearbit va in errore o fallisce
+                const fallbackImg = 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/Gran_Turismo_series_logo.svg/512px-Gran_Turismo_series_logo.svg.png';
+
                 targetZone.innerHTML = `
                     <div class="lootbox-card rarity-${data.classe}" data-car="${data.car_name}">
                         <div class="tcg-header">
-                            <span class="tcg-title">STAGE VEICLE REVEAL</span>
+                            <span class="tcg-title">STAGE VEHICLE REVEAL</span>
                             <span class="tcg-hp">HP 990</span>
                         </div>
                         <div class="lootbox-logo-frame">
-                            <img id="lootboxCarImg" src="${data.car_image}" alt="Manufacturer Logo" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/Gran_Turismo_series_logo.svg/512px-Gran_Turismo_series_logo.svg.png'">
+                            <img id="lootboxCarImg" src="${data.car_image}" alt="Manufacturer Logo">
                         </div>
                         <div class="tcg-info-box">
                             <div class="lootbox-car-title">${data.car_name}</div>
@@ -615,6 +686,14 @@
                         </div>
                     </div>
                 `;
+
+                // Gestione degli errori dell'immagine in modo nativo per via del ciclo vitale del DOM
+                const imgElement = document.getElementById('lootboxCarImg');
+                if (imgElement) {
+                    imgElement.addEventListener('error', function() {
+                        this.src = fallbackImg;
+                    });
+                }
             });
 
             if (isAdmin) {
