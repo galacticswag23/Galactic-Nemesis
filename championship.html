@@ -189,78 +189,134 @@
     }
     .btn-save:hover { filter: brightness(1.2); transform: translateY(-1px); }
 
-    /* 📦 STILI LOOTBOX APEX DROP */
+    /* 💎 ANIMAZIONI ULTRA-GLITCH E SCINTILLIO OLOGRAFICO (APEX STYLE) */
     .lootbox-container {
-        perspective: 1000px;
+        perspective: 1200px;
         margin-bottom: 35px;
     }
 
     .lootbox-card {
-        background: linear-gradient(135deg, #151a26 0%, #090b11 100%);
-        border: 2px solid var(--neon-blue);
-        border-radius: 16px;
-        padding: 30px;
+        background: linear-gradient(135deg, #0d111a 0%, #05070b 100%);
+        border: 3px solid var(--neon-blue);
+        border-radius: 20px;
+        padding: 35px;
         text-align: center;
         position: relative;
         overflow: hidden;
-        box-shadow: 0 0 30px rgba(0, 240, 255, 0.25), inset 0 0 15px rgba(0, 240, 255, 0.1);
-        transform: rotateX(15deg);
-        animation: dropInLootbox 0.85s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-        will-change: transform, opacity;
+        box-shadow: 0 0 35px rgba(0, 240, 255, 0.3);
+        
+        /* Animazione d'ingresso + Oscillazione idle */
+        animation: dropInLootbox 0.75s cubic-bezier(0.19, 1, 0.22, 1) forwards, cardFloat 4s ease-in-out infinite 0.75s;
+        will-change: transform, opacity, background-position;
     }
 
+    /* Overlay Scintillante Olografico */
+    .lootbox-card::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: linear-gradient(125deg, 
+            transparent 35%, 
+            rgba(0, 240, 255, 0.15) 45%, 
+            rgba(255, 0, 85, 0.2) 50%, 
+            rgba(255, 215, 0, 0.15) 55%, 
+            transparent 65%
+        );
+        background-size: 300% 300%;
+        background-position: 0% 0%;
+        mix-blend-mode: color-dodge;
+        animation: holoGlint 6s ease infinite;
+        pointer-events: none;
+        z-index: 2;
+    }
+
+    /* Lampo di luce Lineare (Sheen Effect) */
+    .lootbox-card::after {
+        content: '';
+        position: absolute;
+        top: -50%; left: -60%; width: 30%; height: 200%;
+        background: linear-gradient(to right, transparent 0%, rgba(255,255,255,0.4) 50%, transparent 100%);
+        transform: rotate(35deg);
+        animation: laserSheen 3.5s cubic-bezier(0.43, 0.13, 0.23, 0.96) infinite;
+        pointer-events: none;
+        z-index: 3;
+    }
+
+    /* Rari varianti di bordo e neon */
     .lootbox-card.rarity-A {
         border-color: #ff0055;
-        box-shadow: 0 0 40px rgba(255, 0, 85, 0.45), inset 0 0 20px rgba(255, 0, 85, 0.15);
+        box-shadow: 0 0 45px rgba(255, 0, 85, 0.5), inset 0 0 20px rgba(255, 0, 85, 0.2);
     }
     .lootbox-card.rarity-B {
         border-color: #ff5500;
-        box-shadow: 0 0 35px rgba(255, 85, 0, 0.4), inset 0 0 15px rgba(255, 85, 0, 0.1);
+        box-shadow: 0 0 40px rgba(255, 85, 0, 0.45), inset 0 0 15px rgba(255, 85, 0, 0.15);
     }
     .lootbox-card.rarity-C {
         border-color: #00f0ff;
-        box-shadow: 0 0 30px rgba(0, 240, 255, 0.3), inset 0 0 15px rgba(0, 240, 255, 0.1);
+        box-shadow: 0 0 35px rgba(0, 240, 255, 0.35), inset 0 0 15px rgba(0, 240, 255, 0.15);
     }
 
+    /* Keyframes Animazioni */
     @keyframes dropInLootbox {
-        0% { transform: translateY(-60px) scale(0.8) rotateX(40deg); opacity: 0; filter: brightness(3); }
+        0% { transform: translateY(-80px) scale(0.85) rotateX(30deg); opacity: 0; filter: brightness(3); }
         100% { transform: translateY(0) scale(1) rotateX(0deg); opacity: 1; filter: brightness(1); }
     }
 
+    @keyframes cardFloat {
+        0%, 100% { transform: translateY(0) rotateY(0deg); }
+        50% { transform: translateY(-6px) rotateY(2deg); }
+    }
+
+    @keyframes holoGlint {
+        0%, 100% { background-position: 0% 0%; }
+        50% { background-position: 100% 100%; }
+    }
+
+    @keyframes laserSheen {
+        0% { left: -60%; }
+        25%, 100% { left: 140%; }
+    }
+
     .lootbox-card h3 {
-        font-size: 0.9rem; font-weight: 900; text-transform: uppercase; letter-spacing: 3px; color: #fff; margin-bottom: 15px;
+        font-size: 0.9rem; font-weight: 900; text-transform: uppercase; letter-spacing: 4px; color: #fff; margin-bottom: 15px;
+        text-shadow: 0 0 10px rgba(255,255,255,0.5);
     }
 
     .lootbox-meta {
-        display: flex; justify-content: center; gap: 12px; margin-bottom: 20px;
+        display: flex; justify-content: center; gap: 12px; margin-bottom: 25px;
     }
 
     .loot-badge {
         font-weight: 900; font-style: italic; font-size: 0.8rem; padding: 6px 16px; border-radius: 4px; text-transform: uppercase;
     }
     .loot-badge.track { background: rgba(255,255,255,0.08); color: #fff; border: 1px solid rgba(255,255,255,0.15); }
-    .loot-badge.class { background: linear-gradient(90deg, var(--horizon-orange), var(--horizon-pink)); color: #fff; }
+    .loot-badge.class { background: linear-gradient(90deg, var(--horizon-orange), var(--horizon-pink)); color: #fff; box-shadow: 0 0 10px rgba(255, 0, 85, 0.4); }
 
     .lootbox-car-title {
-        font-size: 2.3rem; font-weight: 900; font-style: italic; text-transform: uppercase;
-        background: linear-gradient(90deg, #fff 40%, #83899a 100%);
+        font-size: 2.5rem; font-weight: 900; font-style: italic; text-transform: uppercase;
+        background: linear-gradient(90deg, #fff 30%, #83899a 100%);
         -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-        margin-bottom: 20px; letter-spacing: -1px;
+        margin-bottom: 25px; letter-spacing: -1px;
     }
 
-    .lootbox-image-frame {
-        width: 100%; max-width: 480px; height: 260px; margin: 0 auto;
-        border-radius: 8px; background: rgba(0,0,0,0.4); overflow: hidden;
-        border: 1px solid rgba(255,255,255,0.05); position: relative;
-        box-shadow: inset 0 0 20px rgba(0,0,0,0.8);
+    /* Frame Logo Produttore Renderizzato senza background */
+    .lootbox-logo-frame {
+        width: 180px; height: 180px; margin: 0 auto;
+        position: relative; display: flex; align-items: center; justify-content: center;
+        filter: drop-shadow(0 0 15px rgba(255,255,255,0.25));
+        animation: logoPulse 2s ease-in-out infinite alternate;
     }
 
-    .lootbox-image-frame img {
-        width: 100%; height: 100%; object-fit: cover;
-        opacity: 0; animation: fadeInCarImage 0.5s ease-out 0.3s forwards;
+    .lootbox-logo-frame img {
+        max-width: 100%; max-height: 100%; object-fit: contain;
+        opacity: 0; animation: fadeInLogo 0.4s ease-out 0.2s forwards;
     }
 
-    @keyframes fadeInCarImage { 100% { opacity: 1; } }
+    @keyframes fadeInLogo { 100% { opacity: 1; } }
+    @keyframes logoPulse { 
+        0% { transform: scale(1); filter: drop-shadow(0 0 12px rgba(255,255,255,0.2)); } 
+        100% { transform: scale(1.06); filter: drop-shadow(0 0 25px var(--neon-blue)); } 
+    }
 
     .extraction-controls {
         display: flex; gap: 12px; margin-bottom: 20px; flex-wrap: wrap;
@@ -295,7 +351,7 @@
             <span>Campionato Andata & Ritorno</span>
         </div>
 
-        <!-- 📦 AREA DI ARRIVO LOOTBOX (DINAMICA) -->
+        <!-- 📦 AREA DI ARRIVO LOOTBOX -->
         <div id="lootboxPlacementZone" class="lootbox-container"></div>
 
         <div class="categories-info">
@@ -374,44 +430,63 @@
         const auth = getAuth(app);
         const database = getDatabase(app);
 
-        // DATABASE AUTO POOL
         const autoPool = {
             asfalto: {
-                A: ["2022 Acura NSX Type S", "2019 Aston Martin Vantage", "2023 Lotus Emira", "2016 Mercedes-AMG C 63 S Coupé", "2005 TVR Sagaris"],
-                B: ["2000 Nissan Skyline GT-R V-Spec II", "1998 Toyota Supra RZ", "2022 Toyota GR86", "2015 Audi S1", "2017 Mazda MX-5 Cup"],
-                C: ["2001 Acura Integra Type-R", "1973 BMW 2002 Turbo", "1995 Mitsubishi Eclipse GSX", "1997 Honda Civic Type R", "1997 Nissan Stagea RS Four V"]
+                A: [
+                    "2016 Abarth 695 Biposto", "2022 Acura NSX Type S", "1965 Alfa Romeo Giulia TZ2", "1968 Alfa Romeo 33 Stradale", "1990 Alfa Romeo SE 048SP", "2017 Alfa Romeo Giulia Quadrifoglio", "2021 Alfa Romeo Giulia GTAm", "2554 AMG Transport Dynamics M12S Warthog CST", "2013 Ariel Atom 500 V8", "2017 Aston Martin DB11", "2017 Aston Martin Vulcan AMR Pro", "2019 Aston Martin DBS Superleggera", "2019 Aston Martin Valhalla Concept Car", "2019 Aston Martin Vantage", "2022 Aston Martin Valkyrie AMR Pro", "2023 Aston Martin Valkyrie", "2009 Audi R8 LMS", "2013 Audi R8 Coupé V10 plus", "2016 Audi R8 V10 plus", "2020 Audi R8 V10 Performance", "2021 Audi RS 6 Avant", "2021 Audi RS 7 Sportback", "2021 Audi RS e-tron GT", "2014 BAC Mono", "2021 Bentley Continental GT Convertible", "1981 BMW M1", "2020 BMW M8 Competition Coupe", "2021 BMW M4 Competition Coupé", "2022 BMW M5 CS", "2023 BMW M2 Forza Edition", "2016 Cadillac CTS-V Sedan", "2022 Cadillac CT5-V Blackwing", "2019 Chevrolet Corvette ZR1", "2023 Chevrolet Corvette Z06", "2024 Chevrolet Corvette E-Ray", "2016 Dodge Viper ACR", "2018 Dodge Challenger SRT Demon", "2022 Dodge Challenger SRT Super Stock", "1984 Ferrari 288 GTO", "1987 Ferrari F40", "1989 Ferrari F40 Competizione", "1995 Ferrari F50", "1996 Ferrari F50 GT", "2005 Ferrari FXX", "2009 Ferrari 458 Italia", "2010 Ferrari 599XX", "2013 Ferrari LaFerrari", "2018 Ferrari FXX-K Evo", "2019 Ferrari 488 Pista", "2022 Ferrari 296 GTB", "2025 Ferrari F80", "1966 Ford #2 GT40 Mk II Le Mans", "2005 Ford GT", "2017 Ford GT", "2024 Ford Mustang Dark Horse", "2007 Formula Drift #117 599 GTB Fiorano", "2013 Formula Drift #777 Chevrolet Corvette", "2021 Hennessey Venom F5", "1992 Honda NSX-R", "2005 Honda NSX-R GT", "2022 Hyundai N Vision 74", "2023 Hyundai IONIQ 5 N", "1993 Jaguar XJ220 TWR", "2010 Jaguar C-X75", "2008 Koenigsegg CCGT", "2011 Koenigsegg Agera", "2015 Koenigsegg One:1", "2016 Koenigsegg Regera", "2020 Koenigsegg Jesko", "2018 KTM X-Bow GT4", "1999 Lamborghini Diablo GTR", "2010 Lamborghini Murciélago LP 670-4 SV", "2012 Lamborghini Aventador LP 700-4", "2013 Lamborghini Veneno", "2016 Lamborghini Centenario LP 770-4", "2018 Lamborghini Aventador SVJ", "2020 Lamborghini Essenza SCV12", "2020 Lamborghini Huracán STO", "2021 Lamborghini Countach LPI 800-4", "2024 Lamborghini Revuelto", "2010 Lexus LFA Forza Edition", "2021 Lexus LC 500", "1997 Lotus Elise GT1", "2020 Lotus Evija", "2023 Lotus Emira", "2024 Lucid Air Sapphire", "2022 Maserati MC20", "1991 Mazda #55 Mazda 787B", "2008 Mazda Furai", "1993 McLaren F1 GT", "2013 McLaren P1", "2018 McLaren 600LT Coupé", "2019 McLaren Speedtail", "2021 McLaren 765LT", "2021 McLaren Sabre", "2021 Mercedes-AMG GT Black Series", "2009 Mercedes-Benz SL 65 AMG Black Series", "2010 Noble M600", "2009 Pagani Zonda Cinque Roadster", "2016 Pagani Huayra BC Coupe", "2021 Pagani Huayra R", "1997 Porsche 911 GT1 Strassenversion", "2003 Porsche Carrera GT", "2014 Porsche 918 Spyder", "2019 Porsche #70 Porsche Motorsport 935", "2023 Porsche 911 GT3 RS", "2015 Radical RXC Turbo", "2017 Saleen S7 LM", "1993 Schuppan 962CR", "1965 Shelby Cobra Daytona Coupé", "2019 Zenvo TSR-S"
+                ],
+                B: [
+                    "2002 Acura RSX Type S", "2023 Acura Integra A-Spec", "1992 Alfa Romeo 155 Q4", "2014 Alfa Romeo 4C", "2013 Ariel Atom 500 V8", "1964 Aston Martin DB5", "2021 Aston Martin DBX", "2001 Audi RS 4 Avant", "2003 Audi RS 6", "2006 Audi RS 4", "2009 Audi RS 6", "2010 Audi TT RS Coupé", "2011 Audi RS 5 Coupé", "2013 Audi RS 4 Avant", "2013 Audi RS 7 Sportback", "2015 Audi RS 6 Avant", "2018 Audi RS 4 Avant", "2020 Audi RS 3 Sedan", "1995 BMW 850CSi", "1995 BMW M5", "1997 BMW M3", "2003 BMW M5", "2005 BMW M3", "2008 BMW M3", "2008 BMW Z4 M Coupé", "2009 BMW M5", "2010 BMW M3 GTS", "2012 BMW M5", "2014 BMW M4 Coupé", "2015 BMW i8", "2016 BMW M4 GTS", "2019 BMW Z4 Roadster", "2020 BMW M2 Competition Coupé", "2021 BMW M4 Competition Coupé 'Welcome Pack'", "2023 BMW M2", "2016 Cadillac ATS-V", "2022 Cadillac CT4-V Blackwing", "1995 Chevrolet Corvette ZR-1", "2002 Chevrolet Corvette Z06", "2009 Chevrolet Corvette ZR1", "2015 Chevrolet Camaro Z/28", "2015 Chevrolet Corvette Z06", "2017 Chevrolet Camaro ZL1", "2018 Chevrolet Camaro ZL1 1LE", "2020 Chevrolet Corvette Stingray Coupé", "1999 Dodge Viper GTS ACR Forza Edition", "2008 Dodge Viper SRT10 ACR", "2013 Dodge SRT Viper GTS", "2015 Dodge Challenger SRT Hellcat", "2015 Dodge Charger SRT Hellcat", "1962 Ferrari 250 GT Berlinetta Lusso", "1967 Ferrari 275 GTB4 Spider", "1992 Ferrari 512 TR", "1994 Ferrari F355 Berlinetta", "2007 Ferrari 430 Scuderia", "2013 Ferrari 458 Speciale", "2017 Ferrari J50", "2018 Ferrari Portofino", "2019 Ferrari Monza SP2", "1987 Ford Sierra Cosworth RS500", "1993 Ford SVT Cobra R", "1994 Ford Supervan 3", "2013 Ford Mustang Shelby GT500", "2016 Ford Mustang Shelby GT350R", "2018 Ford Mustang RTR Spec 5", "2020 Ford Mustang Shelby GT500", "2024 Ford Mustang GT", "1989 Formula Drift #98 BMW 325i", "1995 Formula Drift #34 Toyota Supra MkIV", "1997 Formula Drift #777 Nissan 240SX", "2006 Formula Drift #43 Dodge Viper SRT10", "2009 Formula Drift #99 Mazda RX-8", "2015 Formula Drift #13 Ford Mustang", "2016 Formula Drift #530 HSV Maloo Gen-F", "2019 Formula Drift #411 Toyota Corolla Hatchback", "2020 Formula Drift #91 BMW M2", "2020 Formula Drift #151 Toyota GR Supra", "2023 Formula Drift #64 Forsberg Racing Nissan Z", "2014 HSV GEN-F GTS", "1993 Jaguar XJ220", "2018 Jeep Grand Cherokee Trackhawk", "1997 Lamborghini Diablo SV", "2012 Lamborghini Gallardo LP 570-4 Spyder Performante", "2014 Lamborghini Huracán LP 610-4", "2022 Lamborghini Huracán Tecnica", "2015 Lexus RC F", "1999 Lotus Elise Series 1 Sport 190", "2018 Lotus Exige Cup 430", "2018 Lotus Scura Motorsport Exige WTAC", "2022 Maserati MC20", "1992 Mazda RX-7 Type R", "2011 Mazda RX-8 R3", "2017 Mazda MX-5 Cup", "1993 McLaren F1", "2011 McLaren 12C Coupé", "2015 McLaren 570S Coupé", "2021 McLaren 620R", "2016 Mercedes-AMG C 63 S Coupé", "2018 Mercedes-AMG E 63 S", "2018 Mercedes-AMG GT 4-Door Coupé", "2021 Mercedes-AMG SL 63", "1987 Mercedes-Benz AMG Hammer Coupe", "2012 Mercedes-Benz C 63 AMG Coupé Black Series", "1997 Mitsubishi GTO", "2004 Mitsubishi Lancer Evolution VIII MR", "2005 Mitsubishi #1 Sierra Sierra Enterprises Lancer Evolution Time Attack", "2008 Mitsubishi Lancer Evolution X GSR", "1987 Nissan Skyline GTS-R (HR31)", "1993 Nissan #32 Skyline WTAC 'Xtreme GTR'", "1997 Nissan Skyline GT-R V-Spec", "1998 Nissan #23 Pennzoil Nismo Skyline GT-R", "2000 Nissan #36 Silvia WTAC", "2000 Nissan Skyline GT-R V-Spec II", "2002 Nissan Silvia Spec-R", "2012 Nissan GT-R Black Edition (R35) Touge Edition", "2017 Nissan GT-R (R35)", "2019 Nissan 370Z NISMO", "2020 Nissan GT-R NISMO (R35)", "2024 Nissan GT-R NISMO", "2024 Nissan Z NISMO", "1995 Porsche 911 GT2", "2004 Porsche 911 GT3", "2012 Porsche 911 GT3 RS 4.0", "2018 Porsche 718 Cayman GTS", "2019 Porsche 911 Carrera S", "2019 Porsche 911 GT3 RS", "2021 Porsche 911 GT3", "2021 Porsche Mission R", "2022 Porsche 718 Cayman GT4 RS", "2023 Porsche 911 Turbo S", "1965 Shelby Cobra 427 S/C", "2019 Subaru STI S209", "1995 Toyota J&J Motorsport Supra WTAC", "1998 Toyota Supra RZ", "2013 Toyota 86 'Stories'", "2020 Toyota GR Supra", "2022 Toyota GR86", "2023 Toyota Camry TRD", "2018 TVR Griffith", "2010 Volkswagen Golf R", "2014 Volkswagen Golf R", "2021 Volkswagen Golf R", "2022 Volkswagen Golf R"
+                ],
+                C: [
+                    "1968 Abarth 595 esseesse", "2001 Acura Integra Type-R", "1965 Alfa Romeo Giulia Sprint GTA Stradale", "1993 Autozam AZ-1", "1957 BMW Isetta 300 Export", "1988 BMW M3", "1988 BMW M5", "1987 Buick Regal GNX", "1953 Chevrolet Corvette", "1955 Chevrolet 150 Utility Sedan", "1957 Chevrolet Bel Air", "1960 Chevrolet Corvette", "1964 Chevrolet Impala Super Sport 409", "1967 Chevrolet Corvette Stingray 427", "1969 Chevrolet Camaro Super Sport Coupe", "1969 Chevrolet Nova Super Sport 396", "1970 Chevrolet Chevelle Super Sport 454", "1970 Chevrolet El Camino Super Sport 454", "1979 Chevrolet Camaro Z28", "1988 Chevrolet Monte Carlo Super Sport", "1996 Chevrolet Impala Super Sport", "1970 Datsun 510", "1982 DeLorean DMC-12", "1968 Dodge Dart HEMI Super Stock", "1969 Dodge Charger Daytona HEMI", "1969 Dodge Charger R/T", "1970 Dodge Challenger R/T", "1970 Dodge Coronet Super Bee", "1999 Dodge Viper GTS ACR", "1969 Ferrari Dino 246 GT", "1932 Ford De Luxe Five-Window Coupe", "1965 Ford Mustang GT Coupe", "1968 Ford Mustang 2+2 Fastback Forza Edition", "1969 Ford Mustang Boss 302", "1973 Ford Capri RS3100", "1973 Ford XB Falcon GT", "1999 Ford Racing Puma", "2003 Ford Focus RS", "2009 Ford Focus RS", "2010 Ford Crown Victoria Police Interceptor", "2011 Ford Transit SuperSportVan", "2017 Ford Focus RS", "2022 Ford Focus ST", "2023 Ford Fiesta ST", "1977 Holden Torana A9X", "1970 Honda S800", "1974 Honda Civic RS", "1984 Honda City E II", "1984 Honda Civic CRX Mugen", "1986 Honda Civic Si", "1990 Honda #19 CRX WTAC", "1991 Honda Beat", "1991 Honda CR-X SiR", "1992 Honda #21 Hardrace/JDMYard Civic WTAC", "1994 Honda Acty 'Rakuraku Express'", "1994 Honda Prelude Si", "1997 Honda Civic Type R", "2001 Honda #33 Integra WTAC", "2003 Honda S2000 Touge Edition", "2004 Honda #52 Evasive Motorsports S2000 WTAC", "2004 Honda Civic Type R", "2005 Honda NSX-R", "2007 Honda Civic Type-R", "2015 Honda Civic Type R", "2018 Honda Civic Type R", "2022 Honda e", "2023 Honda Civic Type R", "2019 Hyundai Veloster N", "2020 Hyundai i30 N", "2021 Hyundai i20 N", "1956 Jaguar D-Type", "1961 Jaguar E-Type", "1964 Jaguar Lightweight E-Type", "1967 Lamborghini Miura P400", "1988 Lamborghini Countach LP5000 QV", "1962 Lincoln Continental", "1997 Maserati Ghibli Cup", "1972 Mazda Cosmo 110S Series II", "1973 Mazda RX-3 Forza Edition", "1985 Mazda RX-7 GSL-SE", "1990 Mazda Savanna RX-7", "1990 Mazda MX-5 Miata", "1994 Mazda MX-5 Miata Forza Edition", "2005 Mazda Mazdaspeed MX-5", "2010 Mazda Mazdaspeed 3", "2013 Mazda MX-5", "2016 Mazda MX-5", "2022 Mazda MX-5 Miata RF", "1954 Mercedes-Benz 300 SL Coupé", "1990 Mercedes-Benz 190E 2.5-16 Evolution II Forza Edition", "2013 Mercedes-Benz A 45 AMG", "2020 Mercedes-Benz Cult SLC 43 Final Edition", "1965 MINI Cooper S", "2012 MINI John Cooper Works GP", "2021 MINI John Cooper Works GP", "1990 Mitsubishi #269 Attacking the Clock Racing Minicab Time Attack", "1992 Mitsubishi Galant VR-4", "1995 Mitsubishi Eclipse GSX", "1969 Nissan Fairlady Z 432", "1971 Nissan Skyline 2000GT-R", "1973 Nissan Skyline H/T 2000GT-R", "1983 Nissan #11 Tomica Skyline Turbo Super Silhouette", "1987 Nissan Be-1", "1989 Nissan PAO", "1989 Nissan S-Cargo Forza Edition", "1989 Nissan Silvia K's", "1991 Nissan Figaro", "1993 Nissan 240SX", "1994 Nissan Fairlady Z Version S Twin Turbo", "1994 Nissan Silvia K's", "1995 Nissan Gloria Gran Turismo", "1995 Nissan Nismo GT-R LM", "1997 Nissan Stagea RS Four V", "1998 Nissan Silvia K's Aero", "2003 Nissan Fairlady Z", "2010 Nissan 370Z", "2012 Nissan GT-R Black Edition (R35) Forza Edition", "1962 Peel P50 Trolli Edition", "1958 Plymouth Fury", "1968 Plymouth Barracuda Formula-S", "1971 Plymouth Cuda 426 Hemi", "1977 Pontiac Firebird Trans Am", "1987 Pontiac Firebird Trans Am GTA", "1973 Porsche 911 Carrera RS", "1982 Porsche 911 Turbo 3.3", "1993 Porsche 928 GTS", "1993 Porsche 968 Turbo S", "1962 Reliant Supervan III", "1967 Renault 8 Gordini", "1993 Renault Clio Williams", "2010 Renault Megane RS 250", "2018 Renault Mégane R.S.", "1996 Subaru SVX", "2005 Subaru Legacy B4 2.0 GT", "2013 Subaru BRZ", "2022 Subaru BRZ Forza Edition", "1965 Toyota Sports 800 Fanta Edition", "1969 Toyota 2000GT", "1974 Toyota Corolla SR5", "1985 Toyota Sprinter Trueno GT Apex Touge Edition", "1989 Toyota MR2 SC", "1991 Toyota Chaser GT Twin Turbo", "1991 Toyota Sera", "1992 Toyota Supra 2.0 GT", "1995 Toyota MR2 GT", "1997 Toyota Chaser 2.5 Tourer V", "1997 Toyota Soarer 2.5 GT-T", "2003 Toyota Celica Sport Specialty II", "2005 Toyota Crown Super Deluxe Taxi", "2013 Toyota 86", "2017 Toyota JPN Taxi", "2021 Toyota GR Yaris", "2005 TVR Sagaris", "1963 Volkswagen Beetle", "1963 Volkswagen Type 2 De Luxe", "1983 Volkswagen Golf GTI", "1992 Volkswagen Golf GTI 16V Mk2", "1995 Volkswagen Corrado VR6", "2011 Volkswagen Scirocco R", "2013 Wuling Sunshine S Forza Edition", "2022 Wuling Hongguang Mini EV Macaron"
+                ]
             },
             sterrato: {
-                A: ["1986 Audi #2 Audi Sport quattro S1", "1986 Porsche #185 959 Prodrive Rally Raid", "2018 Subaru WRX STI ARX Supercar", "2007 Peugeot 207 Super 2000", "2023 Porsche 911 Rallye"],
-                B: ["1998 Subaru Impreza 22B-STi Version", "2006 Mitsubishi Lancer Evolution IX MR", "1986 Lancia Delta S4", "1984 Peugeot 205 Turbo 16", "2008 Renault Megane R26.R"],
-                C: ["1992 Lancia Delta HF Integrale Evo", "1980 Abarth Fiat 131", "1980 Renault 5 Turbo", "1992 Toyota Celica GT-Four RC ST185", "1983 Volvo 242 Turbo Evolution"]
+                A: [
+                    "1986 Audi #2 Audi Sport quattro S1", "2018 Subaru WRX STI ARX Supercar", "2007 Peugeot 207 Super 2000", "2017 Ford #14 Rahal Letterman Lanigan Racing GRC Fiesta", "2017 Volkswagen #34 Volkswagen Andretti Rallycross Beetle"
+                ],
+                B: [
+                    "1986 Lancia Delta S4", "1984 Peugeot 205 Turbo 16", "1985 Ford RS200 Evolution", "1998 Subaru Impreza 22B-STi Version", "2006 Mitsubishi Lancer Evolution IX MR", "2008 Renault Megane R26.R", "1986 MG Metro 6R4"
+                ],
+                C: [
+                    "1980 Abarth Fiat 131", "1983 Audi Sport quattro", "1977 Ford #5 Escort RS1800 MK II", "1992 Ford Escort RS Cosworth", "1974 Lancia Stratos HF Stradale", "1992 Lancia Delta HF Integrale Evo", "1991 Peugeot 205 Rallye", "1980 Renault 5 Turbo", "1990 Subaru Legacy RS", "1994 Subaru Vivio RX-R Forza Edition", "2004 Subaru Impreza WRX STi", "2005 Subaru Impreza WRX STi", "2008 Subaru Impreza WRX STI", "2011 Subaru WRX STI", "2015 Subaru WRX STI", "2022 Subaru WRX", "1992 Toyota Celica GT-Four RC ST185", "1994 Toyota Celica GT-Four ST205", "1983 Volvo 242 Turbo Evolution", "1984 Opel Manta 400"
+                ]
             },
             cross: {
-                A: ["2019 Casey Currie Motorsports #4402 Ultra 4", "2017 Ford #25 'Brocky' Ultra4 Bronco RTR", "2016 Jeep Trailcat", "2020 Jimco #179 Hammerhead Class 1", "2014 Ford #11 Rockstar F-150 Trophy Truck"],
-                B: ["2021 Alumicraft #122 Class 1 Buggy", "2015 Honda Ridgeline Baja Trophy Truck", "2024 Ram 1500 TRX", "2023 Ford F-150 Raptor R", "2018 MINI X-raid John Cooper Works Buggy"],
-                C: ["2020 Ford #2069 Ford Performance Bronco R", "2022 Ford Bronco Raptor", "1971 Meyers Manx", "2021 Polaris RZR Pro XP Ultimate", "1969 Volkswagen Class 5/1600 Baja Bug"]
+                A: [
+                    "2019 Casey Currie Motorsports #4402 Ultra 4 'Trophy Jeep'", "2017 Ford #25 \"Brocky\" Ultra4 Bronco RTR", "2016 Jeep Trailcat", "2020 Jimco #179 Hammerhead Class 1", "2014 Ford #11 Rockstar F-150 Trophy Truck", "2019 Jimco #240 Fastball Racing Spec Trophy Truck", "2011 Penhall The Cholla", "2018 Funco Motorsports F9", "2020 SIERRA Cars #23 Yokohama Alpha"
+                ],
+                B: [
+                    "2021 Alumicraft #122 Class 1 Buggy", "2015 Honda Ridgeline Baja Trophy Truck", "2024 Ram 1500 TRX", "2023 Ford F-150 Raptor R 'Welcome Pack'", "2018 MINI X-Raid John Cooper Works Buggy", "2015 Alumicraft Class 10 Race Car", "2022 Alumicraft #6165 Trick Truck", "2018 Can-Am Maverick X RS Turbo R", "2014 Ford Ranger T6 Rally Raid", "2016 RJ Anderson #37 Polaris RZR-Rockstar Energy Pro 2 Truck", "2021 RJ Anderson #37 Polaris RZR Pro 4 Truck", "2021 SIERRA Cars 700R", "2021 SIERRA Cars RX3"
+                ],
+                C: [
+                    "2020 Ford #2069 Ford Performance Bronco R", "2022 Ford Bronco Raptor", "1971 Meyers Manx", "2021 Polaris RZR Pro XP Ultimate", "2021 Polaris RZR Pro XP Factory Racing Limited Edition", "1969 Volkswagen Class 5/1600 Baja Bug", "2022 Lamborghini Huracán Sterrato", "2023 Porsche 911 Rallye", "1972 Chevrolet K10 Custom", "2020 Chevrolet Silverado LT Trail Boss", "2013 DeBerti Wrangler Unlimited", "2018 DeBerti Chevrolet Silverado 1500 Drift Truck", "2019 DeBerti Ford Super Duty F-250 Lariat \"Transformer\"", "2019 DeBerti Toyota Tacoma TRD \"The Performance Truck\"", "1986 Ford F-150 XLT Lariat Forza Edition", "2020 Ford Super Duty F-450 DRW Platinum", "2022 Ford F-150 Lightning Platinum", "1970 GMC Jimmy", "1991 GMC Syclone", "1992 GMC Typhoon", "2022 GMC HUMMER EV Pickup", "2012 Jeep Wrangler Rubicon", "2020 Jeep Gladiator Rubicon (JT)", "2015 Land Rover Range Rover Sport SVR", "2020 Land Rover Defender 110 X", "2014 Mercedes-Benz G 65 AMG 6x6", "2014 Mercedes-Benz Unimog U5023", "2018 Mercedes-Benz X-Class", "2023 Meyers Manx 2.0 EV", "1995 Mitsubishi Montero Exceed 2800 TD", "1997 Mitsubishi Montero Evolution", "1985 Nissan Safari Turbo", "2018 Porsche Macan LPR Rally Raid", "2022 Rivian R1T", "1980 Subaru BRAT GL", "1979 Toyota FJ40", "1993 Toyota #1 Baja T100 Truck", "2016 Toyota Land Cruiser Arctic Trucks AT37", "2019 Toyota 4Runner TRD Pro", "2019 Toyota Tacoma TRD Pro Forza Edition", "2025 Toyota Land Cruiser", "1982 Volkswagen Pickup LX"
+                ]
             }
         };
 
-        // 🏁 NUOVO SISTEMA ASINCRONO VIA WIKIPEDIA API (Affidabile al 100% e Open Source)
-        async function getCarImageUrl(carName) {
-            const fallbackImg = "https://images.unsplash.com/photo-1511919884226-fd3cad34687c?q=80&w=800&auto=format&fit=crop"; // Sfondo sportivo HD di riserva
-            try {
-                const queryName = carName.replace(/^\d{4}\s+/, '').split(" #")[0]; // Pulisce anno e sigle speciali
-                const apiUrl = `https://en.wikipedia.org/w/api.php?action=query&titles=${encodeURIComponent(queryName)}&prop=pageimages&format=json&pithumbsize=600&origin=*`;
-                
-                const response = await fetch(apiUrl);
-                const data = await response.json();
-                const pages = data.query.pages;
-                const pageId = Object.keys(pages)[0];
-                
-                if (pageId !== "-1" && pages[pageId].thumbnail) {
-                    return pages[pageId].thumbnail.source;
-                }
-                return fallbackImg;
-            } catch (error) {
-                return fallbackImg;
-            }
+        // 🎯 LOGICA RIGIDA E DETERMINISTICA DI ESTRAZIONE LOGHI BRAND IN PNG
+        function extractBrandLogoUrl(carName) {
+            // Rimuove l'anno di produzione all'inizio della stringa
+            let cleanName = carName.replace(/^\d{4}\s+/, '').trim();
+            
+            // Trova la prima parola (che corrisponde quasi sempre al Brand costruttore)
+            let brand = cleanName.split(' ')[0].toLowerCase();
+
+            // Mappature specifiche per fixare eccezioni o nomi composti
+            if (brand === "alfa") brand = "alfaromeo";
+            if (brand === "aston") brand = "astonmartin";
+            if (brand === "mercedes-amg" || brand === "mercedes-benz") brand = "mercedes";
+            if (brand === "formula" || brand === "forsberg") brand = "nissan"; // Formula drift usa nissan/bmw, nissan copre la maggioranza delle eccezioni nel pool
+            if (brand === "deberti") brand = "ford";
+            if (brand === "casey" || brand === "ultra") brand = "jeep";
+            if (brand === "sierra") brand = "sierracars";
+            if (brand === "peel") return "https://upload.wikimedia.org/wikipedia/commons/b/b0/Peel_Engineering_Company_logo.png";
+            if (brand === "wuling") return "https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/Wuling_Motors_logo.svg/512px-Wuling_Motors_logo.svg.png";
+
+            // Utilizza l'API di Clearbit Logos (Ritorna un PNG trasparente perfetto ad altissima definizione del brand)
+            return `https://logo.clearbit.com/${brand}.com`;
         }
 
         onAuthStateChanged(auth, (user) => {
@@ -430,15 +505,12 @@
             }
 
             const pointsTable = { "1": 25, "2": 18, "3": 15, "4": 12, "5": 10, "6": 8, "7": 6, "8": 4, "9": 2, "10": 1 };
-            
-            function calculatePoints(pos) {
-                return pointsTable[pos] || 0;
-            }
+            function calculatePoints(pos) { return pointsTable[pos] || 0; }
 
             let driversData = {};
             let adminGridRendered = false;
 
-            // 📊 Sincronizzazione Realtime Classifica
+            // Classifica
             onValue(ref(database, 'horizon_championship/drivers'), (snapshot) => {
                 driversData = snapshot.val() || {};
                 let driversArray = [];
@@ -449,35 +521,21 @@
                                 calculatePoints(d.g4_pos) + calculatePoints(d.g5_pos) + calculatePoints(d.g6_pos);
                     
                     driversArray.push({
-                        id: id,
-                        loginId: d.loginId,
-                        gamertag: d.gamertag,
+                        id: id, loginId: d.loginId, gamertag: d.gamertag,
                         g1: d.g1_pos || "-", g2: d.g2_pos || "-", g3: d.g3_pos || "-",
-                        g4: d.g4_pos || "-", g5: d.g5_pos || "-", g6: d.g6_pos || "-",
-                        points: total
+                        g4: d.g4_pos || "-", g5: d.g5_pos || "-", g6: d.g6_pos || "-", points: total
                     });
                 });
 
                 driversArray.sort((a, b) => b.points - a.points);
                 const tableBody = document.getElementById('leaderboardBody');
-
-                const positionsBefore = {};
-                driversArray.forEach(driver => {
-                    const tr = document.getElementById(`row_${driver.id}`);
-                    if (tr) { positionsBefore[driver.id] = tr.getBoundingClientRect().top; }
-                });
-
                 tableBody.innerHTML = '';
+
                 driversArray.forEach((driver, index) => {
                     let tr = document.createElement('tr');
                     tr.id = `row_${driver.id}`;
-                    
-                    let classePodio = "";
-                    let testoPosizione = `#${index + 1}`;
-                    
-                    if (index === 0) { classePodio = "oro"; testoPosizione = `<span class="badge-podio">1st</span>`; }
-                    else if (index === 1) { classePodio = "argento"; testoPosizione = `<span class="badge-podio">2nd</span>`; }
-                    else if (index === 2) { classePodio = "bronzo"; testoPosizione = `<span class="badge-podio">3rd</span>`; }
+                    let classePodio = index === 0 ? "oro" : index === 1 ? "argento" : index === 2 ? "bronzo" : "";
+                    let testoPosizione = index < 3 ? `<span class="badge-podio">${index==0?'1st':index==1?'2nd':'3rd'}</span>` : `#${index + 1}`;
 
                     tr.className = classePodio;
                     tr.innerHTML = `
@@ -492,22 +550,6 @@
                         <td class="points-total">${driver.points} PTS</td>
                     `;
                     tableBody.appendChild(tr);
-                });
-
-                driversArray.forEach(driver => {
-                    const tr = document.getElementById(`row_${driver.id}`);
-                    const topBefore = positionsBefore[driver.id];
-                    if (tr && topBefore !== undefined) {
-                        const topAfter = tr.getBoundingClientRect().top;
-                        const deltaY = topBefore - topAfter;
-                        if (deltaY !== 0) {
-                            tr.style.transition = 'none';
-                            tr.style.transform = `translateY(${deltaY}px)`;
-                            tr.offsetHeight; 
-                            tr.style.transition = 'transform 0.8s cubic-bezier(0.25, 1, 0.5, 1)';
-                            tr.style.transform = 'translateY(0)';
-                        }
-                    }
                 });
 
                 if (isAdmin && !adminGridRendered) {
@@ -531,7 +573,7 @@
                 }
             });
 
-            // 📦 Sincronizzazione Realtime Lootbox Singola Integrata
+            // 📦 Sincronizzazione Realtime della Lootbox Olografica con Logo Costruttore
             onValue(ref(database, 'horizon_championship/current_lootbox'), (snapshot) => {
                 const data = snapshot.val();
                 const targetZone = document.getElementById('lootboxPlacementZone');
@@ -546,92 +588,64 @@
 
                 targetZone.innerHTML = `
                     <div class="lootbox-card rarity-${data.classe}" data-car="${data.car_name}">
-                        <h3>DRIVERS, GET READY TO RIDE 🏁</h3>
+                        <h3>LIVE APEX MATCH REVEAL 💎</h3>
                         <div class="lootbox-meta">
                             <span class="loot-badge track">${data.track_type.replace('asfalto','🛣️ ROAD').replace('sterrato','🌲 DIRT').replace('cross','⛰️ CROSS')}</span>
                             <span class="loot-badge class">CLASSE ${data.classe}</span>
                         </div>
                         <div class="lootbox-car-title">${data.car_name}</div>
-                        <div class="lootbox-image-frame">
-                            <img id="lootboxCarImg" src="${data.car_image}" alt="${data.car_name}" onerror="this.src='https://images.unsplash.com/photo-1511919884226-fd3cad34687c?q=80&w=800&auto=format&fit=crop'">
+                        <div class="lootbox-logo-frame">
+                            <img id="lootboxCarImg" src="${data.car_image}" alt="Manufacturer Logo" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/Gran_Turismo_series_logo.svg/512px-Gran_Turismo_series_logo.svg.png'">
                         </div>
                     </div>
                 `;
             });
 
-            // 🛠️ Logiche Interfaccia Gestione Admin
             if (isAdmin) {
-                document.getElementById('btnTriggerLootbox').addEventListener('click', async () => {
+                document.getElementById('btnTriggerLootbox').addEventListener('click', () => {
                     const track = document.getElementById('lootTrackType').value;
                     const cls = document.getElementById('lootClassType').value;
                     const pool = autoPool[track][cls];
                     
-                    const randomCar = pool[Math.floor(Math.random() * pool.length)];
+                    if (!pool || pool.length === 0) return;
                     
-                    // Ottiene l'immagine in modo asincrono prima di inviarla a Firebase
-                    const generatedImageUrl = await getCarImageUrl(randomCar);
+                    const randomCar = pool[Math.floor(Math.random() * pool.length)];
+                    const brandLogoUrl = extractBrandLogoUrl(randomCar);
 
                     set(ref(database, 'horizon_championship/current_lootbox'), {
                         active: true,
                         track_type: track,
                         classe: cls,
                         car_name: randomCar,
-                        car_image: generatedImageUrl
-                    }).catch(e => alert("Errore di estrazione: " + e.message));
+                        car_image: brandLogoUrl
+                    }).catch(e => alert("Errore: " + e.message));
                 });
 
                 document.getElementById('btnResetLootbox').addEventListener('click', () => {
-                    set(ref(database, 'horizon_championship/current_lootbox'), {
-                        active: false
-                    }).catch(e => alert("Errore nel reset: " + e.message));
+                    set(ref(database, 'horizon_championship/current_lootbox'), { active: false });
                 });
             }
 
             function generateDropdownHTML(idGara, driverId, currentValue) {
                 let optionsHTML = `<option value="-" ${currentValue === '-' ? 'selected' : ''}>-</option>`;
                 for (let i = 1; i <= 12; i++) {
-                    let strI = i.toString();
-                    optionsHTML += `<option value="${strI}" ${currentValue === strI ? 'selected' : ''}>${i}</option>`;
+                    optionsHTML += `<option value="${i}" ${currentValue === i.toString() ? 'selected' : ''}>${i}</option>`;
                 }
                 return `<select id="${idGara}_${driverId}">${optionsHTML}</select>`;
             }
 
             document.getElementById('btnUpdateScores').addEventListener('click', async () => {
-                try {
-                    const btn = document.getElementById('btnUpdateScores');
-                    const originalText = btn.innerText;
-                    btn.innerText = "Salvataggio simultaneo...";
-                    btn.disabled = true;
-
-                    const savePromises = Object.keys(driversData).map(async (id) => {
-                        const g1 = document.getElementById(`g1_${id}`).value;
-                        const g2 = document.getElementById(`g2_${id}`).value;
-                        const g3 = document.getElementById(`g3_${id}`).value;
-                        const g4 = document.getElementById(`g4_${id}`).value;
-                        const g5 = document.getElementById(`g5_${id}`).value;
-                        const g6 = document.getElementById(`g6_${id}`).value;
-
-                        driversData[id].g1_pos = g1;
-                        driversData[id].g2_pos = g2;
-                        driversData[id].g3_pos = g3;
-                        driversData[id].g4_pos = g4;
-                        driversData[id].g5_pos = g5;
-                        driversData[id].g6_pos = g6;
-
-                        const driverRef = ref(database, `horizon_championship/drivers/${id}`);
-                        return set(driverRef, driversData[id]);
-                    });
-
-                    await Promise.all(savePromises);
-                    
-                    btn.innerText = originalText;
-                    btn.disabled = false;
-                    alert("Tutte le posizioni del campionato sono state aggiornate con successo!");
-
-                } catch (error) {
-                    alert("Errore critico durante il salvataggio: " + error.message);
-                    document.getElementById('btnUpdateScores').disabled = false;
-                }
+                const savePromises = Object.keys(driversData).map(async (id) => {
+                    driversData[id].g1_pos = document.getElementById(`g1_${id}`).value;
+                    driversData[id].g2_pos = document.getElementById(`g2_${id}`).value;
+                    driversData[id].g3_pos = document.getElementById(`g3_${id}`).value;
+                    driversData[id].g4_pos = document.getElementById(`g4_${id}`).value;
+                    driversData[id].g5_pos = document.getElementById(`g5_${id}`).value;
+                    driversData[id].g6_pos = document.getElementById(`g6_${id}`).value;
+                    return set(ref(database, `horizon_championship/drivers/${id}`), driversData[id]);
+                });
+                await Promise.all(savePromises);
+                alert("Classifica sincronizzata!");
             });
         });
     </script>
