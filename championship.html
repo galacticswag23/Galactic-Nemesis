@@ -757,46 +757,58 @@
                 }
             });
 
-            // 📦 Sincronizzazione Realtime TCG Card
-            onValue(ref(database, 'horizon_championship/current_lootbox'), (snapshot) => {
-                const data = snapshot.val();
-                const targetZone = document.getElementById('lootboxPlacementZone');
-                
-                if (!data || !data.active) {
-                    targetZone.innerHTML = '';
-                    return;
-                }
+            // 📦 Sincronizzazione Realtime TCG Card con controllo preventivo del Logo
+onValue(ref(database, 'horizon_championship/current_lootbox'), async (snapshot) => {
+    const data = snapshot.val();
+    const targetZone = document.getElementById('lootboxPlacementZone');
+    
+    if (!data || !data.active) {
+        targetZone.innerHTML = '';
+        return;
+    }
 
-                const currentCard = document.querySelector('.lootbox-card');
-                if (currentCard && currentCard.dataset.car === data.car_name) return;
+    const currentCard = document.querySelector('.lootbox-card');
+    if (currentCard && currentCard.dataset.car === data.car_name) return;
 
-                // Fallback standard sicuro (Logo Gran Turismo) se Clearbit va in errore o fallisce
-                const fallbackImg = 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/Gran_Turismo_series_logo.svg/512px-Gran_Turismo_series_logo.svg.png';
+    // URL del placeholder di Xbox definitivo
+    const xboxFallback = 'https://www.freeiconspng.com/uploads/xbox-icon-2.png';
+    let finalImageUrl = data.car_image;
 
-                targetZone.innerHTML = `
-                   <div class="lootbox-card rarity-${data.classe} ${data.brand_theme}">
-                   <div class="brand-foil"></div>
-                        <div class="tcg-header">
-                            <span class="tcg-title">STAGE VEHICLE REVEAL</span>
-                            <span class="tcg-hp">HP 990</span>
-                        </div>
-                        <div class="lootbox-logo-frame">
-                            <img
-    id="lootboxCarImg"
-    src="${data.car_image}"
-    alt="Manufacturer Logo"
-    onerror="this.src='https://www.freeiconspng.com/uploads/xbox-icon-2.png'"
->
-                        </div>
-                        <div class="tcg-info-box">
-                            <div class="lootbox-car-title">${data.car_name}</div>
-                            <div class="lootbox-meta">
-                                <span class="loot-badge track">${data.track_type.replace('asfalto','🛣️ ROAD').replace('sterrato','🌲 DIRT').replace('cross','⛰️ CROSS')}</span>
-                                <span class="loot-badge class">CLASSE ${data.classe}</span>
-                            </div>
-                        </div>
-                    </div>
-                `;
+    // Controllo preventivo: verifichiamo se l'immagine di Simple Icons è valida
+    if (data.car_image) {
+        try {
+            const response = await fetch(data.car_image, { method: 'HEAD' });
+            if (!response.ok) {
+                finalImageUrl = xboxFallback;
+            }
+        } catch (error) {
+            // Se c'è un errore di rete o di CORS, usiamo direttamente il fallback di Xbox
+            finalImageUrl = xboxFallback;
+        }
+    } else {
+        finalImageUrl = xboxFallback;
+    }
+
+    targetZone.innerHTML = `
+       <div class="lootbox-card rarity-${data.classe} ${data.brand_theme}">
+       <div class="brand-foil"></div>
+            <div class="tcg-header">
+                <span class="tcg-title">STAGE VEHICLE REVEAL</span>
+                <span class="tcg-hp">HP 990</span>
+            </div>
+            <div class="lootbox-logo-frame">
+                <img id="lootboxCarImg" src="${finalImageUrl}" alt="Manufacturer Logo">
+            </div>
+            <div class="tcg-info-box">
+                <div class="lootbox-car-title">${data.car_name}</div>
+                <div class="lootbox-meta">
+                    <span class="loot-badge track">${data.track_type.replace('asfalto','🛣️ ROAD').replace('sterrato','🌲 DIRT').replace('cross','⛰️ CROSS')}</span>
+                    <span class="loot-badge class">CLASSE ${data.classe}</span>
+                </div>
+            </div>
+        </div>
+    `;
+});
 
                 // Gestione degli errori dell'immagine in modo nativo per via del ciclo vitale del DOM
                 const imgElement = document.getElementById('lootboxCarImg');
