@@ -23,54 +23,6 @@
 
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Montserrat', sans-serif; }
 
-    #adminDriversContainer {
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-        width: 100%;
-        margin-bottom: 20px;
-    }
-
-    .admin-row {
-        display: grid;
-        grid-template-columns: 2fr repeat(6, 65px);
-        align-items: center;
-        gap: 10px;
-        background: rgba(255, 255, 255, 0.03);
-        padding: 10px 15px;
-        border-radius: 8px;
-        border: 1px solid rgba(255, 255, 255, 0.05);
-    }
-
-    .admin-row span {
-        font-weight: 700;
-        font-size: 0.9rem;
-        color: var(--neon-white);
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-
-    .admin-row select {
-        width: 100%;
-        padding: 8px 2px;
-        background: rgba(0, 0, 0, 0.8);
-        border: 1px solid rgba(255, 255, 255, 0.15);
-        border-radius: 4px;
-        color: #fff;
-        font-weight: 700;
-        text-align: center;
-        font-size: 0.85rem;
-        transition: border-color 0.2s;
-        cursor: pointer;
-    }
-
-    .admin-row select:focus {
-        outline: none;
-        border-color: var(--horizon-pink);
-        background: rgba(255, 0, 85, 0.1);
-    }
-
     body {
         background-color: var(--asphalt-dark);
         background-image: radial-gradient(circle at 50% 0%, rgba(255, 0, 85, 0.15) 0%, transparent 60%);
@@ -80,53 +32,53 @@
     }
 
     .container { max-width: 1100px; margin: 0 auto; }
-    /* 🏎️ RE-STYLING INTRODUZIONE FESTIVAL */
-.header { 
-    text-align: center; 
-    margin-bottom: 50px; 
-    position: relative;
-    padding: 20px 0;
-}
 
-.header h1 {
-    font-weight: 900; 
-    font-size: 3.5rem; /* Più grande e d'impatto */
-    text-transform: uppercase; 
-    font-style: italic; 
-    letter-spacing: -1px; /* Lettere serrate stile racing */
-    line-height: 0.95;
-    background: linear-gradient(135deg, #ffffff 20%, #a1a1aa 50%, var(--horizon-pink) 100%);
-    -webkit-background-clip: text; 
-    -webkit-text-fill-color: transparent;
-    filter: drop-shadow(0 0 15px rgba(255, 0, 85, 0.3));
-    position: relative;
-    display: inline-block;
-}
+    /* 🏎️ STYLING INTRODUZIONE FESTIVAL NEON */
+    .header { 
+        text-align: center; 
+        margin-bottom: 50px; 
+        position: relative;
+        padding: 20px 0;
+    }
 
-/* Sottotitolo Neon stile tabellone laser */
-.header span { 
-    display: block;
-    color: #fff; 
-    font-weight: 700; 
-    letter-spacing: 8px; 
-    text-transform: uppercase; 
-    font-size: 0.85rem; 
-    margin-top: 10px;
-    text-shadow: 0 0 8px var(--horizon-orange), 0 0 20px var(--horizon-pink);
-    opacity: 0.9;
-}
+    .header h1 {
+        font-weight: 900; 
+        font-size: 3.5rem; 
+        text-transform: uppercase; 
+        font-style: italic; 
+        letter-spacing: -1px; 
+        line-height: 0.95;
+        background: linear-gradient(135deg, #ffffff 20%, #a1a1aa 50%, var(--horizon-pink) 100%);
+        -webkit-background-clip: text; 
+        -webkit-text-fill-color: transparent;
+        filter: drop-shadow(0 0 15px rgba(255, 0, 85, 0.3));
+        position: relative;
+        display: inline-block;
+    }
 
-/* Linea decorativa asimmetrica sotto il titolo (Stile Interfaccia di Gioco) */
-.header::after {
-    content: '';
-    display: block;
-    width: 120px;
-    height: 4px;
-    background: linear-gradient(90deg, var(--horizon-pink), var(--horizon-orange));
-    margin: 20px auto 0 auto;
-    transform: skewX(-25deg); /* Taglio diagonale sportivo */
-    box-shadow: 0 0 10px var(--horizon-pink);
-}
+    .header span { 
+        display: block;
+        color: #fff; 
+        font-weight: 700; 
+        letter-spacing: 8px; 
+        text-transform: uppercase; 
+        font-size: 0.85rem; 
+        margin-top: 10px;
+        text-shadow: 0 0 8px var(--horizon-orange), 0 0 20px var(--horizon-pink);
+        opacity: 0.9;
+    }
+
+    .header::after {
+        content: '';
+        display: block;
+        width: 120px;
+        height: 4px;
+        background: linear-gradient(90deg, var(--horizon-pink), var(--horizon-orange));
+        margin: 20px auto 0 auto;
+        transform: skewX(-25deg); 
+        box-shadow: 0 0 10px var(--horizon-pink);
+    }
+
     .categories-info {
         display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; margin-bottom: 30px; text-align: center;
     }
@@ -137,87 +89,7 @@
     .cat-badge.rit { border-top: 3px solid var(--horizon-pink); }
     .cat-badge span { color: #888; font-size: 0.65rem; display: block; margin-top: 3px;}
 
-    .leaderboard-card {
-        background: var(--carbon-card); border-radius: 12px; padding: 25px; box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-        border: 1px solid rgba(255,255,255,0.05); margin-bottom: 40px; overflow-x: auto;
-    }
-    
-    table { width: 100%; border-collapse: collapse; text-align: left; min-width: 700px; display: block; }
-    thead { display: block; width: 100%; }
-    th { text-transform: uppercase; font-size: 0.7rem; color: #727888; padding: 12px; letter-spacing: 1px; }
-    
-    tbody { 
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-    }
-
-    tr { 
-        display: grid;
-        grid-template-columns: 80px 2fr repeat(6, 1fr) 110px;
-        align-items: center;
-        width: 100%;
-        background: transparent;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.05); 
-        will-change: transform; 
-    }
-
-    thead tr {
-        border-bottom: 2px solid rgba(255, 255, 255, 0.1);
-        padding-bottom: 5px;
-    }
-
-    tbody tr:last-child {
-        border-bottom: none;
-    }
-
-    td { padding: 16px 12px; font-weight: 700; font-size: 0.9rem; }
-    
-    .pos-num { font-style: italic; font-weight: 900; color: #727888; }
-    
-    .badge-podio {
-        display: inline-block;
-        padding: 4px 10px;
-        border-radius: 6px;
-        font-weight: 900;
-        font-style: italic;
-        text-transform: uppercase;
-        font-size: 0.85rem;
-        text-align: center;
-        min-width: 55px;
-    }
-
-    tr.oro .badge-podio { 
-        background: linear-gradient(135deg, #1a1500 0%, #ffd700 100%);
-        color: #000;
-        box-shadow: 0 0 12px rgba(255, 215, 0, 0.4);
-        border: 1px solid var(--gold-neon);
-        animation: pulse-gold 2s infinite alternate;
-    }
-    tr.oro td { color: #fff; }
-
-    tr.argento .badge-podio { 
-        background: linear-gradient(135deg, #222 0%, #c0c0c0 100%);
-        color: #000;
-        border: 1px solid var(--silver-satin);
-        box-shadow: 0 0 8px rgba(224, 224, 224, 0.2);
-    }
-
-    tr.bronzo .badge-podio { 
-        background: linear-gradient(135deg, #1a0b00 0%, #cd7f32 100%);
-        color: #fff;
-        border: 1px solid var(--bronze-burnished);
-    }
-
-    @keyframes pulse-gold {
-        0% { box-shadow: 0 0 8px rgba(255, 215, 0, 0.3); transform: scale(1); }
-        100% { box-shadow: 0 0 16px rgba(255, 215, 0, 0.6); transform: scale(1.03); }
-    }
-
-    .points-total { color: var(--neon-blue); font-weight: 900; text-align: right; font-size: 1.1rem; }
-    tr.oro .points-total { color: var(--gold-neon); text-shadow: 0 0 8px rgba(255, 215, 0, 0.3); }
-
-    /* 💎 STRUTTURA ED EFFETTI CARTA TCG FISICA (POKÉMON / TRADING CARD STYLE) */
+    /* 💎 STRUTTURA ED EFFETTI CARTA TCG FISICA */
     .lootbox-container {
         perspective: 1600px;
         margin-bottom: 45px;
@@ -227,11 +99,10 @@
     }
 
     .lootbox-card {
-        /* Proporzioni esatte TCG standard (Rapporto 2.5 : 3.5) */
         width: 320px;
         height: 448px;
         background: #0d111a;
-        border: 7px solid #1c202e; /* Bordo tipico da carta fisica */
+        border: 7px solid #1c202e; 
         border-radius: 18px;
         padding: 16px;
         position: relative;
@@ -240,37 +111,31 @@
         flex-direction: column;
         justify-content: space-between;
         box-shadow: 0 25px 50px rgba(0, 0, 0, 0.7), 0 0 30px rgba(0, 240, 255, 0.2);
-        
-        /* Animazione d'ingresso + Oscillazione Idle 3D realista */
         animation: dropInLootbox 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards, cardTiltFloat 6s ease-in-out infinite 0.8s;
-        will-change: transform, opacity, background-position;
+        will-change: transform, opacity;
         transform-style: preserve-3d;
     }
-        
-    .brand-foil {
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    pointer-events: none;
-    z-index: 3;
 
-    background:
-        linear-gradient(
-            115deg,
-            transparent 15%,
-            var(--foil-primary) 30%,
-            var(--foil-secondary) 45%,
-            rgba(255,255,255,0.18) 55%,
+    .lootbox-card::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: linear-gradient(115deg, 
+            transparent 20%, 
+            rgba(0, 240, 255, 0.25) 30%, 
+            rgba(255, 0, 85, 0.3) 40%, 
+            rgba(255, 255, 0, 0.25) 50%, 
+            rgba(0, 255, 128, 0.2) 60%,
             transparent 70%
         );
+        background-size: 350% 350%;
+        background-position: 0% 0%;
+        mix-blend-mode: color-dodge;
+        animation: holoGlintTCG 4.5s ease-in-out infinite alternate;
+        pointer-events: none;
+        z-index: 4;
+    }
 
-    background-size: 300% 300%;
-    mix-blend-mode: color-dodge;
-
-    animation: holoGlintTCG 5s ease-in-out infinite alternate;
-}
-
-    /* Riflesso di Luce Diagonale ad Alta Velocità (Sheen Pass) */
     .lootbox-card::after {
         content: '';
         position: absolute;
@@ -282,153 +147,13 @@
         z-index: 5;
     }
 
-    /* Rari varianti di Bordo e Bagliori dei TCG olografici */
-    .lootbox-card.rarity-A {
-        border-color: #ff0055;
-        box-shadow: 0 0 40px rgba(255, 0, 85, 0.6), inset 0 0 25px rgba(255, 0, 85, 0.3);
-    }
-    .lootbox-card.rarity-B {
-        border-color: #ff5500;
-        box-shadow: 0 0 35px rgba(255, 85, 0, 0.5), inset 0 0 20px rgba(255, 85, 0, 0.2);
-    }
-    .lootbox-card.rarity-C {
-        border-color: #00f0ff;
-        box-shadow: 0 0 30px rgba(0, 240, 255, 0.4), inset 0 0 20px rgba(0, 240, 255, 0.2);
-    }
-/* ===== BRAND SPECIAL FX SYSTEM ===== */
+    .lootbox-card.rarity-A { border-color: #ff0055; box-shadow: 0 0 40px rgba(255, 0, 85, 0.6), inset 0 0 25px rgba(255, 0, 85, 0.3); }
+    .lootbox-card.rarity-B { border-color: #ff5500; box-shadow: 0 0 35px rgba(255, 85, 0, 0.5), inset 0 0 20px rgba(255, 85, 0, 0.2); }
+    .lootbox-card.rarity-C { border-color: #00f0ff; box-shadow: 0 0 30px rgba(0, 240, 255, 0.4), inset 0 0 20px rgba(0, 240, 255, 0.2); }
 
-.lootbox-card {
-    --foil-primary: #00f0ff;
-    --foil-secondary: #ff0055;
-    --brand-glow: rgba(0,240,255,0.4);
-}
-
-.lootbox-card::before {
-    background:
-        linear-gradient(
-            115deg,
-            transparent 15%,
-            var(--foil-primary) 30%,
-            var(--foil-secondary) 45%,
-            rgba(255,255,255,0.25) 55%,
-            transparent 70%
-        );
-}
-
-/* ===== RARITY TIERS ===== */
-
-.rarity-D {
-    border-color: #787878;
-    box-shadow:
-        0 0 18px rgba(120,120,120,0.25),
-        inset 0 0 15px rgba(255,255,255,0.04);
-}
-
-.rarity-C {
-    border-color: #00f0ff;
-    box-shadow:
-        0 0 24px rgba(0,240,255,0.35),
-        inset 0 0 20px rgba(0,240,255,0.12);
-}
-
-.rarity-B {
-    border-color: #9d4edd;
-    box-shadow:
-        0 0 28px rgba(157,78,221,0.45),
-        inset 0 0 20px rgba(157,78,221,0.14);
-}
-
-.rarity-A {
-    border-color: #ff0055;
-    box-shadow:
-        0 0 36px rgba(255,0,85,0.55),
-        inset 0 0 25px rgba(255,0,85,0.18);
-}
-
-.rarity-S {
-    border-color: #ffd700;
-    box-shadow:
-        0 0 42px rgba(255,215,0,0.65),
-        inset 0 0 30px rgba(255,215,0,0.2);
-    animation:
-        cardTiltFloat 6s ease-in-out infinite,
-        pulseLegendary 2s infinite alternate;
-}
-
-.rarity-EX {
-    border-color: #ffffff;
-    box-shadow:
-        0 0 55px rgba(255,255,255,0.85),
-        0 0 80px rgba(0,240,255,0.4),
-        inset 0 0 40px rgba(255,255,255,0.25);
-    animation:
-        cardTiltFloat 5s ease-in-out infinite,
-        rainbowLegend 3s linear infinite;
-}
-
-/* ===== SPECIAL ANIMATIONS ===== */
-
-@keyframes pulseLegendary {
-    from {
-        transform: scale(1);
-        filter: brightness(1);
-    }
-    to {
-        transform: scale(1.025);
-        filter: brightness(1.15);
-    }
-}
-
-@keyframes rainbowLegend {
-    0% { filter: hue-rotate(0deg) brightness(1.1); }
-    100% { filter: hue-rotate(360deg) brightness(1.25); }
-}
-
-/* ===== BRAND THEMES ===== */
-
-.theme-ferrari {
-    --foil-primary: rgba(255,0,0,0.45);
-    --foil-secondary: rgba(255,215,0,0.35);
-}
-
-.theme-lamborghini {
-    --foil-primary: rgba(255,215,0,0.4);
-    --foil-secondary: rgba(255,255,255,0.25);
-}
-
-.theme-porsche {
-    --foil-primary: rgba(255,215,0,0.35);
-    --foil-secondary: rgba(255,0,0,0.25);
-}
-
-.theme-koenigsegg {
-    --foil-primary: rgba(255,255,255,0.5);
-    --foil-secondary: rgba(0,240,255,0.35);
-}
-
-.theme-bugatti {
-    --foil-primary: rgba(0,120,255,0.45);
-    --foil-secondary: rgba(255,255,255,0.3);
-}
-
-.theme-jdm {
-    --foil-primary: rgba(255,0,128,0.35);
-    --foil-secondary: rgba(0,240,255,0.35);
-}
-
-.theme-rally {
-    --foil-primary: rgba(255,120,0,0.35);
-    --foil-secondary: rgba(255,255,255,0.2);
-}
-
-.theme-offroad {
-    --foil-primary: rgba(100,255,100,0.35);
-    --foil-secondary: rgba(255,180,0,0.2);
-}
-    /* Keyframes Animazioni TCG */
     @keyframes dropInLootbox {
-        0% { transform: translateY(-120px) scale(0.7) rotateY(45deg); opacity: 0; filter: brightness(2.5); }
-        100% { transform: translateY(0) scale(1) rotateY(0deg); opacity: 1; filter: brightness(1); }
+        0% { transform: translateY(-120px) scale(0.7) rotateY(45deg); opacity: 0; }
+        100% { transform: translateY(0) scale(1) rotateY(0deg); opacity: 1; }
     }
 
     @keyframes cardTiltFloat {
@@ -446,84 +171,94 @@
         30%, 100% { left: 150%; }
     }
 
-    /* Layout Interno della Carta */
-    .tcg-header {
-        display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.15); padding-bottom: 6px;
-    }
+    .tcg-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.15); padding-bottom: 6px; }
     .tcg-title { font-size: 0.65rem; font-weight: 900; letter-spacing: 2px; text-transform: uppercase; color: #a1a1aa; }
     .tcg-hp { font-size: 0.9rem; font-weight: 900; color: var(--horizon-pink); font-style: italic; }
 
-    /* Finestra centrale dell'illustrazione del Logo */
     .lootbox-logo-frame {
-        width: 100%;
-        height: 220px;
+        width: 100%; height: 220px;
         background: radial-gradient(circle, #161c2a 0%, #080a10 100%);
-        border: 2px solid rgba(255,255,255,0.1);
-        border-radius: 8px;
+        border: 2px solid rgba(255,255,255,0.1); border-radius: 8px;
         display: flex; align-items: center; justify-content: center;
-        position: relative; overflow: hidden;
-        box-shadow: inset 0 0 20px rgba(0,0,0,0.8);
+        position: relative; overflow: hidden; box-shadow: inset 0 0 20px rgba(0,0,0,0.8);
     }
 
     .lootbox-logo-frame img {
-        max-width: 80%; max-height: 80%; object-fit: contain;
-        opacity: 0; animation: fadeInLogo 0.5s ease-out 0.2s forwards;
+        max-width: 75%; max-height: 75%; object-fit: contain;
+        width: auto; height: auto; opacity: 0;
+        animation: fadeInLogo 0.5s ease-out 0.2s forwards;
         filter: drop-shadow(0 0 10px rgba(255,255,255,0.15));
     }
 
     @keyframes fadeInLogo { 100% { opacity: 1; } }
 
-    /* Sezione Info Inferiore */
     .tcg-info-box {
-        background: rgba(0, 0, 0, 0.4); border-radius: 8px; padding: 10px; border: 1px solid rgba(255,255,255,0.05); text-align: center;
+        background: rgba(0, 0, 0, 0.4); border-radius: 8px; padding: 10px;
+        border: 1px solid rgba(255,255,255,0.05); text-align: center; width: 100%; overflow: hidden;
     }
 
     .lootbox-car-title {
-        font-size: 1.15rem; font-weight: 900; text-transform: uppercase; font-style: italic;
+        font-size: 1rem; font-weight: 900; text-transform: uppercase; font-style: italic;
         color: #fff; line-height: 1.2; letter-spacing: -0.5px;
         display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; height: 42px; margin-bottom: 8px;
     }
 
-    .lootbox-meta {
-        display: flex; justify-content: center; gap: 8px;
-    }
-
-    .loot-badge {
-        font-weight: 900; font-size: 0.65rem; padding: 4px 10px; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.5px;
-    }
+    .lootbox-meta { display: flex; justify-content: center; gap: 8px; }
+    .loot-badge { font-weight: 900; font-size: 0.65rem; padding: 4px 10px; border-radius: 4px; text-transform: uppercase; }
     .loot-badge.track { background: rgba(255,255,255,0.1); color: #fff; }
     .loot-badge.class { background: linear-gradient(90deg, var(--horizon-orange), var(--horizon-pink)); color: #fff; }
 
-    .extraction-controls {
-        display: flex; gap: 12px; margin-bottom: 20px; flex-wrap: wrap;
+    /* LEADERBOARD */
+    .leaderboard-card {
+        background: var(--carbon-card); border-radius: 12px; padding: 25px; box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+        border: 1px solid rgba(255,255,255,0.05); margin-bottom: 40px; overflow-x: auto;
     }
-    .extraction-controls select {
-        flex: 1; min-width: 140px; padding: 12px; background: #050608; border: 1px solid rgba(255,255,255,0.1);
-        border-radius: 6px; color: white; font-weight: 700;
-    }
-    .admin-buttons-group {
-        display: flex; gap: 10px;
-    }
-    .btn-action-trigger {
-        flex: 2; padding: 14px; font-weight: 900; font-style: italic; text-transform: uppercase;
-        border-radius: 6px; cursor: pointer; border: none; color: white;
-        background: linear-gradient(135deg, #ff5500 0%, #ff0055 100%); transition: 0.2s;
-    }
-    .btn-action-trigger:hover { filter: brightness(1.2); }
     
-    .btn-action-reset {
-        flex: 1; padding: 14px; font-weight: 700; text-transform: uppercase;
-        border-radius: 6px; cursor: pointer; color: #a1a1aa; border: 1px solid rgba(255,255,255,0.1);
-        background: rgba(255,255,255,0.03); transition: 0.2s;
+    table { width: 100%; border-collapse: collapse; text-align: left; min-width: 700px; }
+    th { text-transform: uppercase; font-size: 0.7rem; color: #727888; padding: 12px; letter-spacing: 1px; }
+    tr { border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
+    thead tr { border-bottom: 2px solid rgba(255, 255, 255, 0.1); }
+    td { padding: 16px 12px; font-weight: 700; font-size: 0.9rem; }
+    .pos-num { font-style: italic; font-weight: 900; color: #727888; }
+    
+    .badge-podio {
+        display: inline-block; padding: 4px 10px; border-radius: 6px; font-weight: 900; font-style: italic;
+        text-transform: uppercase; font-size: 0.85rem; text-align: center; min-width: 55px;
     }
-    .btn-action-reset:hover { background: rgba(239, 68, 68, 0.15); color: #ef4444; border-color: rgba(239, 68, 68, 0.3); }
+    tr.oro .badge-podio { background: linear-gradient(135deg, #1a1500 0%, #ffd700 100%); color: #000; border: 1px solid var(--gold-neon); animation: pulse-gold 2s infinite alternate; }
+    tr.argento .badge-podio { background: linear-gradient(135deg, #222 0%, #c0c0c0 100%); color: #000; border: 1px solid var(--silver-satin); }
+    tr.bronzo .badge-podio { background: linear-gradient(135deg, #1a0b00 0%, #cd7f32 100%); color: #fff; border: 1px solid var(--bronze-burnished); }
+
+    @keyframes pulse-gold {
+        0% { box-shadow: 0 0 8px rgba(255, 215, 0, 0.3); transform: scale(1); }
+        100% { box-shadow: 0 0 16px rgba(255, 215, 0, 0.6); transform: scale(1.03); }
+    }
+
+    .points-total { color: var(--neon-blue); font-weight: 900; text-align: right; font-size: 1.1rem; }
+    tr.oro .points-total { color: var(--gold-neon); }
+
+    /* ADMIN PANEL */
+    .admin-panel { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); padding: 25px; border-radius: 12px; margin-top: 40px; }
+    .admin-panel h2 { font-size: 1.2rem; font-weight: 900; margin-bottom: 20px; text-transform: uppercase; font-style: italic; color: var(--horizon-orange); }
+    #adminDriversContainer { display: flex; flex-direction: column; gap: 12px; width: 100%; margin-bottom: 20px; }
+    .admin-row { display: grid; grid-template-columns: 2fr repeat(6, 65px); align-items: center; gap: 10px; background: rgba(255, 255, 255, 0.03); padding: 10px 15px; border-radius: 8px; }
+    .admin-row span { font-weight: 700; font-size: 0.9rem; color: var(--neon-white); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .admin-row select { width: 100%; padding: 8px 2px; background: #000; border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 4px; color: #fff; font-weight: 700; text-align: center; }
+    
+    .extraction-controls { display: flex; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; }
+    .extraction-controls select { flex: 1; min-width: 140px; padding: 12px; background: #050608; border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; color: white; font-weight: 700; }
+    .admin-buttons-group { display: flex; gap: 10px; }
+    .btn-action-trigger { flex: 2; padding: 14px; font-weight: 900; font-style: italic; text-transform: uppercase; border-radius: 6px; cursor: pointer; border: none; color: white; background: linear-gradient(135deg, #ff5500 0%, #ff0055 100%); }
+    .btn-action-reset { flex: 1; padding: 14px; font-weight: 700; text-transform: uppercase; border-radius: 6px; cursor: pointer; color: #a1a1aa; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.03); }
+    .btn-save { width: 100%; padding: 16px; background: #00f0ff; border: none; border-radius: 6px; color: #000; font-weight: 900; font-style: italic; text-transform: uppercase; cursor: pointer; font-size: 1rem; margin-top: 15px; box-shadow: 0 0 15px rgba(0, 240, 255, 0.3); }
+    .btn-save:hover { filter: brightness(1.2); }
     </style>
 </head>
 <body>
 
     <div class="container">
         <div class="header">
-            <h1>Horizon Apex Season</h1>
+            <h1>Horizon <span>Apex</span> Season</h1>
             <span>Campionato Andata & Ritorno</span>
         </div>
 
@@ -542,15 +277,15 @@
             <table>
                 <thead>
                     <tr>
-                        <th>Pos</th>
+                        <th style="width: 80px; text-align: center;">Pos</th>
                         <th>Pilota (Gamertag)</th>
-                        <th style="text-align: center; color: var(--neon-blue);">G1</th>
-                        <th style="text-align: center; color: var(--neon-blue);">G2</th>
-                        <th style="text-align: center; color: var(--neon-blue);">G3</th>
-                        <th style="text-align: center; color: var(--horizon-pink);">G4</th>
-                        <th style="text-align: center; color: var(--horizon-pink);">G5</th>
-                        <th style="text-align: center; color: var(--horizon-pink);">G6</th>
-                        <th style="text-align: right;">Punti Live</th>
+                        <th style="width: 70px; text-align: center; color: var(--neon-blue);">G1</th>
+                        <th style="width: 70px; text-align: center; color: var(--neon-blue);">G2</th>
+                        <th style="width: 70px; text-align: center; color: var(--neon-blue);">G3</th>
+                        <th style="width: 70px; text-align: center; color: var(--horizon-pink);">G4</th>
+                        <th style="width: 70px; text-align: center; color: var(--horizon-pink);">G5</th>
+                        <th style="width: 70px; text-align: center; color: var(--horizon-pink);">G6</th>
+                        <th style="width: 120px; text-align: right;">Punti Live</th>
                     </tr>
                 </thead>
                 <tbody id="leaderboardBody"></tbody>
@@ -576,7 +311,7 @@
                 </div>
             </div>
 
-            <h2 style="margin-top: 35px;">Inserimento Piazzamenti (Andata e Ritorno)</h2>
+            <h2 style="margin-top: 35px;">Inserimento Piazzamenti</h2>
             <div style="display: grid; grid-template-columns: 2fr repeat(6, 65px); gap: 10px; padding: 0 15px 10px 15px; font-size: 0.7rem; font-weight: 700; color: #6b7180; text-transform: uppercase;">
                 <div>Pilota</div><div>G1 (A)</div><div>G2 (A)</div><div>G3 (A)</div><div>G4 (R)</div><div>G5 (R)</div><div>G6 (R)</div>
             </div>
@@ -606,112 +341,48 @@
 
         const autoPool = {
             asfalto: {
-                A: [
-                    "2016 Abarth 695 Biposto", "2022 Acura NSX Type S", "1965 Alfa Romeo Giulia TZ2", "1968 Alfa Romeo 33 Stradale", "1990 Alfa Romeo SE 048SP", "2017 Alfa Romeo Giulia Quadrifoglio", "2021 Alfa Romeo Giulia GTAm", "2554 AMG Transport Dynamics M12S Warthog CST", "2013 Ariel Atom 500 V8", "2017 Aston Martin DB11", "2017 Aston Martin Vulcan AMR Pro", "2019 Aston Martin DBS Superleggera", "2019 Aston Martin Valhalla Concept Car", "2019 Aston Martin Vantage", "2022 Aston Martin Valkyrie AMR Pro", "2023 Aston Martin Valkyrie", "2009 Audi R8 LMS", "2013 Audi R8 Coupé V10 plus", "2016 Audi R8 V10 plus", "2020 Audi R8 V10 Performance", "2021 Audi RS 6 Avant", "2021 Audi RS 7 Sportback", "2021 Audi RS e-tron GT", "2014 BAC Mono", "2021 Bentley Continental GT Convertible", "1981 BMW M1", "2020 BMW M8 Competition Coupe", "2021 BMW M4 Competition Coupé", "2022 BMW M5 CS", "2023 BMW M2 Forza Edition", "2016 Cadillac CTS-V Sedan", "2022 Cadillac CT5-V Blackwing", "2019 Chevrolet Corvette ZR1", "2023 Chevrolet Corvette Z06", "2024 Chevrolet Corvette E-Ray", "2016 Dodge Viper ACR", "2018 Dodge Challenger SRT Demon", "2022 Dodge Challenger SRT Super Stock", "1984 Ferrari 288 GTO", "1987 Ferrari F40", "1989 Ferrari F40 Competizione", "1995 Ferrari F50", "1996 Ferrari F50 GT", "2005 Ferrari FXX", "2009 Ferrari 458 Italia", "2010 Ferrari 599XX", "2013 Ferrari LaFerrari", "2018 Ferrari FXX-K Evo", "2019 Ferrari 488 Pista", "2022 Ferrari 296 GTB", "2025 Ferrari F80", "1966 Ford #2 GT40 Mk II Le Mans", "2005 Ford GT", "2017 Ford GT", "2024 Ford Mustang Dark Horse", "2007 Formula Drift #117 599 GTB Fiorano", "2013 Formula Drift #777 Chevrolet Corvette", "2021 Hennessey Venom F5", "1992 Honda NSX-R", "2005 Honda NSX-R GT", "2022 Hyundai N Vision 74", "2023 Hyundai IONIQ 5 N", "1993 Jaguar XJ220 TWR", "2010 Jaguar C-X75", "2008 Koenigsegg CCGT", "2011 Koenigsegg Agera", "2015 Koenigsegg One:1", "2016 Koenigsegg Regera", "2020 Koenigsegg Jesko", "2018 KTM X-Bow GT4", "1999 Lamborghini Diablo GTR", "2010 Lamborghini Murciélago LP 670-4 SV", "2012 Lamborghini Aventador LP 700-4", "2013 Lamborghini Veneno", "2016 Lamborghini Centenario LP 770-4", "2018 Lamborghini Aventador SVJ", "2020 Lamborghini Essenza SCV12", "2020 Lamborghini Huracán STO", "2021 Lamborghini Countach LPI 800-4", "2024 Lamborghini Revuelto", "2010 Lexus LFA Forza Edition", "2021 Lexus LC 500", "1997 Lotus Elise GT1", "2020 Lotus Evija", "2023 Lotus Emira", "2024 Lucid Air Sapphire", "2022 Maserati MC20", "1991 Mazda #55 Mazda 787B", "2008 Mazda Furai", "1993 McLaren F1 GT", "2013 McLaren P1", "2018 McLaren 600LT Coupé", "2019 McLaren Speedtail", "2021 McLaren 765LT", "2021 McLaren Sabre", "2021 Mercedes-AMG GT Black Series", "2009 Mercedes-Benz SL 65 AMG Black Series", "2010 Noble M600", "2009 Pagani Zonda Cinque Roadster", "2016 Pagani Huayra BC Coupe", "2021 Pagani Huayra R", "1997 Porsche 911 GT1 Strassenversion", "2003 Porsche Carrera GT", "2014 Porsche 918 Spyder", "2019 Porsche #70 Porsche Motorsport 935", "2023 Porsche 911 GT3 RS", "2015 Radical RXC Turbo", "2017 Saleen S7 LM", "1993 Schuppan 962CR", "1965 Shelby Cobra Daytona Coupé", "2019 Zenvo TSR-S"
-                ],
-                B: [
-                    "2002 Acura RSX Type S", "2023 Acura Integra A-Spec", "1992 Alfa Romeo 155 Q4", "2014 Alfa Romeo 4C", "2013 Ariel Atom 500 V8", "1964 Aston Martin DB5", "2021 Aston Martin DBX", "2001 Audi RS 4 Avant", "2003 Audi RS 6", "2006 Audi RS 4", "2009 Audi RS 6", "2010 Audi TT RS Coupé", "2011 Audi RS 5 Coupé", "2013 Audi RS 4 Avant", "2013 Audi RS 7 Sportback", "2015 Audi RS 6 Avant", "2018 Audi RS 4 Avant", "2020 Audi RS 3 Sedan", "1995 BMW 850CSi", "1995 BMW M5", "1997 BMW M3", "2003 BMW M5", "2005 BMW M3", "2008 BMW M3", "2008 BMW Z4 M Coupé", "2009 BMW M5", "2010 BMW M3 GTS", "2012 BMW M5", "2014 BMW M4 Coupé", "2015 BMW i8", "2016 BMW M4 GTS", "2019 BMW Z4 Roadster", "2020 BMW M2 Competition Coupé", "2021 BMW M4 Competition Coupé 'Welcome Pack'", "2023 BMW M2", "2016 Cadillac ATS-V", "2022 Cadillac CT4-V Blackwing", "1995 Chevrolet Corvette ZR-1", "2002 Chevrolet Corvette Z06", "2009 Chevrolet Corvette ZR1", "2015 Chevrolet Camaro Z/28", "2015 Chevrolet Corvette Z06", "2017 Chevrolet Camaro ZL1", "2018 Chevrolet Camaro ZL1 1LE", "2020 Chevrolet Corvette Stingray Coupé", "1999 Dodge Viper GTS ACR Forza Edition", "2008 Dodge Viper SRT10 ACR", "2013 Dodge SRT Viper GTS", "2015 Dodge Challenger SRT Hellcat", "2015 Dodge Charger SRT Hellcat", "1962 Ferrari 250 GT Berlinetta Lusso", "1967 Ferrari 275 GTB4 Spider", "1992 Ferrari 512 TR", "1994 Ferrari F355 Berlinetta", "2007 Ferrari 430 Scuderia", "2013 Ferrari 458 Speciale", "2017 Ferrari J50", "2018 Ferrari Portofino", "2019 Ferrari Monza SP2", "1987 Ford Sierra Cosworth RS500", "1993 Ford SVT Cobra R", "1994 Ford Supervan 3", "2013 Ford Mustang Shelby GT500", "2016 Ford Mustang Shelby GT350R", "2018 Ford Mustang RTR Spec 5", "2020 Ford Mustang Shelby GT500", "2024 Ford Mustang GT", "1989 Formula Drift #98 BMW 325i", "1995 Formula Drift #34 Toyota Supra MkIV", "1997 Formula Drift #777 Nissan 240SX", "2006 Formula Drift #43 Dodge Viper SRT10", "2009 Formula Drift #99 Mazda RX-8", "2015 Formula Drift #13 Ford Mustang", "2016 Formula Drift #530 HSV Maloo Gen-F", "2019 Formula Drift #411 Toyota Corolla Hatchback", "2020 Formula Drift #91 BMW M2", "2020 Formula Drift #151 Toyota GR Supra", "2023 Formula Drift #64 Forsberg Racing Nissan Z", "2014 HSV GEN-F GTS", "1993 Jaguar XJ220", "2018 Jeep Grand Cherokee Trackhawk", "1997 Lamborghini Diablo SV", "2012 Lamborghini Gallardo LP 570-4 Spyder Performante", "2014 Lamborghini Huracán LP 610-4", "2022 Lamborghini Huracán Tecnica", "2015 Lexus RC F", "1999 Lotus Elise Series 1 Sport 190", "2018 Lotus Exige Cup 430", "2018 Lotus Scura Motorsport Exige WTAC", "2022 Maserati MC20", "1992 Mazda RX-7 Type R", "2011 Mazda RX-8 R3", "2017 Mazda MX-5 Cup", "1993 McLaren F1", "2011 McLaren 12C Coupé", "2015 McLaren 570S Coupé", "2021 McLaren 620R", "2016 Mercedes-AMG C 63 S Coupé", "2018 Mercedes-AMG E 63 S", "2018 Mercedes-AMG GT 4-Door Coupé", "2021 Mercedes-AMG SL 63", "1987 Mercedes-Benz AMG Hammer Coupe", "2012 Mercedes-Benz C 63 AMG Coupé Black Series", "1997 Mitsubishi GTO", "2004 Mitsubishi Lancer Evolution VIII MR", "2005 Mitsubishi #1 Sierra Sierra Enterprises Lancer Evolution Time Attack", "2008 Mitsubishi Lancer Evolution X GSR", "1987 Nissan Skyline GTS-R (HR31)", "1993 Nissan #32 Skyline WTAC 'Xtreme GTR'", "1997 Nissan Skyline GT-R V-Spec", "1998 Nissan #23 Pennzoil Nismo Skyline GT-R", "2000 Nissan #36 Silvia WTAC", "2000 Nissan Skyline GT-R V-Spec II", "2002 Nissan Silvia Spec-R", "2012 Nissan GT-R Black Edition (R35) Touge Edition", "2017 Nissan GT-R (R35)", "2019 Nissan 370Z NISMO", "2020 Nissan GT-R NISMO (R35)", "2024 Nissan GT-R NISMO", "2024 Nissan Z NISMO", "1995 Porsche 911 GT2", "2004 Porsche 911 GT3", "2012 Porsche 911 GT3 RS 4.0", "2018 Porsche 718 Cayman GTS", "2019 Porsche 911 Carrera S", "2019 Porsche 911 GT3 RS", "2021 Porsche 911 GT3", "2021 Porsche Mission R", "2022 Porsche 718 Cayman GT4 RS", "2023 Porsche 911 Turbo S", "1965 Shelby Cobra 427 S/C", "2019 Subaru STI S209", "1995 Toyota J&J Motorsport Supra WTAC", "1998 Toyota Supra RZ", "2013 Toyota 86 'Stories'", "2020 Toyota GR Supra", "2022 Toyota GR86", "2023 Toyota Camry TRD", "2018 TVR Griffith", "2010 Volkswagen Golf R", "2014 Volkswagen Golf R", "2021 Volkswagen Golf R", "2022 Volkswagen Golf R"
-                ],
-                C: [
-                    "1968 Abarth 595 esseesse", "2001 Acura Integra Type-R", "1965 Alfa Romeo Giulia Sprint GTA Stradale", "1993 Autozam AZ-1", "1957 BMW Isetta 300 Export", "1988 BMW M3", "1988 BMW M5", "1987 Buick Regal GNX", "1953 Chevrolet Corvette", "1955 Chevrolet 150 Utility Sedan", "1957 Chevrolet Bel Air", "1960 Chevrolet Corvette", "1964 Chevrolet Impala Super Sport 409", "1967 Chevrolet Corvette Stingray 427", "1969 Chevrolet Camaro Super Sport Coupe", "1969 Chevrolet Nova Super Sport 396", "1970 Chevrolet Chevelle Super Sport 454", "1970 Chevrolet El Camino Super Sport 454", "1979 Chevrolet Camaro Z28", "1988 Chevrolet Monte Carlo Super Sport", "1996 Chevrolet Impala Super Sport", "1970 Datsun 510", "1982 DeLorean DMC-12", "1968 Dodge Dart HEMI Super Stock", "1969 Dodge Charger Daytona HEMI", "1969 Dodge Charger R/T", "1970 Dodge Challenger R/T", "1970 Dodge Coronet Super Bee", "1999 Dodge Viper GTS ACR", "1969 Ferrari Dino 246 GT", "1932 Ford De Luxe Five-Window Coupe", "1965 Ford Mustang GT Coupe", "1968 Ford Mustang 2+2 Fastback Forza Edition", "1969 Ford Mustang Boss 302", "1973 Ford Capri RS3100", "1973 Ford XB Falcon GT", "1999 Ford Racing Puma", "2003 Ford Focus RS", "2009 Ford Focus RS", "2010 Ford Crown Victoria Police Interceptor", "2011 Ford Transit SuperSportVan", "2017 Ford Focus RS", "2022 Ford Focus ST", "2023 Ford Fiesta ST", "1977 Holden Torana A9X", "1970 Honda S800", "1974 Honda Civic RS", "1984 Honda City E II", "1984 Honda Civic CRX Mugen", "1986 Honda Civic Si", "1990 Honda #19 CRX WTAC", "1991 Honda Beat", "1991 Honda CR-X SiR", "1992 Honda #21 Hardrace/JDMYard Civic WTAC", "1994 Honda Acty 'Rakuraku Express'", "1994 Honda Prelude Si", "1997 Honda Civic Type R", "2001 Honda #33 Integra WTAC", "2003 Honda S2000 Touge Edition", "2004 Honda #52 Evasive Motorsports S2000 WTAC", "2004 Honda Civic Type R", "2005 Honda NSX-R", "2007 Honda Civic Type-R", "2015 Honda Civic Type R", "2018 Honda Civic Type R", "2022 Honda e", "2023 Honda Civic Type R", "2019 Hyundai Veloster N", "2020 Hyundai i30 N", "2021 Hyundai i20 N", "1956 Jaguar D-Type", "1961 Jaguar E-Type", "1964 Jaguar Lightweight E-Type", "1967 Lamborghini Miura P400", "1988 Lamborghini Countach LP5000 QV", "1962 Lincoln Continental", "1997 Maserati Ghibli Cup", "1972 Mazda Cosmo 110S Series II", "1973 Mazda RX-3 Forza Edition", "1985 Mazda RX-7 GSL-SE", "1990 Mazda Savanna RX-7", "1990 Mazda MX-5 Miata", "1994 Mazda MX-5 Miata Forza Edition", "2005 Mazda Mazdaspeed MX-5", "2010 Mazda Mazdaspeed 3", "2013 Mazda MX-5", "2016 Mazda MX-5", "2022 Mazda MX-5 Miata RF", "1954 Mercedes-Benz 300 SL Coupé", "1990 Mercedes-Benz 190E 2.5-16 Evolution II Forza Edition", "2013 Mercedes-Benz A 45 AMG", "2020 Mercedes-Benz Cult SLC 43 Final Edition", "1965 MINI Cooper S", "2012 MINI John Cooper Works GP", "2021 MINI John Cooper Works GP", "1990 Mitsubishi #269 Attacking the Clock Racing Minicab Time Attack", "1992 Mitsubishi Galant VR-4", "1995 Mitsubishi Eclipse GSX", "1969 Nissan Fairlady Z 432", "1971 Nissan Skyline 2000GT-R", "1973 Nissan Skyline H/T 2000GT-R", "1983 Nissan #11 Tomica Skyline Turbo Super Silhouette", "1987 Nissan Be-1", "1989 Nissan PAO", "1989 Nissan S-Cargo Forza Edition", "1989 Nissan Silvia K's", "1991 Nissan Figaro", "1993 Nissan 240SX", "1994 Nissan Fairlady Z Version S Twin Turbo", "1994 Nissan Silvia K's", "1995 Nissan Gloria Gran Turismo", "1995 Nissan Nismo GT-R LM", "1997 Nissan Stagea RS Four V", "1998 Nissan Silvia K's Aero", "2003 Nissan Fairlady Z", "2010 Nissan 370Z", "2012 Nissan GT-R Black Edition (R35) Forza Edition", "1962 Peel P50 Trolli Edition", "1958 Plymouth Fury", "1968 Plymouth Barracuda Formula-S", "1971 Plymouth Cuda 426 Hemi", "1977 Pontiac Firebird Trans Am", "1987 Pontiac Firebird Trans Am GTA", "1973 Porsche 911 Carrera RS", "1982 Porsche 911 Turbo 3.3", "1993 Porsche 928 GTS", "1993 Porsche 968 Turbo S", "1962 Reliant Supervan III", "1967 Renault 8 Gordini", "1993 Renault Clio Williams", "2010 Renault Megane RS 250", "2018 Renault Mégane R.S.", "1996 Subaru SVX", "2005 Subaru Legacy B4 2.0 GT", "2013 Subaru BRZ", "2022 Subaru BRZ Forza Edition", "1965 Toyota Sports 800 Fanta Edition", "1969 Toyota 2000GT", "1974 Toyota Corolla SR5", "1985 Toyota Sprinter Trueno GT Apex Touge Edition", "1989 Toyota MR2 SC", "1991 Toyota Chaser GT Twin Turbo", "1991 Toyota Sera", "1992 Toyota Supra 2.0 GT", "1995 Toyota MR2 GT", "1997 Toyota Chaser 2.5 Tourer V", "1997 Toyota Soarer 2.5 GT-T", "2003 Toyota Celica Sport Specialty II", "2005 Toyota Crown Super Deluxe Taxi", "2013 Toyota 86", "2017 Toyota JPN Taxi", "2021 Toyota GR Yaris", "2005 TVR Sagaris", "1963 Volkswagen Beetle", "1963 Volkswagen Type 2 De Luxe", "1983 Volkswagen Golf GTI", "1992 Volkswagen Golf GTI 16V Mk2", "1995 Volkswagen Corrado VR6", "2011 Volkswagen Scirocco R", "2013 Wuling Sunshine S Forza Edition", "2022 Wuling Hongguang Mini EV Macaron"
-                ]
+                A: ["2016 Abarth 695 Biposto", "2022 Acura NSX Type S", "1965 Alfa Romeo Giulia TZ2", "1968 Alfa Romeo 33 Stradale", "2017 Alfa Romeo Giulia Quadrifoglio", "2021 Alfa Romeo Giulia GTAm", "2013 Ariel Atom 500 V8", "2017 Aston Martin DB11", "2017 Aston Martin Vulcan AMR Pro", "2019 Aston Martin DBS Superleggera", "2019 Aston Martin Vantage", "2023 Aston Martin Valkyrie", "2009 Audi R8 LMS", "2016 Audi R8 V10 plus", "2020 Audi R8 V10 Performance", "2021 Audi RS 6 Avant", "2021 Audi RS 7 Sportback", "2014 BAC Mono", "1981 BMW M1", "2020 BMW M8 Competition Coupe", "2021 BMW M4 Competition Coupé", "2022 BMW M5 CS", "2016 Cadillac CTS-V Sedan", "2022 Cadillac CT5-V Blackwing", "2019 Chevrolet Corvette ZR1", "2023 Chevrolet Corvette Z06", "2024 Chevrolet Corvette E-Ray", "2016 Dodge Viper ACR", "2018 Dodge Challenger SRT Demon", "1984 Ferrari 288 GTO", "1987 Ferrari F40", "1995 Ferrari F50", "2009 Ferrari 458 Italia", "2010 Ferrari 599XX", "2013 Ferrari LaFerrari", "2018 Ferrari FXX-K Evo", "2019 Ferrari 488 Pista", "2022 Ferrari 296 GTB", "2025 Ferrari F80", "2005 Ford GT", "2017 Ford GT", "2024 Ford Mustang Dark Horse", "2021 Hennessey Venom F5", "1992 Honda NSX-R", "2022 Hyundai N Vision 74", "1993 Jaguar XJ220 TWR", "2011 Koenigsegg Agera", "2015 Koenigsegg One:1", "2020 Koenigsegg Jesko", "2018 KTM X-Bow GT4", "1999 Lamborghini Diablo GTR", "2010 Lamborghini Murciélago LP 670-4 SV", "2012 Lamborghini Aventador LP 700-4", "2013 Lamborghini Veneno", "2016 Lamborghini Centenario LP 770-4", "2018 Lamborghini Aventador SVJ", "2020 Lamborghini Huracán STO", "2024 Lamborghini Revuelto", "2021 Lexus LC 500", "2020 Lotus Evija", "2023 Lotus Emira", "2022 Maserati MC20", "2013 McLaren P1", "2019 McLaren Speedtail", "2021 McLaren 765LT", "2021 Mercedes-AMG GT Black Series", "2009 Mercedes-Benz SL 65 AMG Black Series", "2010 Noble M600", "2009 Pagani Zonda Cinque Roadster", "2016 Pagani Huayra BC Coupe", "2021 Pagani Huayra R", "2003 Porsche Carrera GT", "2014 Porsche 918 Spyder", "2023 Porsche 911 GT3 RS", "2019 Zenvo TSR-S"],
+                B: ["2002 Acura RSX Type S", "2023 Acura Integra A-Spec", "1992 Alfa Romeo 155 Q4", "2014 Alfa Romeo 4C", "1964 Aston Martin DB5", "2021 Aston Martin DBX", "2001 Audi RS 4 Avant", "2006 Audi RS 4", "2010 Audi TT RS Coupé", "2013 Audi RS 7 Sportback", "2015 Audi RS 6 Avant", "2020 Audi RS 3 Sedan", "1995 BMW M5", "2003 BMW M5", "2005 BMW M3", "2008 BMW M3", "2010 BMW M3 GTS", "2016 BMW M4 GTS", "2020 BMW M2 Competition Coupé", "2023 BMW M2", "2022 Cadillac CT4-V Blackwing", "2002 Chevrolet Corvette Z06", "2017 Chevrolet Camaro ZL1", "2020 Chevrolet Corvette Stingray Coupé", "2008 Dodge Viper SRT10 ACR", "2015 Dodge Challenger SRT Hellcat", "1994 Ferrari F355 Berlinetta", "2007 Ferrari 430 Scuderia", "2013 Ferrari 458 Speciale", "2018 Ferrari Portofino", "1987 Ford Sierra Cosworth RS500", "2013 Ford Mustang Shelby GT500", "2016 Ford Mustang Shelby GT350R", "2020 Ford Mustang Shelby GT500", "2024 Ford Mustang GT", "1993 Jaguar XJ220", "2018 Jeep Grand Cherokee Trackhawk", "1997 Lamborghini Diablo SV", "2014 Lamborghini Huracán LP 610-4", "2022 Lamborghini Huracán Tecnica", "2015 Lexus RC F", "2018 Lotus Exige Cup 430", "1992 Mazda RX-7 Type R", "2011 Mazda RX-8 R3", "1993 McLaren F1", "2015 McLaren 570S Coupé", "2016 Mercedes-AMG C 63 S Coupé", "2018 Mercedes-AMG GT 4-Door Coupé", "2012 Mercedes-Benz C 63 AMG Coupé Black Series", "2004 Mitsubishi Lancer Evolution VIII MR", "2008 Mitsubishi Lancer Evolution X GSR", "1997 Nissan Skyline GT-R V-Spec", "2000 Nissan Skyline GT-R V-Spec II", "2002 Nissan Silvia Spec-R", "2017 Nissan GT-R (R35)", "2024 Nissan Z NISMO", "1995 Porsche 911 GT2", "2012 Porsche 911 GT3 RS 4.0", "2019 Porsche 911 Carrera S", "2021 Porsche 911 GT3", "2022 Porsche 718 Cayman GT4 RS", "1965 Shelby Cobra 427 S/C", "2019 Subaru STI S209", "1998 Toyota Supra RZ", "2020 Toyota GR Supra", "2022 Toyota GR86", "2018 TVR Griffith", "2021 Volkswagen Golf R"],
+                C: ["1968 Abarth 595 esseesse", "2001 Acura Integra Type-R", "1965 Alfa Romeo Giulia Sprint GTA", "1988 BMW M3", "1988 BMW M5", "1987 Buick Regal GNX", "1967 Chevrolet Corvette Stingray 427", "1969 Chevrolet Camaro SS", "1970 Chevrolet Chevelle SS 454", "1982 DeLorean DMC-12", "1969 Dodge Charger R/T", "1970 Dodge Challenger R/T", "1969 Ferrari Dino 246 GT", "1965 Ford Mustang GT Coupe", "1969 Ford Mustang Boss 302", "1999 Ford Racing Puma", "2017 Ford Focus RS", "1997 Honda Civic Type R", "2005 Honda NSX-R", "2023 Honda Civic Type R", "2019 Hyundai Veloster N", "1961 Jaguar E-Type", "1967 Lamborghini Miura P400", "1988 Lamborghini Countach LP5000", "1990 Mazda MX-5 Miata", "1994 Mazda RX-7", "1954 Mercedes-Benz 300 SL Coupé", "2013 Mercedes-Benz A 45 AMG", "1965 MINI Cooper S", "1995 Mitsubishi Eclipse GSX", "1971 Nissan Skyline 2000GT-R", "1994 Nissan Fairlady Z Twin Turbo", "1998 Nissan Silvia K's Aero", "1973 Porsche 911 Carrera RS", "1982 Porsche 911 Turbo 3.3", "2018 Renault Mégane R.S.", "2013 Subaru BRZ", "1998 Toyota Supra RZ", "1985 Toyota Sprinter Trueno AE86", "2021 Toyota GR Yaris", "1963 Volkswagen Beetle", "1992 Volkswagen Golf GTI Mk2"]
             },
             sterrato: {
-                A: [
-                    "1986 Audi #2 Audi Sport quattro S1", "2018 Subaru WRX STI ARX Supercar", "2007 Peugeot 207 Super 2000", "2017 Ford #14 Rahal Letterman Lanigan Racing GRC Fiesta", "2017 Volkswagen #34 Volkswagen Andretti Rallycross Beetle"
-                ],
-                B: [
-                    "1986 Lancia Delta S4", "1984 Peugeot 205 Turbo 16", "1985 Ford RS200 Evolution", "1998 Subaru Impreza 22B-STi Version", "2006 Mitsubishi Lancer Evolution IX MR", "2008 Renault Megane R26.R", "1986 MG Metro 6R4"
-                ],
-                C: [
-                    "1980 Abarth Fiat 131", "1983 Audi Sport quattro", "1977 Ford #5 Escort RS1800 MK II", "1992 Ford Escort RS Cosworth", "1974 Lancia Stratos HF Stradale", "1992 Lancia Delta HF Integrale Evo", "1991 Peugeot 205 Rallye", "1980 Renault 5 Turbo", "1990 Subaru Legacy RS", "1994 Subaru Vivio RX-R Forza Edition", "2004 Subaru Impreza WRX STi", "2005 Subaru Impreza WRX STi", "2008 Subaru Impreza WRX STI", "2011 Subaru WRX STI", "2015 Subaru WRX STI", "2022 Subaru WRX", "1992 Toyota Celica GT-Four RC ST185", "1994 Toyota Celica GT-Four ST205", "1983 Volvo 242 Turbo Evolution", "1984 Opel Manta 400"
-                ]
+                A: ["1986 Audi #2 Audi Sport quattro S1", "2018 Subaru WRX STI ARX Supercar", "2007 Peugeot 207 Super 2000", "2017 Ford #14 GRC Fiesta", "2017 Volkswagen #34 GRC Beetle"],
+                B: ["1986 Lancia Delta S4", "1984 Peugeot 205 Turbo 16", "1985 Ford RS200 Evolution", "1998 Subaru Impreza 22B-STi", "2006 Mitsubishi Lancer Evolution IX MR", "1986 MG Metro 6R4"],
+                C: ["1980 Abarth Fiat 131", "1983 Audi Sport quattro", "1992 Ford Escort RS Cosworth", "1974 Lancia Stratos HF Stradale", "1992 Lancia Delta HF Integrale", "1980 Renault 5 Turbo", "1990 Subaru Legacy RS", "2005 Subaru Impreza WRX STi", "2015 Subaru WRX STI", "1992 Toyota Celica GT-Four ST185", "1994 Toyota Celica GT-Four ST205"]
             },
             cross: {
-                A: [
-                    "2019 Casey Currie Motorsports #4402 Ultra 4 'Trophy Jeep'", "2017 Ford #25 \"Brocky\" Ultra4 Bronco RTR", "2016 Jeep Trailcat", "2020 Jimco #179 Hammerhead Class 1", "2014 Ford #11 Rockstar F-150 Trophy Truck", "2019 Jimco #240 Fastball Racing Spec Trophy Truck", "2011 Penhall The Cholla", "2018 Funco Motorsports F9", "2020 SIERRA Cars #23 Yokohama Alpha"
-                ],
-                B: [
-                    "2021 Alumicraft #122 Class 1 Buggy", "2015 Honda Ridgeline Baja Trophy Truck", "2024 Ram 1500 TRX", "2023 Ford F-150 Raptor R 'Welcome Pack'", "2018 MINI X-Raid John Cooper Works Buggy", "2015 Alumicraft Class 10 Race Car", "2022 Alumicraft #6165 Trick Truck", "2018 Can-Am Maverick X RS Turbo R", "2014 Ford Ranger T6 Rally Raid", "2016 RJ Anderson #37 Polaris RZR-Rockstar Energy Pro 2 Truck", "2021 RJ Anderson #37 Polaris RZR Pro 4 Truck", "2021 SIERRA Cars 700R", "2021 SIERRA Cars RX3"
-                ],
-                C: [
-                    "2020 Ford #2069 Ford Performance Bronco R", "2022 Ford Bronco Raptor", "1971 Meyers Manx", "2021 Polaris RZR Pro XP Ultimate", "2021 Polaris RZR Pro XP Factory Racing Limited Edition", "1969 Volkswagen Class 5/1600 Baja Bug", "2022 Lamborghini Huracán Sterrato", "2023 Porsche 911 Rallye", "1972 Chevrolet K10 Custom", "2020 Chevrolet Silverado LT Trail Boss", "2013 DeBerti Wrangler Unlimited", "2018 DeBerti Chevrolet Silverado 1500 Drift Truck", "2019 DeBerti Ford Super Duty F-250 Lariat \"Transformer\"", "2019 DeBerti Toyota Tacoma TRD \"The Performance Truck\"", "1986 Ford F-150 XLT Lariat Forza Edition", "2020 Ford Super Duty F-450 DRW Platinum", "2022 Ford F-150 Lightning Platinum", "1970 GMC Jimmy", "1991 GMC Syclone", "1992 GMC Typhoon", "2022 GMC HUMMER EV Pickup", "2012 Jeep Wrangler Rubicon", "2020 Jeep Gladiator Rubicon (JT)", "2015 Land Rover Range Rover Sport SVR", "2020 Land Rover Defender 110 X", "2014 Mercedes-Benz G 65 AMG 6x6", "2014 Mercedes-Benz Unimog U5023", "2018 Mercedes-Benz X-Class", "2023 Meyers Manx 2.0 EV", "1995 Mitsubishi Montero Exceed 2800 TD", "1997 Mitsubishi Montero Evolution", "1985 Nissan Safari Turbo", "2018 Porsche Macan LPR Rally Raid", "2022 Rivian R1T", "1980 Subaru BRAT GL", "1979 Toyota FJ40", "1993 Toyota #1 Baja T100 Truck", "2016 Toyota Land Cruiser Arctic Trucks AT37", "2019 Toyota 4Runner TRD Pro", "2019 Toyota Tacoma TRD Pro Forza Edition", "2025 Toyota Land Cruiser", "1982 Volkswagen Pickup LX"
-                ]
+                A: ["2019 Casey Currie #4402 Ultra 4", "2017 Ford #25 Ultra4 Bronco", "2016 Jeep Trailcat", "2020 Jimco #179 Hammerhead", "2014 Ford #11 Rockstar Trophy Truck", "2018 Funco Motorsports F9"],
+                B: ["2021 Alumicraft #122 Class 1", "2015 Honda Ridgeline Baja Truck", "2024 Ram 1500 TRX", "2023 Ford F-150 Raptor R", "2018 MINI X-Raid JCW Buggy", "2014 Ford Ranger T6 Rally Raid"],
+                C: ["2020 Ford Performance Bronco R", "2022 Ford Bronco Raptor", "1971 Meyers Manx", "2021 Polaris RZR Pro XP", "1969 Volkswagen Baja Bug", "2022 Lamborghini Huracán Sterrato", "2023 Porsche 911 Rallye", "1972 Chevrolet K10 Custom", "1991 GMC Syclone", "2020 Jeep Gladiator Rubicon", "2015 Land Rover Range Rover SVR", "2014 Mercedes-Benz G 65 AMG 6x6", "1997 Mitsubishi Montero Evolution", "2019 Toyota Tacoma TRD Pro"]
             }
         };
 
-        function getBrandData(carName) {
+        function extractBrandLogoUrl(carName) {
+            let cleanName = carName.replace(/^\d{4}\s+/, '').trim();
+            if (cleanName.startsWith('#')) { cleanName = cleanName.replace(/^#\d+\s+/, '').trim(); }
+            let brand = cleanName.split(' ')[0].toLowerCase();
 
-    let cleanName = carName.replace(/^\d{4}\s+/, '').trim();
-    let brand = cleanName.split(' ')[0].toLowerCase();
+            const domainMapping = {
+                "abarth": "abarth.it", "acura": "acura.com", "alfa": "alfaromeo.it", "ariel": "arielmotor.co.uk", 
+                "aston": "astonmartin.com", "audi": "audi.com", "bac": "bac-mono.com", "bentley": "bentleymotors.com", 
+                "bmw": "bmw.com", "buick": "buick.com", "cadillac": "cadillac.com", "casey": "jeep.com", 
+                "chevrolet": "chevrolet.com", "dodge": "dodge.com", "ferrari": "ferrari.com", "ford": "ford.com", 
+                "gmc": "gmc.com", "honda": "honda.com", "hyundai": "hyundai.com", "jaguar": "jaguar.com", 
+                "jeep": "jeep.com", "jimco": "jimcorace.com", "koenigsegg": "koenigsegg.com", "ktm": "ktm.com", 
+                "lamborghini": "lamborghini.com", "lancia": "lancia.it", "land": "landrover.com", "lexus": "lexus.com", 
+                "lotus": "lotuscars.com", "maserati": "maserati.com", "mazda": "mazda.com", "mclaren": "mclaren.com", 
+                "mercedes-amg": "mercedes-benz.com", "mercedes-benz": "mercedes-benz.com", "meyers": "meyersmanx.com", 
+                "mg": "mgmotor.co.uk", "mini": "mini.com", "mitsubishi": "mitsubishi-motors.com", "noble": "noblecars.com", 
+                "nissan": "nissan-global.com", "pagani": "pagani.com", "peugeot": "peugeot.com", "polaris": "polaris.com", 
+                "porsche": "porsche.com", "ram": "ramtrucks.com", "renault": "renaultgroup.com", "saleen": "saleen.com", 
+                "shelby": "shelby.com", "subaru": "subaru-global.com", "toyota": "toyota-global.com", "tvr": "tvrofficial.com", 
+                "volkswagen": "volkswagen.com"
+            };
 
-    const aliases = {
-        "alfa": "alfaromeo",
-        "aston": "astonmartin",
-        "mercedes-amg": "mercedesbenz",
-        "mercedes-benz": "mercedesbenz",
-        "formula": "nissan",
-        "forsberg": "nissan",
-        "deberti": "ford",
-        "casey": "jeep",
-        "ultra": "jeep",
-        "land": "landrover",
-        "mini": "mini"
-    };
+            let targetDomain = domainMapping[brand] || `${brand}.com`;
+            return `https://logo.clearbit.com/${targetDomain}`;
+        }
 
-    brand = aliases[brand] || brand;
-
-    const rarityMap = {
-
-        /* ===== GOD TIER ===== */
-
-        ferrari:      { rarity: "S", theme: "theme-ferrari" },
-        lamborghini:  { rarity: "S", theme: "theme-lamborghini" },
-        bugatti:      { rarity: "EX", theme: "theme-bugatti" },
-        koenigsegg:   { rarity: "EX", theme: "theme-koenigsegg" },
-        pagani:       { rarity: "EX", theme: "theme-koenigsegg" },
-
-        /* ===== HYPERCAR ===== */
-
-        mclaren:      { rarity: "A", theme: "theme-koenigsegg" },
-        porsche:      { rarity: "A", theme: "theme-porsche" },
-        astonmartin:  { rarity: "A", theme: "theme-porsche" },
-        mercedesbenz: { rarity: "A", theme: "theme-porsche" },
-
-        /* ===== JDM ===== */
-
-        nissan:       { rarity: "B", theme: "theme-jdm" },
-        toyota:       { rarity: "B", theme: "theme-jdm" },
-        mazda:        { rarity: "B", theme: "theme-jdm" },
-        honda:        { rarity: "B", theme: "theme-jdm" },
-        subaru:       { rarity: "B", theme: "theme-jdm" },
-
-        /* ===== RALLY ===== */
-
-        lancia:       { rarity: "A", theme: "theme-rally" },
-        audi:         { rarity: "A", theme: "theme-rally" },
-        mitsubishi:   { rarity: "B", theme: "theme-rally" },
-
-        /* ===== OFFROAD ===== */
-
-        jeep:         { rarity: "B", theme: "theme-offroad" },
-        ford:         { rarity: "B", theme: "theme-offroad" },
-        ram:          { rarity: "B", theme: "theme-offroad" },
-
-        /* ===== DEFAULT ===== */
-
-        default:      { rarity: "C", theme: "" }
-    };
-
-    const brandInfo = rarityMap[brand] || rarityMap.default;
-
-    return {
-        brand,
-        rarity: brandInfo.rarity,
-        theme: brandInfo.theme,
-        logo: `https://cdn.simpleicons.org/${brand}/white`
-    };
-}
         onAuthStateChanged(auth, (user) => {
             if (!user) {
                 window.location.href = "login.html";
@@ -720,12 +391,7 @@
 
             const myAdminUID = "n0W4WVJchQdRthpqZqvZrvblu653";
             let isAdmin = (user.uid === myAdminUID);
-            
-            if (isAdmin) {
-                document.getElementById("adminSection").style.display = "block";
-            } else {
-                document.getElementById("adminSection").style.display = "none";
-            }
+            document.getElementById("adminSection").style.display = isAdmin ? "block" : "none";
 
             const pointsTable = { "1": 25, "2": 18, "3": 15, "4": 12, "5": 10, "6": 8, "7": 6, "8": 4, "9": 2, "10": 1 };
             function calculatePoints(pos) { return pointsTable[pos] || 0; }
@@ -733,7 +399,7 @@
             let driversData = {};
             let adminGridRendered = false;
 
-            // Classifica
+            // 🏎️ Sincronizzazione Realtime Classifica Piloti
             onValue(ref(database, 'horizon_championship/drivers'), (snapshot) => {
                 driversData = snapshot.val() || {};
                 let driversArray = [];
@@ -756,7 +422,6 @@
 
                 driversArray.forEach((driver, index) => {
                     let tr = document.createElement('tr');
-                    tr.id = `row_${driver.id}`;
                     let classePodio = index === 0 ? "oro" : index === 1 ? "argento" : index === 2 ? "bronzo" : "";
                     let testoPosizione = index < 3 ? `<span class="badge-podio">${index==0?'1st':index==1?'2nd':'3rd'}</span>` : `#${index + 1}`;
 
@@ -796,54 +461,43 @@
                 }
             });
 
-           // 📦 Sincronizzazione Realtime TCG Card
-onValue(ref(database, 'horizon_championship/current_lootbox'), (snapshot) => {
-    const data = snapshot.val();
-    const targetZone = document.getElementById('lootboxPlacementZone');
-    
-    if (!data || !data.active) {
-        targetZone.innerHTML = '';
-        return;
-    }
-
-    const currentCard = document.querySelector('.lootbox-card');
-    if (currentCard && currentCard.dataset.car === data.car_name) return;
-
-    // URL del placeholder di Xbox definitivo in caso di errore
-    const xboxFallback = 'https://www.freeiconspng.com/uploads/xbox-icon-2.png';
-
-    // Iniettiamo la card usando l'attributo onerror nativo ma formattato in modo pulito
-    targetZone.innerHTML = `
-        <div class="lootbox-card rarity-${data.classe} ${data.brand_theme || ''}" data-car="${data.car_name}">
-            <div class="brand-foil"></div>
-            <div class="tcg-header">
-                <span class="tcg-title">STAGE VEHICLE REVEAL</span>
-                <span class="tcg-hp">HP 990</span>
-            </div>
-            <div class="lootbox-logo-frame">
-                <img id="lootboxCarImg" 
-                     src="${data.car_image}" 
-                     alt="Manufacturer Logo" 
-                     onerror="this.onerror=null; this.src='${xboxFallback}';">
-            </div>
-            <div class="tcg-info-box">
-                <div class="lootbox-car-title">${data.car_name}</div>
-                <div class="lootbox-meta">
-                    <span class="loot-badge track">${data.track_type.replace('asfalto','🛣️ ROAD').replace('sterrato','🌲 DIRT').replace('cross','⛰️ CROSS')}</span>
-                    <span class="loot-badge class">CLASSE ${data.classe}</span>
-                </div>
-            </div>
-        </div>
-    `;
-});
-
-                // Gestione degli errori dell'immagine in modo nativo per via del ciclo vitale del DOM
-                const imgElement = document.getElementById('lootboxCarImg');
-                if (imgElement) {
-                    imgElement.addEventListener('error', function() {
-                        this.src = fallbackImg;
-                    });
+            // 📦 Sincronizzazione Realtime TCG Card con Fallback Sicuro
+            onValue(ref(database, 'horizon_championship/current_lootbox'), (snapshot) => {
+                const data = snapshot.val();
+                const targetZone = document.getElementById('lootboxPlacementZone');
+                
+                if (!data || !data.active) {
+                    targetZone.innerHTML = '';
+                    return;
                 }
+
+                const currentCard = document.querySelector('.lootbox-card');
+                if (currentCard && currentCard.dataset.car === data.car_name) return;
+
+                const xboxFallback = 'https://www.freeiconspng.com/uploads/xbox-icon-2.png';
+
+                targetZone.innerHTML = `
+                    <div class="lootbox-card rarity-${data.classe} ${data.brand_theme || ''}" data-car="${data.car_name}">
+                        <div class="brand-foil"></div>
+                        <div class="tcg-header">
+                            <span class="tcg-title">STAGE VEHICLE REVEAL</span>
+                            <span class="tcg-hp">HP 990</span>
+                        </div>
+                        <div class="lootbox-logo-frame">
+                            <img id="lootboxCarImg" 
+                                 src="${data.car_image}" 
+                                 alt="Manufacturer Logo" 
+                                 onerror="this.onerror=null; this.src='${xboxFallback}';">
+                        </div>
+                        <div class="tcg-info-box">
+                            <div class="lootbox-car-title">${data.car_name}</div>
+                            <div class="lootbox-meta">
+                                <span class="loot-badge track">${data.track_type.replace('asfalto','¼ Road').replace('sterrato','🌲 Dirt').replace('cross','⛰️ Cross')}</span>
+                                <span class="loot-badge class">CLASSE ${data.classe}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
             });
 
             if (isAdmin) {
@@ -855,16 +509,15 @@ onValue(ref(database, 'horizon_championship/current_lootbox'), (snapshot) => {
                     if (!pool || pool.length === 0) return;
                     
                     const randomCar = pool[Math.floor(Math.random() * pool.length)];
-                    const brandData = getBrandData(randomCar);
+                    const brandLogoUrl = extractBrandLogoUrl(randomCar);
 
-                   set(ref(database, 'horizon_championship/current_lootbox'), {
-    active: true,
-    track_type: track,
-    classe: brandData.rarity,
-    car_name: randomCar,
-    car_image: brandData.logo,
-    brand_theme: brandData.theme
-}).catch(e => alert("Errore: " + e.message));
+                    set(ref(database, 'horizon_championship/current_lootbox'), {
+                        active: true,
+                        track_type: track,
+                        classe: cls,
+                        car_name: randomCar,
+                        car_image: brandLogoUrl
+                    });
                 });
 
                 document.getElementById('btnResetLootbox').addEventListener('click', () => {
