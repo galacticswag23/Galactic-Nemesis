@@ -254,7 +254,136 @@
         border-color: #00f0ff;
         box-shadow: 0 0 30px rgba(0, 240, 255, 0.4), inset 0 0 20px rgba(0, 240, 255, 0.2);
     }
+/* ===== BRAND SPECIAL FX SYSTEM ===== */
 
+.lootbox-card {
+    --foil-primary: #00f0ff;
+    --foil-secondary: #ff0055;
+    --brand-glow: rgba(0,240,255,0.4);
+}
+
+.lootbox-card::before {
+    background:
+        linear-gradient(
+            115deg,
+            transparent 15%,
+            var(--foil-primary) 30%,
+            var(--foil-secondary) 45%,
+            rgba(255,255,255,0.25) 55%,
+            transparent 70%
+        );
+}
+
+/* ===== RARITY TIERS ===== */
+
+.rarity-D {
+    border-color: #787878;
+    box-shadow:
+        0 0 18px rgba(120,120,120,0.25),
+        inset 0 0 15px rgba(255,255,255,0.04);
+}
+
+.rarity-C {
+    border-color: #00f0ff;
+    box-shadow:
+        0 0 24px rgba(0,240,255,0.35),
+        inset 0 0 20px rgba(0,240,255,0.12);
+}
+
+.rarity-B {
+    border-color: #9d4edd;
+    box-shadow:
+        0 0 28px rgba(157,78,221,0.45),
+        inset 0 0 20px rgba(157,78,221,0.14);
+}
+
+.rarity-A {
+    border-color: #ff0055;
+    box-shadow:
+        0 0 36px rgba(255,0,85,0.55),
+        inset 0 0 25px rgba(255,0,85,0.18);
+}
+
+.rarity-S {
+    border-color: #ffd700;
+    box-shadow:
+        0 0 42px rgba(255,215,0,0.65),
+        inset 0 0 30px rgba(255,215,0,0.2);
+    animation:
+        cardTiltFloat 6s ease-in-out infinite,
+        pulseLegendary 2s infinite alternate;
+}
+
+.rarity-EX {
+    border-color: #ffffff;
+    box-shadow:
+        0 0 55px rgba(255,255,255,0.85),
+        0 0 80px rgba(0,240,255,0.4),
+        inset 0 0 40px rgba(255,255,255,0.25);
+    animation:
+        cardTiltFloat 5s ease-in-out infinite,
+        rainbowLegend 3s linear infinite;
+}
+
+/* ===== SPECIAL ANIMATIONS ===== */
+
+@keyframes pulseLegendary {
+    from {
+        transform: scale(1);
+        filter: brightness(1);
+    }
+    to {
+        transform: scale(1.025);
+        filter: brightness(1.15);
+    }
+}
+
+@keyframes rainbowLegend {
+    0% { filter: hue-rotate(0deg) brightness(1.1); }
+    100% { filter: hue-rotate(360deg) brightness(1.25); }
+}
+
+/* ===== BRAND THEMES ===== */
+
+.theme-ferrari {
+    --foil-primary: rgba(255,0,0,0.45);
+    --foil-secondary: rgba(255,215,0,0.35);
+}
+
+.theme-lamborghini {
+    --foil-primary: rgba(255,215,0,0.4);
+    --foil-secondary: rgba(255,255,255,0.25);
+}
+
+.theme-porsche {
+    --foil-primary: rgba(255,215,0,0.35);
+    --foil-secondary: rgba(255,0,0,0.25);
+}
+
+.theme-koenigsegg {
+    --foil-primary: rgba(255,255,255,0.5);
+    --foil-secondary: rgba(0,240,255,0.35);
+}
+
+.theme-bugatti {
+    --foil-primary: rgba(0,120,255,0.45);
+    --foil-secondary: rgba(255,255,255,0.3);
+}
+
+.theme-jdm {
+    --foil-primary: rgba(255,0,128,0.35);
+    --foil-secondary: rgba(0,240,255,0.35);
+}
+
+.theme-rally {
+    --foil-primary: rgba(255,120,0,0.35);
+    --foil-secondary: rgba(255,255,255,0.2);
+}
+
+.theme-offroad {
+    --foil-primary: rgba(100,255,100,0.35);
+    --foil-secondary: rgba(255,180,0,0.2);
+}
     /* Keyframes Animazioni TCG */
     @keyframes dropInLootbox {
         0% { transform: translateY(-120px) scale(0.7) rotateY(45deg); opacity: 0; filter: brightness(2.5); }
