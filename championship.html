@@ -66,6 +66,7 @@
     }
 
     .admin-row select:focus {
+        width: 100%;
         outline: none;
         border-color: var(--horizon-pink);
         background: rgba(255, 0, 85, 0.1);
@@ -113,7 +114,6 @@
         width: 100%;
     }
 
-    /* [SISTEMATO] Il bordo ora è sulla riga intera, perfettamente allineato */
     tr { 
         display: grid;
         grid-template-columns: 80px 2fr repeat(6, 1fr) 110px;
@@ -129,7 +129,6 @@
         padding-bottom: 5px;
     }
 
-    /* Arrotonda l'ultima riga per non far uscire il bordo fuori dalla card */
     tbody tr:last-child {
         border-bottom: none;
     }
@@ -181,7 +180,7 @@
     tr.oro .points-total { color: var(--gold-neon); text-shadow: 0 0 8px rgba(255, 215, 0, 0.3); }
 
     .admin-panel {
-        background: #11141c; border: 2px dashed rgba(255, 85, 0, 0.3); border-radius: 12px; padding: 30px;
+        background: #11141c; border: 2px dashed rgba(255, 85, 0, 0.3); border-radius: 12px; padding: 30px; margin-top: 30px;
     }
     .admin-panel h2 { font-style: italic; text-transform: uppercase; font-size: 1.2rem; margin-bottom: 20px; color: var(--horizon-orange); }
     
@@ -190,7 +189,110 @@
         border: none; border-radius: 6px; color: white; font-weight: 900; text-transform: uppercase; font-style: italic; cursor: pointer; letter-spacing: 1px; transition: all 0.2s;
     }
     .btn-save:hover { filter: brightness(1.2); transform: translateY(-1px); }
-</style>
+
+    /* 📦 STILI SPERIMENTALI - LOOTBOX APEX DROP */
+    .lootbox-container {
+        perspective: 1000px;
+        margin-bottom: 35px;
+    }
+
+    .lootbox-card {
+        background: linear-gradient(135deg, #151a26 0%, #090b11 100%);
+        border: 2px solid var(--neon-blue);
+        border-radius: 16px;
+        padding: 30px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 0 30px rgba(0, 240, 255, 0.25), inset 0 0 15px rgba(0, 240, 255, 0.1);
+        transform: rotateX(15deg);
+        animation: dropInLootbox 0.85s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        will-change: transform, opacity;
+    }
+
+    /* Varianti di colore Lootbox in base alla classe estratta */
+    .lootbox-card.rarity-A {
+        border-color: #ff0055;
+        box-shadow: 0 0 40px rgba(255, 0, 85, 0.45), inset 0 0 20px rgba(255, 0, 85, 0.15);
+    }
+    .lootbox-card.rarity-B {
+        border-color: #ff5500;
+        box-shadow: 0 0 35px rgba(255, 85, 0, 0.4), inset 0 0 15px rgba(255, 85, 0, 0.1);
+    }
+    .lootbox-card.rarity-C {
+        border-color: #00f0ff;
+        box-shadow: 0 0 30px rgba(0, 240, 255, 0.3), inset 0 0 15px rgba(0, 240, 255, 0.1);
+    }
+
+    @keyframes dropInLootbox {
+        0% { transform: translateY(-60px) scale(0.8) rotateX(40deg); opacity: 0; filter: brightness(3); }
+        100% { transform: translateY(0) scale(1) rotateX(0deg); opacity: 1; filter: brightness(1); }
+    }
+
+    .lootbox-card h3 {
+        font-size: 0.75rem; font-weight: 900; text-transform: uppercase; letter-spacing: 5px; color: #83899a; margin-bottom: 15px;
+    }
+
+    .lootbox-meta {
+        display: flex; justify-content: center; gap: 12px; margin-bottom: 20px;
+    }
+
+    .loot-badge {
+        font-weight: 900; font-style: italic; font-size: 0.8rem; padding: 6px 16px; border-radius: 4px; text-transform: uppercase;
+    }
+    .loot-badge.track { background: rgba(255,255,255,0.08); color: #fff; border: 1px solid rgba(255,255,255,0.15); }
+    .loot-badge.class { background: linear-gradient(90deg, var(--horizon-orange), var(--horizon-pink)); color: #fff; }
+
+    .lootbox-car-title {
+        font-size: 2.3rem; font-weight: 900; font-style: italic; text-transform: uppercase;
+        background: linear-gradient(90deg, #fff 40%, #83899a 100%);
+        -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        margin-bottom: 20px; letter-spacing: -1px;
+    }
+
+    .lootbox-image-frame {
+        width: 100%; max-width: 480px; height: 240px; margin: 0 auto;
+        border-radius: 8px; background: rgba(0,0,0,0.4); overflow: hidden;
+        border: 1px solid rgba(255,255,255,0.05); position: relative;
+        box-shadow: inset 0 0 20px rgba(0,0,0,0.8);
+    }
+
+    .lootbox-image-frame img {
+        width: 100%; height: 100%; object-fit: cover;
+        opacity: 0; animation: fadeInCarImage 0.5s ease-out 0.3s forwards;
+    }
+
+    @keyframes fadeInCarImage { 100% { opacity: 1; } }
+
+    /* Modulo Selettore Direzione Gara */
+    .extraction-controls {
+        display: flex; gap: 12px; margin-bottom: 20px; flex-wrap: wrap;
+    }
+    .extraction-controls select {
+        flex: 1; min-width: 140px; padding: 12px; background: #050608; border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 6px; color: white; font-weight: 700;
+    }
+    .admin-buttons-group {
+        display: flex; gap: 10px;
+    }
+    .btn-action-trigger {
+        flex: 2; padding: 14px; font-weight: 900; font-style: italic; text-transform: uppercase;
+        border-radius: 6px; cursor: pointer; border: none; color: white;
+        background: linear-gradient(135deg, #ff5500 0%, #ff0055 100%); transition: 0.2s;
+    }
+    .btn-action-trigger:hover { filter: brightness(1.2); }
+    
+    .btn-action-reset {
+        flex: 1; padding: 14px; font-weight: 700; text-transform: uppercase;
+        border-radius: 6px; cursor: pointer; color: #a1a1aa; border: 1px solid rgba(255,255,255,0.1);
+        background: rgba(255,255,255,0.03); transition: 0.2s;
+    }
+    .btn-action-reset:hover { background: rgba(239, 68, 68, 0.15); color: #ef4444; border-color: rgba(239, 68, 68, 0.3); }
+
+    .no-car-message {
+        color: #525866; font-style: italic; font-size: 0.9rem; padding: 30px 0;
+    }
+    </style>
 </head>
 <body>
 
@@ -199,6 +301,9 @@
             <h1>Horizon Apex Season</h1>
             <span>Campionato Andata & Ritorno</span>
         </div>
+
+        <!-- 📦 AREA DI ARRIVO LOOTBOX (DINAMICA) -->
+        <div id="lootboxPlacementZone" class="lootbox-container"></div>
 
         <div class="categories-info">
             <div class="cat-badge and">G1 <span>Asfalto (A)</span></div>
@@ -228,8 +333,27 @@
             </table>
         </div>
 
+        <!-- 🛠️ INTERFACCIA DIREZIONE GARA AMPLIATA -->
         <div id="adminSection" class="admin-panel" style="display: none;">
-            <h2>Direzione Gara: Inserimento Piazzamenti (Andata e Ritorno)</h2>
+            <h2>Direzione Gara: Estrazione Veicolo della Tappa</h2>
+            <div class="extraction-controls">
+                <select id="lootTrackType">
+                    <option value="asfalto">🛣️ Asfalto (Road / Street)</option>
+                    <option value="sterrato">🌲 Sterrato (Dirt / Rally)</option>
+                    <option value="cross">⛰️ Cross Country (Raid)</option>
+                </select>
+                <select id="lootClassType">
+                    <option value="A">Classe A</option>
+                    <option value="B">Classe B</option>
+                    <option value="C">Classe C</option>
+                </select>
+                <div class="admin-buttons-group" style="flex: 2; min-width: 280px;">
+                    <button id="btnTriggerLootbox" class="btn-action-trigger">🎲 Estrai Auto Campionato</button>
+                    <button id="btnResetLootbox" class="btn-action-reset">❌ Reset</button>
+                </div>
+            </div>
+
+            <h2 style="margin-top: 35px;">Inserimento Piazzamenti (Andata e Ritorno)</h2>
             <div style="display: grid; grid-template-columns: 2fr repeat(6, 65px); gap: 10px; padding: 0 15px 10px 15px; font-size: 0.7rem; font-weight: 700; color: #6b7180; text-transform: uppercase;">
                 <div>Pilota</div><div>G1 (A)</div><div>G2 (A)</div><div>G3 (A)</div><div>G4 (R)</div><div>G5 (R)</div><div>G6 (R)</div>
             </div>
@@ -257,11 +381,49 @@
         const auth = getAuth(app);
         const database = getDatabase(app);
 
+        // DATABASE COMPLETO AUTO CONCORDATO
+        const autoPool = {
+            asfalto: {
+                A: ["Nissan Skyline R34", "Porsche 911 Carrera S", "BMW M3 E92", "Chevrolet Corvette C5", "Honda Civic Type R"],
+                B: ["Honda Integra Type R", "Mazda MX-5 Miata", "Volkswagen Golf R", "Toyota GR86", "Ford Focus ST"],
+                C: ["Volkswagen Golf GTI", "Toyota AE86 Trueno", "Mini Cooper S 1965", "BMW 2002 Turbo", "Datsun 510"]
+            },
+            sterrato: {
+                A: ["Subaru Impreza WRX STi", "Mitsubishi Lancer Evolution IX", "Ford Escort RS Cosworth", "Lancia Delta HF Integrale", "Toyota Celica GT-Four"],
+                B: ["Audi Sport Quattro", "Ford Escort RS1800", "Lancia Stratos HF", "Alpine A110 1973", "Subaru Impreza 22B STi"],
+                C: ["Peugeot 205 GTI", "Fiat 131 Abarth", "Volvo 242 Turbo", "Saab 99 Turbo", "Volkswagen Beetle"]
+            },
+            cross: {
+                A: ["Ford Bronco 2021", "Penhall Cholla", "Local Motors Rally Fighter", "Jeep Grand Cherokee SRT", "Toyota Hilux Arctic"],
+                B: ["Land Rover Defender 90", "Jeep Wrangler Rubicon", "Mercedes-Benz G-Class", "Toyota Land Cruiser FJ40", "Bowler Wildcat"],
+                C: ["Suzuki Jimny", "International Harvester Scout", "Ford F-150 Ranger 1975", "Meyers Manx", "Chevrolet Blazer K5"]
+            }
+        };
+
+        // Funzione per ricavare l'immagine reale da Wikipedia Commons in modalità Open Source
+        async function fetchCarImageUrl(carName) {
+            try {
+                const queryName = encodeURIComponent(carName);
+                const searchUrl = `https://en.wikipedia.org/w/api.php?action=query&format=json&origin=*&prop=pageimages&titles=${queryName}&pithumbsize=600`;
+                
+                const response = await fetch(searchUrl);
+                const data = await response.json();
+                const pages = data.query.pages;
+                const pageId = Object.keys(pages)[0];
+                
+                if (pageId !== "-1" && pages[pageId].thumbnail) {
+                    return pages[pageId].thumbnail.source;
+                }
+                return "https://images.unsplash.com/photo-1542282088-fe8426682b8f?q=80&w=600&auto=format&fit=crop"; // Fallback elegante
+            } catch (e) {
+                return "https://images.unsplash.com/photo-1542282088-fe8426682b8f?q=80&w=600&auto=format&fit=crop";
+            }
+        }
+
         onAuthStateChanged(auth, (user) => {
             if (!user) {
                 window.location.href = "login.html";
             } else {
-                
                 const myAdminUID = "n0W4WVJchQdRthpqZqvZrvblu653";
                 let isAdmin = (user.uid === myAdminUID);
                 
@@ -280,7 +442,7 @@
                 let driversData = {};
                 let adminGridRendered = false;
 
-                // Sincronizzazione Realtime Firebase
+                // Sincronizzazione Realtime Classifica
                 onValue(ref(database, 'horizon_championship/drivers'), (snapshot) => {
                     driversData = snapshot.val() || {};
                     let driversArray = [];
@@ -301,20 +463,14 @@
                     });
 
                     driversArray.sort((a, b) => b.points - a.points);
-
                     const tableBody = document.getElementById('leaderboardBody');
 
-                    // 🏎️ [MOTORE ANIMAZIONE FLUIDA FLIP] 🏎️
-                    // 1. FIRST: Registriamo le posizioni verticali prima del riordinamento
                     const positionsBefore = {};
                     driversArray.forEach(driver => {
                         const tr = document.getElementById(`row_${driver.id}`);
-                        if (tr) {
-                            positionsBefore[driver.id] = tr.getBoundingClientRect().top;
-                        }
+                        if (tr) { positionsBefore[driver.id] = tr.getBoundingClientRect().top; }
                     });
 
-                    // 2. LAST & INVERT: Aggiorniamo i dati strutturali e forziamo il nuovo ordinamento nel DOM
                     driversArray.forEach((driver, index) => {
                         let tr = document.getElementById(`row_${driver.id}`);
                         let classePodio = "";
@@ -342,39 +498,28 @@
                             <td style="text-align: center; color: var(--horizon-pink);">${driver.g6}</td>
                             <td class="points-total">${driver.points} PTS</td>
                         `;
-                        
-                        tableBody.appendChild(tr); // Lo sposta fisicamente nella nuova posizione
+                        tableBody.appendChild(tr);
                     });
 
-                    // 3. PLAY: Calcoliamo il delta spaziale e attiviamo la transizione fluida
                     driversArray.forEach(driver => {
                         const tr = document.getElementById(`row_${driver.id}`);
                         const topBefore = positionsBefore[driver.id];
-                        
                         if (tr && topBefore !== undefined) {
                             const topAfter = tr.getBoundingClientRect().top;
-                            const deltaY = topBefore - topAfter; // La differenza di pixel tra prima e dopo
-
+                            const deltaY = topBefore - topAfter;
                             if (deltaY !== 0) {
-                                // Annulliamo il movimento istantaneo portando la riga indietro artificialmente
                                 tr.style.transition = 'none';
                                 tr.style.transform = `translateY(${deltaY}px)`;
-                                
-                                // Forziamo il Reflow del browser per fargli capire lo stato di partenza
                                 tr.offsetHeight; 
-                                
-                                // Avviamo l'animazione fluida di rilascio verso lo zero (la nuova posizione reale)
                                 tr.style.transition = 'transform 0.8s cubic-bezier(0.25, 1, 0.5, 1)';
                                 tr.style.transform = 'translateY(0)';
                             }
                         }
                     });
 
-                    // Rendering Stabile Griglia Admin (Solo al primo avvio)
                     if (isAdmin && !adminGridRendered) {
                         const adminContainer = document.getElementById('adminDriversContainer');
                         adminContainer.innerHTML = '';
-
                         driversArray.forEach(driver => {
                             let row = document.createElement('div');
                             row.className = 'admin-row';
@@ -393,6 +538,64 @@
                     }
                 });
 
+                // Sincronizzazione Realtime Lootbox (Per Piloti e Admin)
+                onValue(ref(database, 'horizon_championship/current_lootbox'), async (snapshot) => {
+                    const data = snapshot.val();
+                    const targetZone = document.getElementById('lootboxPlacementZone');
+                    
+                    if (!data || !data.active) {
+                        targetZone.innerHTML = '';
+                        return;
+                    }
+
+                    // Previene re-rendering se l'auto visualizzata è già la stessa
+                    const currentCard = document.querySelector('.lootbox-card');
+                    if (currentCard && currentCard.dataset.car === data.car_name) return;
+
+                    targetZone.innerHTML = `
+                        <div class="lootbox-card rarity-${data.classe}" data-car="${data.car_name}">
+                            <h3>🏆 FESTIVAL LOOTBOX APEX DROP 🏆</h3>
+                            <div class="lootbox-meta">
+                                <span class="loot-badge track">${data.track_type.replace('asfalto','🛣️ ROAD').replace('sterrato','🌲 DIRT').replace('cross','⛰️ CROSS')}</span>
+                                <span class="loot-badge class">CLASSE ${data.classe}</span>
+                            </div>
+                            <div class="lootbox-car-title">${data.car_name}</div>
+                            <div class="lootbox-image-frame">
+                                <img id="lootboxCarImg" src="" alt="Car Image Loading...">
+                            </div>
+                        </div>
+                    `;
+
+                    const imgUrl = await fetchCarImageUrl(data.car_name);
+                    const imgElement = document.getElementById('lootboxCarImg');
+                    if (imgElement) imgElement.src = imgUrl;
+                });
+
+                // FUNZIONE DI ESTRAZIONE CONTROLLO ADMIN
+                if (isAdmin) {
+                    document.getElementById('btnTriggerLootbox').addEventListener('click', () => {
+                        const track = document.getElementById('lootTrackType').value;
+                        const cls = document.getElementById('lootClassType').value;
+                        const pool = autoPool[track][cls];
+                        
+                        const randomCar = pool[Math.floor(Math.random() * pool.length)];
+
+                        set(ref(database, 'horizon_championship/current_lootbox'), {
+                            active: true,
+                            track_type: track,
+                            classe: cls,
+                            car_name: randomCar
+                        }).catch(e => alert("Errore di scrittura: " + e.message));
+                    });
+
+                    // TASTO DI RESET LOOTBOX
+                    document.getElementById('btnResetLootbox').addEventListener('click', () => {
+                        set(ref(database, 'horizon_championship/current_lootbox'), {
+                            active: false
+                        }).catch(e => alert("Errore durante il reset: " + e.message));
+                    });
+                }
+
                 function generateDropdownHTML(idGara, driverId, currentValue) {
                     let optionsHTML = `<option value="-" ${currentValue === '-' ? 'selected' : ''}>-</option>`;
                     for (let i = 1; i <= 12; i++) {
@@ -402,7 +605,6 @@
                     return `<select id="${idGara}_${driverId}">${optionsHTML}</select>`;
                 }
 
-                // 💾 SALVATAGGIO MASSIVO UNIFICATO
                 document.getElementById('btnUpdateScores').addEventListener('click', async () => {
                     try {
                         const btn = document.getElementById('btnUpdateScores');
@@ -440,7 +642,6 @@
                         document.getElementById('btnUpdateScores').disabled = false;
                     }
                 });
-
             }
         });
     </script>
