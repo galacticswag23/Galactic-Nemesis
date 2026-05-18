@@ -94,13 +94,13 @@
 
         // CONFIGURAZIONE FIREBASE
         const firebaseConfig = {
-  apiKey: "AIzaSyDNRL0Rbo58WPjII0BzSRQZ1M7ZJ9MdsY4",
-  authDomain: "galactic-nemesis-7bee5.firebaseapp.com",
-  databaseURL: "https://galactic-nemesis-7bee5-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: "galactic-nemesis-7bee5",
-  storageBucket: "galactic-nemesis-7bee5.firebasestorage.app",
-  messagingSenderId: "265814903052",
-  appId: "1:265814903052:web:6c59477e9852e91387a129"
+            apiKey: "AIzaSyDNRL0Rbo58WPjII0BzSRQZ1M7ZJ9MdsY4",
+            authDomain: "galactic-nemesis-7bee5.firebaseapp.com",
+            databaseURL: "https://galactic-nemesis-7bee5-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "galactic-nemesis-7bee5",
+            storageBucket: "galactic-nemesis-7bee5.firebasestorage.app",
+            messagingSenderId: "265814903052",
+            appId: "1:265814903052:web:6c59477e9852e91387a129"
         };
 
         // Inizializzazione protetta
@@ -137,12 +137,14 @@
             if (!loginId || !gamertag || !password) {
                 feedback.innerText = "ATTENZIONE: Compila tutti i campi prima di partire!";
                 feedback.className = "message error";
+                feedback.style.display = "block";
                 return;
             }
 
             if (password.length < 6) {
                 feedback.innerText = "ATTENZIONE: La password deve avere almeno 6 caratteri.";
                 feedback.className = "message error";
+                feedback.style.display = "block";
                 return;
             }
 
@@ -155,42 +157,40 @@
             feedback.className = "message success";
             feedback.style.display = "block";
 
-            // ... (Tutto il resto del codice sopra all'interno del blocco try rimane identico) ...
+            try {
+                // 1. Autenticazione su Firebase
+                const userCredential = await createUserWithEmailAndPassword(auth, virtualEmail, password);
+                const user = userCredential.user;
 
-try {
-    // 1. Autenticazione su Firebase
-    const userCredential = await createUserWithEmailAndPassword(auth, virtualEmail, password);
-    const user = userCredential.user;
+                // 2. Struttura dati 6 Gare (Corrispondente alle regole del Database)
+                const newDriverData = {
+                    loginId: loginId,
+                    gamertag: gamertag,
+                    g1_pos: "-", g2_pos: "-", g3_pos: "-",
+                    g4_pos: "-", g5_pos: "-", g6_pos: "-"
+                };
 
-    // 2. Struttura dati 6 Gare
-    const newDriverData = {
-        loginId: loginId,
-        gamertag: gamertag,
-        g1_pos: "-", g2_pos: "-", g3_pos: "-",
-        g4_pos: "-", g5_pos: "-", g6_pos: "-"
-    };
+                // 3. Scrittura nel database reale
+                await set(ref(database, 'horizon_championship/drivers/' + user.uid), newDriverData);
 
-    // 3. Scrittura nel database reale
-    await set(ref(database, 'horizon_championship/drivers/' + user.uid), newDriverData);
+                // Successo totale con Reindirizzamento Automatico
+                feedback.innerText = "PILOTA REGISTRATO CON SUCCESSO! Trasferimento al Gate di Login...";
+                feedback.className = "message success";
+                feedback.style.display = "block";
+                
+                // Reset dei campi
+                loginIdInput.value = "";
+                gamertagInput.value = "";
+                passwordInput.value = "";
 
-    // [MODIFICATO] Successo totale con Reindirizzamento Automatico
-    feedback.innerText = "PILOTA REGISTRATO CON SUCCESSO! Trasferimento al Gate di Login in corso...";
-    feedback.className = "message success";
-    feedback.style.display = "block";
-    
-    // Reset dei campi
-    loginIdInput.value = "";
-    gamertagInput.value = "";
-    passwordInput.value = "";
+                // Attendi 2.5 secondi e sposta alla pagina di login
+                setTimeout(() => {
+                    window.location.href = "login.html";
+                }, 2500);
 
-    // ⏱️ Attendi 2.5 secondi e poi sposta l'utente alla pagina di login
-    setTimeout(() => {
-        window.location.href = "login.html";
-    }, 2500);
-
-} catch (error) {
-    // ... (Il blocco catch dell'errore rimane identico) ...
+            } catch (error) {
                 feedback.className = "message error";
+                feedback.style.display = "block";
                 console.error("Errore dettagliato riscontrato:", error);
                 
                 if (error.code === 'auth/email-already-in-use') {
