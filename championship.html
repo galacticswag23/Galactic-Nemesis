@@ -796,8 +796,8 @@
                 }
             });
 
-            // 📦 Sincronizzazione Realtime TCG Card con controllo preventivo del Logo
-onValue(ref(database, 'horizon_championship/current_lootbox'), async (snapshot) => {
+           // 📦 Sincronizzazione Realtime TCG Card
+onValue(ref(database, 'horizon_championship/current_lootbox'), (snapshot) => {
     const data = snapshot.val();
     const targetZone = document.getElementById('lootboxPlacementZone');
     
@@ -809,34 +809,22 @@ onValue(ref(database, 'horizon_championship/current_lootbox'), async (snapshot) 
     const currentCard = document.querySelector('.lootbox-card');
     if (currentCard && currentCard.dataset.car === data.car_name) return;
 
-    // URL del placeholder di Xbox definitivo
+    // URL del placeholder di Xbox definitivo in caso di errore
     const xboxFallback = 'https://www.freeiconspng.com/uploads/xbox-icon-2.png';
-    let finalImageUrl = data.car_image;
 
-    // Controllo preventivo: verifichiamo se l'immagine di Simple Icons è valida
-    if (data.car_image) {
-        try {
-            const response = await fetch(data.car_image, { method: 'HEAD' });
-            if (!response.ok) {
-                finalImageUrl = xboxFallback;
-            }
-        } catch (error) {
-            // Se c'è un errore di rete o di CORS, usiamo direttamente il fallback di Xbox
-            finalImageUrl = xboxFallback;
-        }
-    } else {
-        finalImageUrl = xboxFallback;
-    }
-
+    // Iniettiamo la card usando l'attributo onerror nativo ma formattato in modo pulito
     targetZone.innerHTML = `
-       <div class="lootbox-card rarity-${data.classe} ${data.brand_theme}">
-       <div class="brand-foil"></div>
+        <div class="lootbox-card rarity-${data.classe} ${data.brand_theme || ''}" data-car="${data.car_name}">
+            <div class="brand-foil"></div>
             <div class="tcg-header">
                 <span class="tcg-title">STAGE VEHICLE REVEAL</span>
                 <span class="tcg-hp">HP 990</span>
             </div>
             <div class="lootbox-logo-frame">
-                <img id="lootboxCarImg" src="${finalImageUrl}" alt="Manufacturer Logo">
+                <img id="lootboxCarImg" 
+                     src="${data.car_image}" 
+                     alt="Manufacturer Logo" 
+                     onerror="this.onerror=null; this.src='${xboxFallback}';">
             </div>
             <div class="tcg-info-box">
                 <div class="lootbox-car-title">${data.car_name}</div>
