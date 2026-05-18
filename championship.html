@@ -190,7 +190,7 @@
     }
     .btn-save:hover { filter: brightness(1.2); transform: translateY(-1px); }
 
-    /* 📦 STILI SPERIMENTALI - LOOTBOX APEX DROP */
+    /* 📦 STILI LOOTBOX APEX DROP */
     .lootbox-container {
         perspective: 1000px;
         margin-bottom: 35px;
@@ -210,7 +210,6 @@
         will-change: transform, opacity;
     }
 
-    /* Varianti di colore Lootbox in base alla classe estratta */
     .lootbox-card.rarity-A {
         border-color: #ff0055;
         box-shadow: 0 0 40px rgba(255, 0, 85, 0.45), inset 0 0 20px rgba(255, 0, 85, 0.15);
@@ -230,7 +229,7 @@
     }
 
     .lootbox-card h3 {
-        font-size: 0.75rem; font-weight: 900; text-transform: uppercase; letter-spacing: 5px; color: #83899a; margin-bottom: 15px;
+        font-size: 0.9rem; font-weight: 900; text-transform: uppercase; letter-spacing: 3px; color: #fff; margin-bottom: 15px;
     }
 
     .lootbox-meta {
@@ -251,7 +250,7 @@
     }
 
     .lootbox-image-frame {
-        width: 100%; max-width: 480px; height: 240px; margin: 0 auto;
+        width: 100%; max-width: 480px; height: 260px; margin: 0 auto;
         border-radius: 8px; background: rgba(0,0,0,0.4); overflow: hidden;
         border: 1px solid rgba(255,255,255,0.05); position: relative;
         box-shadow: inset 0 0 20px rgba(0,0,0,0.8);
@@ -264,7 +263,6 @@
 
     @keyframes fadeInCarImage { 100% { opacity: 1; } }
 
-    /* Modulo Selettore Direzione Gara */
     .extraction-controls {
         display: flex; gap: 12px; margin-bottom: 20px; flex-wrap: wrap;
     }
@@ -381,7 +379,7 @@
         const auth = getAuth(app);
         const database = getDatabase(app);
 
-        // DATABASE COMPLETO AUTO CONCORDATO
+        // DATABASE COMPLETO AUTO CON LINK AD IMMAGINI TUNING SPETTACOLARI
         const autoPool = {
             asfalto: {
                 A: ["Nissan Skyline R34", "Porsche 911 Carrera S", "BMW M3 E92", "Chevrolet Corvette C5", "Honda Civic Type R"],
@@ -400,24 +398,69 @@
             }
         };
 
-        // Funzione per ricavare l'immagine reale da Wikipedia Commons in modalità Open Source
-        async function fetchCarImageUrl(carName) {
-            try {
-                const queryName = encodeURIComponent(carName);
-                const searchUrl = `https://en.wikipedia.org/w/api.php?action=query&format=json&origin=*&prop=pageimages&titles=${queryName}&pithumbsize=600`;
-                
-                const response = await fetch(searchUrl);
-                const data = await response.json();
-                const pages = data.query.pages;
-                const pageId = Object.keys(pages)[0];
-                
-                if (pageId !== "-1" && pages[pageId].thumbnail) {
-                    return pages[pageId].thumbnail.source;
-                }
-                return "https://images.unsplash.com/photo-1542282088-fe8426682b8f?q=80&w=600&auto=format&fit=crop"; // Fallback elegante
-            } catch (e) {
-                return "https://images.unsplash.com/photo-1542282088-fe8426682b8f?q=80&w=600&auto=format&fit=crop";
-            }
+        // Mappatura fissa e infallibile con immagini Tuning/Race sature e colorate
+        const carImagesMapping = {
+            // Asfalto A
+            "Nissan Skyline R34": "https://images.unsplash.com/photo-1616422285623-13ff0162193c?q=80&w=600&auto=format&fit=crop",
+            "Porsche 911 Carrera S": "https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?q=80&w=600&auto=format&fit=crop",
+            "BMW M3 E92": "https://images.unsplash.com/photo-1617814076367-b759c7d7e738?q=80&w=600&auto=format&fit=crop",
+            "Chevrolet Corvette C5": "https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?q=80&w=600&auto=format&fit=crop",
+            "Honda Civic Type R": "https://images.unsplash.com/photo-1621993202323-f438eec934ff?q=80&w=600&auto=format&fit=crop",
+            // Asfalto B
+            "Honda Integra Type R": "https://images.pexels.com/photos/16383619/pexels-photo-16383619/free-photo-of-modded-honda-integra-type-r-dc2.jpeg?auto=compress&cs=tinysrgb&w=600",
+            "Mazda MX-5 Miata": "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?q=80&w=600&auto=format&fit=crop",
+            "Volkswagen Golf R": "https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?q=80&w=600&auto=format&fit=crop",
+            "Toyota GR86": "https://images.unsplash.com/photo-1635349944367-17079219d29e?q=80&w=600&auto=format&fit=crop",
+            "Ford Focus ST": "https://images.unsplash.com/photo-1593540247605-e116e026117b?q=80&w=600&auto=format&fit=crop",
+            // Asfalto C
+            "Volkswagen Golf GTI": "https://images.unsplash.com/photo-1566008889916-f52bd4340c78?q=80&w=600&auto=format&fit=crop",
+            "Toyota AE86 Trueno": "https://images.unsplash.com/photo-1610464684982-fdf2d00f6805?q=80&w=600&auto=format&fit=crop",
+            "Mini Cooper S 1965": "https://images.unsplash.com/photo-1582236544719-75b42db625e1?q=80&w=600&auto=format&fit=crop",
+            "BMW 2002 Turbo": "https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=600&auto=format&fit=crop",
+            "Datsun 510": "https://images.unsplash.com/photo-1553440569-bcc63803a83d?q=80&w=600&auto=format&fit=crop",
+
+            // Sterrato A
+            "Subaru Impreza WRX STi": "https://images.unsplash.com/photo-1605367625615-ef6ec7469a53?q=80&w=600&auto=format&fit=crop",
+            "Mitsubishi Lancer Evolution IX": "https://images.unsplash.com/photo-1618498418049-74d115e5ec14?q=80&w=600&auto=format&fit=crop",
+            "Ford Escort RS Cosworth": "https://images.pexels.com/photos/14894294/pexels-photo-14894294.jpeg?auto=compress&cs=tinysrgb&w=600",
+            "Lancia Delta HF Integrale": "https://images.pexels.com/photos/18260799/pexels-photo-18260799/free-photo-of-vintage-lancia-delta-hf-integrale-on-a-street.jpeg?auto=compress&cs=tinysrgb&w=600",
+            "Toyota Celica GT-Four": "https://images.pexels.com/photos/13693444/pexels-photo-13693444.jpeg?auto=compress&cs=tinysrgb&w=600",
+            // Sterrato B
+            "Audi Sport Quattro": "https://images.pexels.com/photos/1335073/pexels-photo-1335073.jpeg?auto=compress&cs=tinysrgb&w=600",
+            "Ford Escort RS1800": "https://images.pexels.com/photos/17223625/pexels-photo-17223625/free-photo-of-vintage-white-rally-car.jpeg?auto=compress&cs=tinysrgb&w=600",
+            "Lancia Stratos HF": "https://images.pexels.com/photos/18055416/pexels-photo-18055416/free-photo-of-lancia-stratos-on-display.jpeg?auto=compress&cs=tinysrgb&w=600",
+            "Alpine A110 1973": "https://images.unsplash.com/photo-1627454820516-dc767bcb4d3e?q=80&w=600&auto=format&fit=crop",
+            "Subaru Impreza 22B STi": "https://images.unsplash.com/photo-1626847037657-fd3622613ce3?q=80&w=600&auto=format&fit=crop",
+            // Sterrato C
+            "Peugeot 205 GTI": "https://images.pexels.com/photos/19599503/pexels-photo-19599503/free-photo-of-red-peugeot-205-gti.jpeg?auto=compress&cs=tinysrgb&w=600",
+            "Fiat 131 Abarth": "https://images.pexels.com/photos/19639580/pexels-photo-19639580/free-photo-of-fiat-131-abarth-rally-car.jpeg?auto=compress&cs=tinysrgb&w=600",
+            "Volvo 242 Turbo": "https://images.unsplash.com/photo-1598553392437-0cfc74996452?q=80&w=600&auto=format&fit=crop",
+            "Saab 99 Turbo": "https://images.unsplash.com/photo-1511919884226-fd3cad34687c?q=80&w=600&auto=format&fit=crop",
+            "Volkswagen Beetle": "https://images.unsplash.com/photo-1551522435-a13afd107bba?q=80&w=600&auto=format&fit=crop",
+
+            // Cross A
+            "Ford Bronco 2021": "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?q=80&w=600&auto=format&fit=crop",
+            "Penhall Cholla": "https://images.unsplash.com/photo-1551524164-687a55ea1150?q=80&w=600&auto=format&fit=crop",
+            "Local Motors Rally Fighter": "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?q=80&w=600&auto=format&fit=crop",
+            "Jeep Grand Cherokee SRT": "https://images.unsplash.com/photo-1601004890684-d8cbf643f5f2?q=80&w=600&auto=format&fit=crop",
+            "Toyota Hilux Arctic": "https://images.unsplash.com/photo-1532581291347-9c39cf10a73c?q=80&w=600&auto=format&fit=crop",
+            // Cross B
+            "Land Rover Defender 90": "https://images.unsplash.com/photo-1606016159991-dfe4f2746ad5?q=80&w=600&auto=format&fit=crop",
+            "Jeep Wrangler Rubicon": "https://images.unsplash.com/photo-1533557837482-55d8947ef365?q=80&w=600&auto=format&fit=crop",
+            "Mercedes-Benz G-Class": "https://images.unsplash.com/photo-1520050206274-a1ae446cb3cc?q=80&w=600&auto=format&fit=crop",
+            "Toyota Land Cruiser FJ40": "https://images.unsplash.com/photo-1622144706532-613d9646bda3?q=80&w=600&auto=format&fit=crop",
+            "Bowler Wildcat": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?q=80&w=600&auto=format&fit=crop",
+            // Cross C
+            "Suzuki Jimny": "https://images.unsplash.com/photo-1609630875171-b1321377ee65?q=80&w=600&auto=format&fit=crop",
+            "International Harvester Scout": "https://images.unsplash.com/photo-1583121274602-3e2820c69888?q=80&w=600&auto=format&fit=crop",
+            "Ford F-150 Ranger 1975": "https://images.unsplash.com/photo-1588615419957-bf66d53c6b49?q=80&w=600&auto=format&fit=crop",
+            "Meyers Manx": "https://images.unsplash.com/photo-1494976388531-d1058094e2fd?q=80&w=600&auto=format&fit=crop",
+            "Chevrolet Blazer K5": "https://images.unsplash.com/photo-1571193161738-ded31695ed24?q=80&w=600&auto=format&fit=crop"
+        };
+
+        // Fallback locale immediato se l'auto non dovesse combaciare al 100% per errori di digitazione
+        function getCarImageUrl(carName) {
+            return carImagesMapping[carName] || "https://images.unsplash.com/photo-1542282088-fe8426682b8f?q=80&w=600&auto=format&fit=crop";
         }
 
         onAuthStateChanged(auth, (user) => {
@@ -539,7 +582,7 @@
                 });
 
                 // Sincronizzazione Realtime Lootbox (Per Piloti e Admin)
-                onValue(ref(database, 'horizon_championship/current_lootbox'), async (snapshot) => {
+                onValue(ref(database, 'horizon_championship/current_lootbox'), (snapshot) => {
                     const data = snapshot.val();
                     const targetZone = document.getElementById('lootboxPlacementZone');
                     
@@ -552,23 +595,22 @@
                     const currentCard = document.querySelector('.lootbox-card');
                     if (currentCard && currentCard.dataset.car === data.car_name) return;
 
+                    // Recuperiamo l'immagine locale istantanea ad altissima definizione
+                    const imgUrl = getCarImageUrl(data.car_name);
+
                     targetZone.innerHTML = `
                         <div class="lootbox-card rarity-${data.classe}" data-car="${data.car_name}">
-                            <h3>🏆 FESTIVAL LOOTBOX APEX DROP 🏆</h3>
+                            <h3>DRIVERS, GET READY TO RIDE 🏁</h3>
                             <div class="lootbox-meta">
                                 <span class="loot-badge track">${data.track_type.replace('asfalto','🛣️ ROAD').replace('sterrato','🌲 DIRT').replace('cross','⛰️ CROSS')}</span>
                                 <span class="loot-badge class">CLASSE ${data.classe}</span>
                             </div>
                             <div class="lootbox-car-title">${data.car_name}</div>
                             <div class="lootbox-image-frame">
-                                <img id="lootboxCarImg" src="" alt="Car Image Loading...">
+                                <img id="lootboxCarImg" src="${imgUrl}" alt="${data.car_name}">
                             </div>
                         </div>
                     `;
-
-                    const imgUrl = await fetchCarImageUrl(data.car_name);
-                    const imgElement = document.getElementById('lootboxCarImg');
-                    if (imgElement) imgElement.src = imgUrl;
                 });
 
                 // FUNZIONE DI ESTRAZIONE CONTROLLO ADMIN
