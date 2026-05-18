@@ -599,104 +599,78 @@
             }
         };
 
-        function extractBrandLogoUrl(carName) {
-            // 1. Rimuove l'anno iniziale (es. "2016 Abarth..." -> "Abarth...")
-            let cleanName = carName.replace(/^\d{4}\s+/, '').trim();
-            
-            // 2. Rimuove il numero di gara iniziale se presente dopo l'anno (es. "#2 Audi...")
-            if (cleanName.startsWith('#')) {
-                cleanName = cleanName.replace(/^#\d+\s+/, '').trim();
-            }
-            
-            // 3. Prende la prima parola
-            let brand = cleanName.split(' ')[0].toLowerCase();
+        function getBrandData(carName) {
 
-            // Mappature specifiche per domini aziendali reali e stabili su Clearbit
-            const domainMapping = {
-                "abarth": "abarth.it",
-                "acura": "acura.com",
-                "alfa": "alfaromeo.it",
-                "amg": "mercedes-benz.com",
-                "ariel": "arielmotor.co.uk",
-                "aston": "astonmartin.com",
-                "audi": "audi.com",
-                "autozam": "mazda.com",
-                "bac": "bac-mono.com",
-                "bentley": "bentleymotors.com",
-                "bmw": "bmw.com",
-                "buick": "buick.com",
-                "cadillac": "cadillac.com",
-                "can-am": "brp.com",
-                "casey": "jeep.com",
-                "chevrolet": "chevrolet.com",
-                "datsun": "datsun.com",
-                "deberti": "ford.com",
-                "delorean": "delorean.com",
-                "dodge": "dodge.com",
-                "ferrari": "ferrari.com",
-                "ford": "ford.com",
-                "formula": "nissanusa.com", 
-                "forsberg": "nissanusa.com",
-                "gmc": "gmc.com",
-                "holden": "holden.com.au",
-                "honda": "honda.com",
-                "hsv": "hsv.com.au",
-                "hyundai": "hyundai.com",
-                "jaguar": "jaguar.com",
-                "jeep": "jeep.com",
-                "jimco": "jimcorace.com",
-                "koenigsegg": "koenigsegg.com",
-                "ktm": "ktm.com",
-                "lamborghini": "lamborghini.com",
-                "lancia": "lancia.it",
-                "land": "landrover.com",
-                "lexus": "lexus.com",
-                "lincoln": "lincoln.com",
-                "lotus": "lotuscars.com",
-                "lucid": "lucidmotors.com",
-                "maserati": "maserati.com",
-                "mazda": "mazda.com",
-                "mclaren": "mclaren.com",
-                "mercedes-amg": "mercedes-benz.com",
-                "mercedes-benz": "mercedes-benz.com",
-                "meyers": "meyersmanx.com",
-                "mg": "mgmotor.co.uk",
-                "mini": "mini.com",
-                "mitsubishi": "mitsubishi-motors.com",
-                "noble": "noblecars.com",
-                "nissan": "nissan-global.com",
-                "opel": "opel.com",
-                "pagani": "pagani.com",
-                "peugeot": "peugeot.com",
-                "polaris": "polaris.com",
-                "porsche": "porsche.com",
-                "radical": "radicalsportscars.com",
-                "ram": "ramtrucks.com",
-                "renault": "renaultgroup.com",
-                "rivian": "rivian.com",
-                "rj": "polaris.com",
-                "saleen": "saleen.com",
-                "schuppan": "porsche.com",
-                "shelby": "shelby.com",
-                "sierra": "sierracars.com",
-                "sierracars": "sierracars.com",
-                "subaru": "subaru-global.com",
-                "toyota": "toyota-global.com",
-                "tvr": "tvrofficial.com",
-                "volkswagen": "volkswagen.com",
-                "volvo": "volvocars.com",
-                "zenvo": "zenvoautomotive.com"
-            };
+    let cleanName = carName.replace(/^\d{4}\s+/, '').trim();
+    let brand = cleanName.split(' ')[0].toLowerCase();
 
-            // Eccezioni con loghi fissi che non esistono su Clearbit (Peel, Wuling, marchi custom)
-            if (brand === "peel") return "https://upload.wikimedia.org/wikipedia/commons/b/b0/Peel_Engineering_Company_logo.png";
-            if (brand === "wuling") return "https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/Wuling_Motors_logo.svg/512px-Wuling_Motors_logo.svg.png";
-            if (brand === "funco" || brand === "penhall") return "https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/Gran_Turismo_series_logo.svg/512px-Gran_Turismo_series_logo.svg.png";
+    const aliases = {
+        "alfa": "alfaromeo",
+        "aston": "astonmartin",
+        "mercedes-amg": "mercedesbenz",
+        "mercedes-benz": "mercedesbenz",
+        "formula": "nissan",
+        "forsberg": "nissan",
+        "deberti": "ford",
+        "casey": "jeep",
+        "ultra": "jeep",
+        "land": "landrover",
+        "mini": "mini"
+    };
 
-            let targetDomain = domainMapping[brand] || `${brand}.com`;
-            return `https://logo.clearbit.com/${targetDomain}`;
-        }
+    brand = aliases[brand] || brand;
 
+    const rarityMap = {
+
+        /* ===== GOD TIER ===== */
+
+        ferrari:      { rarity: "S", theme: "theme-ferrari" },
+        lamborghini:  { rarity: "S", theme: "theme-lamborghini" },
+        bugatti:      { rarity: "EX", theme: "theme-bugatti" },
+        koenigsegg:   { rarity: "EX", theme: "theme-koenigsegg" },
+        pagani:       { rarity: "EX", theme: "theme-koenigsegg" },
+
+        /* ===== HYPERCAR ===== */
+
+        mclaren:      { rarity: "A", theme: "theme-koenigsegg" },
+        porsche:      { rarity: "A", theme: "theme-porsche" },
+        astonmartin:  { rarity: "A", theme: "theme-porsche" },
+        mercedesbenz: { rarity: "A", theme: "theme-porsche" },
+
+        /* ===== JDM ===== */
+
+        nissan:       { rarity: "B", theme: "theme-jdm" },
+        toyota:       { rarity: "B", theme: "theme-jdm" },
+        mazda:        { rarity: "B", theme: "theme-jdm" },
+        honda:        { rarity: "B", theme: "theme-jdm" },
+        subaru:       { rarity: "B", theme: "theme-jdm" },
+
+        /* ===== RALLY ===== */
+
+        lancia:       { rarity: "A", theme: "theme-rally" },
+        audi:         { rarity: "A", theme: "theme-rally" },
+        mitsubishi:   { rarity: "B", theme: "theme-rally" },
+
+        /* ===== OFFROAD ===== */
+
+        jeep:         { rarity: "B", theme: "theme-offroad" },
+        ford:         { rarity: "B", theme: "theme-offroad" },
+        ram:          { rarity: "B", theme: "theme-offroad" },
+
+        /* ===== DEFAULT ===== */
+
+        default:      { rarity: "C", theme: "" }
+    };
+
+    const brandInfo = rarityMap[brand] || rarityMap.default;
+
+    return {
+        brand,
+        rarity: brandInfo.rarity,
+        theme: brandInfo.theme,
+        logo: `https://cdn.simpleicons.org/${brand}/white`
+    };
+}
         onAuthStateChanged(auth, (user) => {
             if (!user) {
                 window.location.href = "login.html";
