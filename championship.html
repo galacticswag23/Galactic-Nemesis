@@ -808,15 +808,16 @@
                     if (!pool || pool.length === 0) return;
                     
                     const randomCar = pool[Math.floor(Math.random() * pool.length)];
-                    const brandLogoUrl = extractBrandLogoUrl(randomCar);
+                    const brandData = getBrandData(randomCar);
 
-                    set(ref(database, 'horizon_championship/current_lootbox'), {
-                        active: true,
-                        track_type: track,
-                        classe: cls,
-                        car_name: randomCar,
-                        car_image: brandLogoUrl
-                    }).catch(e => alert("Errore: " + e.message));
+                   set(ref(database, 'horizon_championship/current_lootbox'), {
+    active: true,
+    track_type: track,
+    classe: brandData.rarity,
+    car_name: randomCar,
+    car_image: brandData.logo,
+    brand_theme: brandData.theme
+}).catch(e => alert("Errore: " + e.message));
                 });
 
                 document.getElementById('btnResetLootbox').addEventListener('click', () => {
