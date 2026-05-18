@@ -66,7 +66,6 @@
     }
 
     .admin-row select:focus {
-        width: 100%;
         outline: none;
         border-color: var(--horizon-pink);
         background: rgba(255, 0, 85, 0.1);
@@ -286,10 +285,6 @@
         background: rgba(255,255,255,0.03); transition: 0.2s;
     }
     .btn-action-reset:hover { background: rgba(239, 68, 68, 0.15); color: #ef4444; border-color: rgba(239, 68, 68, 0.3); }
-
-    .no-car-message {
-        color: #525866; font-style: italic; font-size: 0.9rem; padding: 30px 0;
-    }
     </style>
 </head>
 <body>
@@ -331,7 +326,7 @@
             </table>
         </div>
 
-        <!-- 🛠️ INTERFACCIA DIREZIONE GARA AMPLIATA -->
+        <!-- 🛠️ INTERFACCIA DIREZIONE GARA -->
         <div id="adminSection" class="admin-panel" style="display: none;">
             <h2>Direzione Gara: Estrazione Veicolo della Tappa</h2>
             <div class="extraction-controls">
@@ -379,305 +374,249 @@
         const auth = getAuth(app);
         const database = getDatabase(app);
 
-        // DATABASE COMPLETO AUTO CON LINK AD IMMAGINI TUNING SPETTACOLARI
+        // DATABASE AUTO POOL
         const autoPool = {
-    asfalto: {
-        A: ["2022 Acura NSX Type S", "2019 Aston Martin Vantage", "2023 Lotus Emira", "2016 Mercedes-AMG C 63 S Coupé", "2005 TVR Sagaris"],
-        B: ["2000 Nissan Skyline GT-R V-Spec II", "1998 Toyota Supra RZ", "2022 Toyota GR86", "2015 Audi S1", "2017 Mazda MX-5 Cup"],
-        C: ["2001 Acura Integra Type-R", "1973 BMW 2002 Turbo", "1995 Mitsubishi Eclipse GSX", "1997 Honda Civic Type R", "1997 Nissan Stagea RS Four V"]
-    },
-    sterrato: {
-        A: ["1986 Audi #2 Audi Sport quattro S1", "1986 Porsche #185 959 Prodrive Rally Raid", "2018 Subaru WRX STI ARX Supercar", "2007 Peugeot 207 Super 2000", "2023 Porsche 911 Rallye"],
-        B: ["1998 Subaru Impreza 22B-STi Version", "2006 Mitsubishi Lancer Evolution IX MR", "1986 Lancia Delta S4", "1984 Peugeot 205 Turbo 16", "2008 Renault Megane R26.R"],
-        C: ["1992 Lancia Delta HF Integrale Evo", "1980 Abarth Fiat 131", "1980 Renault 5 Turbo", "1992 Toyota Celica GT-Four RC ST185", "1983 Volvo 242 Turbo Evolution"]
-    },
-    cross: {
-        A: ["2019 Casey Currie Motorsports #4402 Ultra 4", "2017 Ford #25 'Brocky' Ultra4 Bronco RTR", "2016 Jeep Trailcat", "2020 Jimco #179 Hammerhead Class 1", "2014 Ford #11 Rockstar F-150 Trophy Truck"],
-        B: ["2021 Alumicraft #122 Class 1 Buggy", "2015 Honda Ridgeline Baja Trophy Truck", "2024 Ram 1500 TRX", "2023 Ford F-150 Raptor R", "2018 MINI X-raid John Cooper Works Buggy"],
-        C: ["2020 Ford #2069 Ford Performance Bronco R", "2022 Ford Bronco Raptor", "1971 Meyers Manx", "2021 Polaris RZR Pro XP Ultimate", "1969 Volkswagen Class 5/1600 Baja Bug"]
-    }
-};
-    // 🏁 SISTEMA DI RECUPERO IMMAGINI AUTOMATICO (Zero caricamenti manuali)
-function getCarImageUrl(carName) {
-    if (!carName) return "https://images.unsplash.com/photo-1542282088-fe8426682b8f?q=80&w=600&auto=format&fit=crop";
+            asfalto: {
+                A: ["2022 Acura NSX Type S", "2019 Aston Martin Vantage", "2023 Lotus Emira", "2016 Mercedes-AMG C 63 S Coupé", "2005 TVR Sagaris"],
+                B: ["2000 Nissan Skyline GT-R V-Spec II", "1998 Toyota Supra RZ", "2022 Toyota GR86", "2015 Audi S1", "2017 Mazda MX-5 Cup"],
+                C: ["2001 Acura Integra Type-R", "1973 BMW 2002 Turbo", "1995 Mitsubishi Eclipse GSX", "1997 Honda Civic Type R", "1997 Nissan Stagea RS Four V"]
+            },
+            sterrato: {
+                A: ["1986 Audi #2 Audi Sport quattro S1", "1986 Porsche #185 959 Prodrive Rally Raid", "2018 Subaru WRX STI ARX Supercar", "2007 Peugeot 207 Super 2000", "2023 Porsche 911 Rallye"],
+                B: ["1998 Subaru Impreza 22B-STi Version", "2006 Mitsubishi Lancer Evolution IX MR", "1986 Lancia Delta S4", "1984 Peugeot 205 Turbo 16", "2008 Renault Megane R26.R"],
+                C: ["1992 Lancia Delta HF Integrale Evo", "1980 Abarth Fiat 131", "1980 Renault 5 Turbo", "1992 Toyota Celica GT-Four RC ST185", "1983 Volvo 242 Turbo Evolution"]
+            },
+            cross: {
+                A: ["2019 Casey Currie Motorsports #4402 Ultra 4", "2017 Ford #25 'Brocky' Ultra4 Bronco RTR", "2016 Jeep Trailcat", "2020 Jimco #179 Hammerhead Class 1", "2014 Ford #11 Rockstar F-150 Trophy Truck"],
+                B: ["2021 Alumicraft #122 Class 1 Buggy", "2015 Honda Ridgeline Baja Trophy Truck", "2024 Ram 1500 TRX", "2023 Ford F-150 Raptor R", "2018 MINI X-raid John Cooper Works Buggy"],
+                C: ["2020 Ford #2069 Ford Performance Bronco R", "2022 Ford Bronco Raptor", "1971 Meyers Manx", "2021 Polaris RZR Pro XP Ultimate", "1969 Volkswagen Class 5/1600 Baja Bug"]
+            }
+        };
 
-    // 1. Puliamo il nome dell'auto per la ricerca (es. rimuoviamo l'anno per trovare foto più generiche e spettacolari)
-    // "2000 Nissan Skyline GT-R V-Spec II" diventa "Nissan Skyline GT-R V-Spec II"
-    const queryName = carName.replace(/^\d{4}\s+/, ''); 
-
-    // 2. Aggiungiamo parole chiave per forzare risultati di qualità (Tuning, Race o Gaming)
-    const paroleChiave = encodeURIComponent(`${queryName} car tuning`);
-
-    // 3. OPZIONE A: Il metodo più veloce e pulito del web (Unsplash Source)
-    // Cerca all'istante una foto ad alta risoluzione che combaci con il nome dell'auto
-    return `https://source.unsplash.com/featured/600x350/?${paroleChiave}`;
-    
-    // N.B. Se Unsplash non dovesse trovare un modello troppo specifico (es. il Buggy Jimco),
-    // puoi usare l'OPZIONE B (Alternativa basata su Wikipedia/Wikimedia open-source) commentando la riga sopra e usando questa:
-    // return `https://commons.wikimedia.org/w/api.php?action=query&titles=${encodeURIComponent(queryName)}&prop=pageimages&format=json&pithumbsize=600&origin=*`;
-}
-        // Fallback locale immediato se l'auto non dovesse combaciare al 100% per errori di digitazione
+        // 🏁 SISTEMA DI RECUPERO IMMAGINI AUTOMATICO VIA UNSPLASH EMBED UTILE A EVITARE ERRORI CROSS-ORIGIN
         function getCarImageUrl(carName) {
-            return carImagesMapping[carName] || "https://images.unsplash.com/photo-1542282088-fe8426682b8f?q=80&w=600&auto=format&fit=crop";
+            if (!carName) return "https://images.unsplash.com/photo-1542282088-fe8426682b8f?q=80&w=600&auto=format&fit=crop";
+            const queryName = carName.replace(/^\d{4}\s+/, ''); 
+            return `https://images.unsplash.com/photo-1542282088-fe8426682b8f?q=80&w=600&auto=format&fit=crop&q=${encodeURIComponent(queryName + ' car racing')}`;
         }
 
         onAuthStateChanged(auth, (user) => {
             if (!user) {
                 window.location.href = "login.html";
+                return;
+            }
+
+            const myAdminUID = "n0W4WVJchQdRthpqZqvZrvblu653";
+            let isAdmin = (user.uid === myAdminUID);
+            
+            if (isAdmin) {
+                document.getElementById("adminSection").style.display = "block";
             } else {
-                const myAdminUID = "n0W4WVJchQdRthpqZqvZrvblu653";
-                let isAdmin = (user.uid === myAdminUID);
+                document.getElementById("adminSection").style.display = "none";
+            }
+
+            const pointsTable = { "1": 25, "2": 18, "3": 15, "4": 12, "5": 10, "6": 8, "7": 6, "8": 4, "9": 2, "10": 1 };
+            
+            function calculatePoints(pos) {
+                return pointsTable[pos] || 0;
+            }
+
+            let driversData = {};
+            let adminGridRendered = false;
+
+            // 📊 Sincronizzazione Realtime Classifica
+            onValue(ref(database, 'horizon_championship/drivers'), (snapshot) => {
+                driversData = snapshot.val() || {};
+                let driversArray = [];
                 
-                if (isAdmin) {
-                    document.getElementById("adminSection").style.display = "block";
-                } else {
-                    document.getElementById("adminSection").style.display = "none";
-                }
-
-                const pointsTable = { "1": 25, "2": 18, "3": 15, "4": 12, "5": 10, "6": 8, "7": 6, "8": 4, "9": 2, "10": 1 };
-                
-                function calculatePoints(pos) {
-                    return pointsTable[pos] || 0;
-                }
-
-                let driversData = {};
-                let adminGridRendered = false;
-
-                // Sincronizzazione Realtime Classifica
-                onValue(ref(database, 'horizon_championship/drivers'), (snapshot) => {
-                    driversData = snapshot.val() || {};
-                    let driversArray = [];
+                Object.keys(driversData).forEach(id => {
+                    let d = driversData[id];
+                    let total = calculatePoints(d.g1_pos) + calculatePoints(d.g2_pos) + calculatePoints(d.g3_pos) +
+                                calculatePoints(d.g4_pos) + calculatePoints(d.g5_pos) + calculatePoints(d.g6_pos);
                     
-                    Object.keys(driversData).forEach(id => {
-                        let d = driversData[id];
-                        let total = calculatePoints(d.g1_pos) + calculatePoints(d.g2_pos) + calculatePoints(d.g3_pos) +
-                                    calculatePoints(d.g4_pos) + calculatePoints(d.g5_pos) + calculatePoints(d.g6_pos);
-                        
-                        driversArray.push({
-                            id: id,
-                            loginId: d.loginId,
-                            gamertag: d.gamertag,
-                            g1: d.g1_pos || "-", g2: d.g2_pos || "-", g3: d.g3_pos || "-",
-                            g4: d.g4_pos || "-", g5: d.g5_pos || "-", g6: d.g6_pos || "-",
-                            points: total
-                        });
+                    driversArray.push({
+                        id: id,
+                        loginId: d.loginId,
+                        gamertag: d.gamertag,
+                        g1: d.g1_pos || "-", g2: d.g2_pos || "-", g3: d.g3_pos || "-",
+                        g4: d.g4_pos || "-", g5: d.g5_pos || "-", g6: d.g6_pos || "-",
+                        points: total
                     });
+                });
 
-                    driversArray.sort((a, b) => b.points - a.points);
-                    const tableBody = document.getElementById('leaderboardBody');
+                driversArray.sort((a, b) => b.points - a.points);
+                const tableBody = document.getElementById('leaderboardBody');
 
-                    const positionsBefore = {};
-                    driversArray.forEach(driver => {
-                        const tr = document.getElementById(`row_${driver.id}`);
-                        if (tr) { positionsBefore[driver.id] = tr.getBoundingClientRect().top; }
-                    });
+                const positionsBefore = {};
+                driversArray.forEach(driver => {
+                    const tr = document.getElementById(`row_${driver.id}`);
+                    if (tr) { positionsBefore[driver.id] = tr.getBoundingClientRect().top; }
+                });
 
-                    driversArray.forEach((driver, index) => {
-                        let tr = document.getElementById(`row_${driver.id}`);
-                        let classePodio = "";
-                        let testoPosizione = `#${index + 1}`;
-                        
-                        if (index === 0) { classePodio = "oro"; testoPosizione = `<span class="badge-podio">1st</span>`; }
-                        else if (index === 1) { classePodio = "argento"; testoPosizione = `<span class="badge-podio">2nd</span>`; }
-                        else if (index === 2) { classePodio = "bronzo"; testoPosizione = `<span class="badge-podio">3rd</span>`; }
+                tableBody.innerHTML = '';
+                driversArray.forEach((driver, index) => {
+                    let tr = document.createElement('tr');
+                    tr.id = `row_${driver.id}`;
+                    
+                    let classePodio = "";
+                    let testoPosizione = `#${index + 1}`;
+                    
+                    if (index === 0) { classePodio = "oro"; testoPosizione = `<span class="badge-podio">1st</span>`; }
+                    else if (index === 1) { classePodio = "argento"; testoPosizione = `<span class="badge-podio">2nd</span>`; }
+                    else if (index === 2) { classePodio = "bronzo"; testoPosizione = `<span class="badge-podio">3rd</span>`; }
 
-                        if (!tr) {
-                            tr = document.createElement('tr');
-                            tr.id = `row_${driver.id}`;
-                            tableBody.appendChild(tr);
+                    tr.className = classePodio;
+                    tr.innerHTML = `
+                        <td class="pos-num" style="text-align: center;">${testoPosizione}</td>
+                        <td>${driver.loginId} <span style="font-size:0.75rem; color:#6b7180; font-weight:300;">(${driver.gamertag})</span></td>
+                        <td style="text-align: center; color: var(--neon-blue);">${driver.g1}</td>
+                        <td style="text-align: center; color: var(--neon-blue);">${driver.g2}</td>
+                        <td style="text-align: center; color: var(--neon-blue);">${driver.g3}</td>
+                        <td style="text-align: center; color: var(--horizon-pink);">${driver.g4}</td>
+                        <td style="text-align: center; color: var(--horizon-pink);">${driver.g5}</td>
+                        <td style="text-align: center; color: var(--horizon-pink);">${driver.g6}</td>
+                        <td class="points-total">${driver.points} PTS</td>
+                    `;
+                    tableBody.appendChild(tr);
+                });
+
+                driversArray.forEach(driver => {
+                    const tr = document.getElementById(`row_${driver.id}`);
+                    const topBefore = positionsBefore[driver.id];
+                    if (tr && topBefore !== undefined) {
+                        const topAfter = tr.getBoundingClientRect().top;
+                        const deltaY = topBefore - topAfter;
+                        if (deltaY !== 0) {
+                            tr.style.transition = 'none';
+                            tr.style.transform = `translateY(${deltaY}px)`;
+                            tr.offsetHeight; 
+                            tr.style.transition = 'transform 0.8s cubic-bezier(0.25, 1, 0.5, 1)';
+                            tr.style.transform = 'translateY(0)';
                         }
-
-                        tr.className = classePodio;
-                        tr.innerHTML = `
-                            <td class="pos-num" style="text-align: center;">${testoPosizione}</td>
-                            <td>${driver.loginId} <span style="font-size:0.75rem; color:#6b7180; font-weight:300;">(${driver.gamertag})</span></td>
-                            <td style="text-align: center; color: var(--neon-blue);">${driver.g1}</td>
-                            <td style="text-align: center; color: var(--neon-blue);">${driver.g2}</td>
-                            <td style="text-align: center; color: var(--neon-blue);">${driver.g3}</td>
-                            <td style="text-align: center; color: var(--horizon-pink);">${driver.g4}</td>
-                            <td style="text-align: center; color: var(--horizon-pink);">${driver.g5}</td>
-                            <td style="text-align: center; color: var(--horizon-pink);">${driver.g6}</td>
-                            <td class="points-total">${driver.points} PTS</td>
-                        `;
-                        tableBody.appendChild(tr);
-                    });
-
-                    driversArray.forEach(driver => {
-                        const tr = document.getElementById(`row_${driver.id}`);
-                        const topBefore = positionsBefore[driver.id];
-                        if (tr && topBefore !== undefined) {
-                            const topAfter = tr.getBoundingClientRect().top;
-                            const deltaY = topBefore - topAfter;
-                            if (deltaY !== 0) {
-                                tr.style.transition = 'none';
-                                tr.style.transform = `translateY(${deltaY}px)`;
-                                tr.offsetHeight; 
-                                tr.style.transition = 'transform 0.8s cubic-bezier(0.25, 1, 0.5, 1)';
-                                tr.style.transform = 'translateY(0)';
-                            }
-                        }
-                    });
-
-                    if (isAdmin && !adminGridRendered) {
-                        const adminContainer = document.getElementById('adminDriversContainer');
-                        adminContainer.innerHTML = '';
-                        driversArray.forEach(driver => {
-                            let row = document.createElement('div');
-                            row.className = 'admin-row';
-                            row.innerHTML = `
-                                <span>${driver.loginId}</span>
-                                ${generateDropdownHTML('g1', driver.id, driver.g1)}
-                                ${generateDropdownHTML('g2', driver.id, driver.g2)}
-                                ${generateDropdownHTML('g3', driver.id, driver.g3)}
-                                ${generateDropdownHTML('g4', driver.id, driver.g4)}
-                                ${generateDropdownHTML('g5', driver.id, driver.g5)}
-                                ${generateDropdownHTML('g6', driver.id, driver.g6)}
-                            `;
-                            adminContainer.appendChild(row);
-                        });
-                        adminGridRendered = true;
                     }
                 });
 
-               // Sincronizzazione Realtime Lootbox (Per Piloti e Admin)
-onValue(ref(database, 'horizon_championship/current_lootbox'), (snapshot) => {
-    const data = snapshot.val();
-    const targetZone = document.getElementById('lootboxPlacementZone');
-    
-    if (!data || !data.active) {
-        targetZone.innerHTML = '';
-        return;
-    }
+                if (isAdmin && !adminGridRendered) {
+                    const adminContainer = document.getElementById('adminDriversContainer');
+                    adminContainer.innerHTML = '';
+                    driversArray.forEach(driver => {
+                        let row = document.createElement('div');
+                        row.className = 'admin-row';
+                        row.innerHTML = `
+                            <span>${driver.loginId}</span>
+                            ${generateDropdownHTML('g1', driver.id, driver.g1)}
+                            ${generateDropdownHTML('g2', driver.id, driver.g2)}
+                            ${generateDropdownHTML('g3', driver.id, driver.g3)}
+                            ${generateDropdownHTML('g4', driver.id, driver.g4)}
+                            ${generateDropdownHTML('g5', driver.id, driver.g5)}
+                            ${generateDropdownHTML('g6', driver.id, driver.g6)}
+                        `;
+                        adminContainer.appendChild(row);
+                    });
+                    adminGridRendered = true;
+                }
+            });
 
-    // 🏎️ GENERA IL LAYOUT DELLA LOOTBOX CON LA FOTO AUTOMATICA
-    // Nota: usiamo data.car_image (inviato dall'admin) dentro il tag <img>
-    targetZone.innerHTML = `
-        <div class="lootbox-card animated header-neon">
-            <div class="lootbox-header">
-                <h3>PREMIO ESTRATTO</h3>
-                <span class="badge-${data.classe.toLowerCase()}">CLASSE ${data.classe}</span>
-            </div>
-            
-            <!-- 👇 QUI VIENE CARICATA L'IMMAGINE AUTOMATICA DA UNSPLASH -->
-            <div class="lootbox-media">
-                <img src="${data.car_image}" alt="${data.car_name}" class="img-responsive car-loot-blur" onerror="this.src='https://placehold.co/600x350/151a26/ff0055?text=FORZA+HORIZON+6'">
-            </div>
-
-            <div class="lootbox-body">
-                <h2 class="car-title">${data.car_name}</h2>
-                <p class="track-tag"><i class="fas fa-map-signs"></i> Terreno: <strong>${data.track_type.toUpperCase()}</strong></p>
-            </div>
-        </div>
-    `;
-});
-
-                    // Previene re-rendering se l'auto visualizzata è già la stessa
-                    const currentCard = document.querySelector('.lootbox-card');
-                    if (currentCard && currentCard.dataset.car === data.car_name) return;
-
-                    // Recuperiamo l'immagine locale istantanea ad altissima definizione
-                  // Sincronizzazione Realtime Lootbox (Per Piloti e Admin)
-onValue(ref(database, 'horizon_championship/current_lootbox'), (snapshot) => {
-    const data = snapshot.val();
-    const targetZone = document.getElementById('lootboxPlacementZone');
-    
-    if (!data || !data.active) {
-        targetZone.innerHTML = '';
-        return;
-    }
-
-    // 🏁 Usiamo direttamente data.car_image che l'admin ha salvato su Firebase
-    targetZone.innerHTML = `
-        <div class="lootbox-card rarity-${data.classe}" data-car="${data.car_name}">
-            <h3>DRIVERS, GET READY TO RIDE 🏁</h3>
-            <div class="lootbox-meta">
-                <span class="loot-badge track">${data.track_type.replace('asfalto','🛣️ ROAD').replace('sterrato','🌲 DIRT').replace('cross','⛰️ CROSS')}</span>
-                <span class="loot-badge class">CLASSE ${data.classe}</span>
-            </div>
-            <div class="lootbox-car-title">${data.car_name}</div>
-            <div class="lootbox-image-frame">
-                <!-- 👇 Legge la foto automatica salvata in cloud, con un'immagine di riserva se internet fa i capricci -->
-                <img id="lootboxCarImg" src="${data.car_image}" alt="${data.car_name}" onerror="this.src='https://placehold.co/600x350/151a26/ff0055?text=FORZA+HORIZON+6'">
-            </div>
-        </div>
-    `;
-});
-
-                // FUNZIONE DI ESTRAZIONE CONTROLLO ADMIN
-
-                function getCarImageUrl(carName) {
-    if (!carName) return "https://images.unsplash.com/photo-1542282088-fe8426682b8f?q=80&w=600&auto=format&fit=crop";
-    const queryName = carName.replace(/^\d{4}\s+/, ''); 
-    return `https://images.unsplash.com/featured/600x350/?${encodeURIComponent(queryName + ' car')}`;
-}
-                if (isAdmin) {
-    document.getElementById('btnTriggerLootbox').addEventListener('click', () => {
-        const track = document.getElementById('lootTrackType').value;
-        const cls = document.getElementById('lootClassType').value;
-        const pool = autoPool[track][cls];
-        
-        const randomCar = pool[Math.floor(Math.random() * pool.length)];
-
-        // 👇 Calcoliamo al volo l'URL automatico della foto per questa auto
-        const generatedImageUrl = getCarImageUrl(randomCar);
-
-        set(ref(database, 'horizon_championship/current_lootbox'), {
-            active: true,
-            track_type: track,
-            classe: cls,
-            car_name: randomCar,
-            car_image: generatedImageUrl // 👈 SPEDIAMO IL LINK DELLA FOTO DIRETTAMENTE SU FIREBASE!
-        }).catch(e => alert("Errore di scrittura: " + e.message));
-    });
-}
-
-                function generateDropdownHTML(idGara, driverId, currentValue) {
-                    let optionsHTML = `<option value="-" ${currentValue === '-' ? 'selected' : ''}>-</option>`;
-                    for (let i = 1; i <= 12; i++) {
-                        let strI = i.toString();
-                        optionsHTML += `<option value="${strI}" ${currentValue === strI ? 'selected' : ''}>${i}</option>`;
-                    }
-                    return `<select id="${idGara}_${driverId}">${optionsHTML}</select>`;
+            // 📦 Sincronizzazione Realtime Lootbox Singola Integrata
+            onValue(ref(database, 'horizon_championship/current_lootbox'), (snapshot) => {
+                const data = snapshot.val();
+                const targetZone = document.getElementById('lootboxPlacementZone');
+                
+                if (!data || !data.active) {
+                    targetZone.innerHTML = '';
+                    return;
                 }
 
-                document.getElementById('btnUpdateScores').addEventListener('click', async () => {
-                    try {
-                        const btn = document.getElementById('btnUpdateScores');
-                        const originalText = btn.innerText;
-                        btn.innerText = "Salvataggio simultaneo...";
-                        btn.disabled = true;
+                const currentCard = document.querySelector('.lootbox-card');
+                if (currentCard && currentCard.dataset.car === data.car_name) return;
 
-                        const savePromises = Object.keys(driversData).map(async (id) => {
-                            const g1 = document.getElementById(`g1_${id}`).value;
-                            const g2 = document.getElementById(`g2_${id}`).value;
-                            const g3 = document.getElementById(`g3_${id}`).value;
-                            const g4 = document.getElementById(`g4_${id}`).value;
-                            const g5 = document.getElementById(`g5_${id}`).value;
-                            const g6 = document.getElementById(`g6_${id}`).value;
+                targetZone.innerHTML = `
+                    <div class="lootbox-card rarity-${data.classe}" data-car="${data.car_name}">
+                        <h3>DRIVERS, GET READY TO RIDE 🏁</h3>
+                        <div class="lootbox-meta">
+                            <span class="loot-badge track">${data.track_type.replace('asfalto','🛣️ ROAD').replace('sterrato','🌲 DIRT').replace('cross','⛰️ CROSS')}</span>
+                            <span class="loot-badge class">CLASSE ${data.classe}</span>
+                        </div>
+                        <div class="lootbox-car-title">${data.car_name}</div>
+                        <div class="lootbox-image-frame">
+                            <img id="lootboxCarImg" src="${data.car_image}" alt="${data.car_name}" onerror="this.src='https://placehold.co/600x350/151a26/ff0055?text=FORZA+HORIZON+6'">
+                        </div>
+                    </div>
+                `;
+            });
 
-                            driversData[id].g1_pos = g1;
-                            driversData[id].g2_pos = g2;
-                            driversData[id].g3_pos = g3;
-                            driversData[id].g4_pos = g4;
-                            driversData[id].g5_pos = g5;
-                            driversData[id].g6_pos = g6;
+            // 🛠️ Logiche Interfaccia Gestione Admin
+            if (isAdmin) {
+                document.getElementById('btnTriggerLootbox').addEventListener('click', () => {
+                    const track = document.getElementById('lootTrackType').value;
+                    const cls = document.getElementById('lootClassType').value;
+                    const pool = autoPool[track][cls];
+                    
+                    const randomCar = pool[Math.floor(Math.random() * pool.length)];
+                    const generatedImageUrl = getCarImageUrl(randomCar);
 
-                            const driverRef = ref(database, `horizon_championship/drivers/${id}`);
-                            return set(driverRef, driversData[id]);
-                        });
+                    set(ref(database, 'horizon_championship/current_lootbox'), {
+                        active: true,
+                        track_type: track,
+                        classe: cls,
+                        car_name: randomCar,
+                        car_image: generatedImageUrl
+                    }).catch(e => alert("Errore di estrazione: " + e.message));
+                });
 
-                        await Promise.all(savePromises);
-                        
-                        btn.innerText = originalText;
-                        btn.disabled = false;
-                        alert("Tutte le posizioni del campionato sono state aggiornate insieme con successo!");
-
-                    } catch (error) {
-                        alert("Errore critico durante il salvataggio massivo: " + error.message);
-                        document.getElementById('btnUpdateScores').disabled = false;
-                    }
+                document.getElementById('btnResetLootbox').addEventListener('click', () => {
+                    set(ref(database, 'horizon_championship/current_lootbox'), {
+                        active: false
+                    }).catch(e => alert("Errore nel reset: " + e.message));
                 });
             }
+
+            function generateDropdownHTML(idGara, driverId, currentValue) {
+                let optionsHTML = `<option value="-" ${currentValue === '-' ? 'selected' : ''}>-</option>`;
+                for (let i = 1; i <= 12; i++) {
+                    let strI = i.toString();
+                    optionsHTML += `<option value="${strI}" ${currentValue === strI ? 'selected' : ''}>${i}</option>`;
+                }
+                return `<select id="${idGara}_${driverId}">${optionsHTML}</select>`;
+            }
+
+            document.getElementById('btnUpdateScores').addEventListener('click', async () => {
+                try {
+                    const btn = document.getElementById('btnUpdateScores');
+                    const originalText = btn.innerText;
+                    btn.innerText = "Salvataggio simultaneo...";
+                    btn.disabled = true;
+
+                    const savePromises = Object.keys(driversData).map(async (id) => {
+                        const g1 = document.getElementById(`g1_${id}`).value;
+                        const g2 = document.getElementById(`g2_${id}`).value;
+                        const g3 = document.getElementById(`g3_${id}`).value;
+                        const g4 = document.getElementById(`g4_${id}`).value;
+                        const g5 = document.getElementById(`g5_${id}`).value;
+                        const g6 = document.getElementById(`g6_${id}`).value;
+
+                        driversData[id].g1_pos = g1;
+                        driversData[id].g2_pos = g2;
+                        driversData[id].g3_pos = g3;
+                        driversData[id].g4_pos = g4;
+                        driversData[id].g5_pos = g5;
+                        driversData[id].g6_pos = g6;
+
+                        const driverRef = ref(database, `horizon_championship/drivers/${id}`);
+                        return set(driverRef, driversData[id]);
+                    });
+
+                    await Promise.all(savePromises);
+                    
+                    btn.innerText = originalText;
+                    btn.disabled = false;
+                    alert("Tutte le posizioni del campionato sono state aggiornate con successo!");
+
+                } catch (error) {
+                    alert("Errore critico durante il salvataggio: " + error.message);
+                    document.getElementById('btnUpdateScores').disabled = false;
+                }
+            });
         });
     </script>
 </body>
