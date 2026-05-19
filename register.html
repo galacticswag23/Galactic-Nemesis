@@ -32,7 +32,7 @@
 
         /* 🏎️ CONTENITORE VIDEO YOUTUBE LIVE */
         .video-background {
-            position: absolute;
+            position: fixed; /* Cambiato in fixed per bloccarlo sullo sfondo dello schermo */
             top: 0;
             left: 0;
             width: 100%;
@@ -41,15 +41,14 @@
             pointer-events: none;
             overflow: hidden;
         }
-
+        
         .video-background iframe {
             position: absolute;
             top: 50%;
             left: 50%;
             width: 100vw;
-            height: 56.25vw;
-            min-height: 100vh;
-            min-width: 177.77vh;
+            height: 100vh; /* Forza l'altezza a riempire la schermata */
+            object-fit: cover; /* Assicura la copertura corretta */
             transform: translate(-50%, -50%);
         }
 
