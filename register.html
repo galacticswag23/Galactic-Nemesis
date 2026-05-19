@@ -31,28 +31,30 @@
         }
 
         /* 🏎️ CONTENITORE VIDEO YOUTUBE LIVE */
-        .video-background {
-            position: fixed;
+      .video-background {
+            position: absolute;
             top: 0;
             left: 0;
-            width: 100vw;
-            height: 100vh;
+            width: 100%;
+            height: 100%;
             z-index: -2;
-            pointer-events: none;
-            overflow: hidden; /* Taglia via l'UI di YouTube che esce dai bordi */
+            pointer-events: none; /* Impedisce i click accidentali sul video */
+            overflow: hidden;
         }
 
+        /* Forza il video a mantenere i 16:9 coprendo tutto lo schermo (effetto Cover) */
         .video-background iframe {
             position: absolute;
             top: 50%;
             left: 50%;
-            width: 300vw; /* Triplo della larghezza per nascondere i loghi ai lati */
-            height: 300vh; /* Triplo dell'altezza per spingere la barra player fuori dallo schermo */
+            width: 100vw;
+            height: 56.25vw;
+            min-height: 100vh;
+            min-width: 177.77vh;
             transform: translate(-50%, -50%);
-            object-fit: cover;
         }
 
-       /* 🕶️ OVERLAY SCURO CONTRASTO */
+        /* 🕶️ OVERLAY SCURO CONTRASTO */
         .video-overlay {
             position: absolute;
             top: 0;
@@ -62,7 +64,6 @@
             background: radial-gradient(circle at 50% 50%, rgba(14, 16, 23, 0.45) 0%, rgba(14, 16, 23, 0.88) 100%);
             z-index: -1;
         }
-
         .registration-card {
             background: linear-gradient(135deg, var(--carbon-grey) 0%, rgba(11, 13, 19, 0.9) 100%);
             backdrop-filter: blur(12px); /* Sfocatura sullo sfondo in movimento */
